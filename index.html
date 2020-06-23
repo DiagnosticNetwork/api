@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title>API Reference</title>
+    <title>Diagnostic Network API</title>
 
     <style>
       .highlight table td { padding: 5px; }
@@ -196,12 +196,12 @@
   color: #f92672;
 }
     </style>
-    <link href="stylesheets/screen-0a7c4629.css" rel="stylesheet" media="screen" />
+    <link href="stylesheets/screen-d6c9eb03.css" rel="stylesheet" media="screen" />
     <link href="stylesheets/print-c427a123.css" rel="stylesheet" media="print" />
       <script src="javascripts/all-c5541673.js"></script>
   </head>
 
-  <body class="index" data-languages="[&quot;shell&quot;,&quot;ruby&quot;,&quot;python&quot;,&quot;javascript&quot;]">
+  <body class="index" data-languages="[&quot;csharp&quot;,&quot;javascript&quot;]">
     <a href="#" id="nav-button">
       <span>
         NAV
@@ -209,11 +209,9 @@
       </span>
     </a>
     <div class="toc-wrapper">
-      <img src="images/logo-1e815a84.png" class="logo" alt="" />
+      <img src="images/logo-75bfae3a.png" class="logo" alt="" />
         <div class="lang-selector">
-              <a href="#" data-language-name="shell">shell</a>
-              <a href="#" data-language-name="ruby">ruby</a>
-              <a href="#" data-language-name="python">python</a>
+              <a href="#" data-language-name="csharp">csharp</a>
               <a href="#" data-language-name="javascript">javascript</a>
         </div>
         <div class="search">
@@ -222,22 +220,44 @@
         <ul class="search-results"></ul>
       <ul id="toc" class="toc-list-h1">
           <li>
-            <a href="#introduction" class="toc-h1 toc-link" data-title="Introduction">Introduction</a>
+            <a href="#diagnostic-network-api" class="toc-h1 toc-link" data-title="Diagnostic Network API">Diagnostic Network API</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#api-documentation" class="toc-h2 toc-link" data-title="API Documentation">API Documentation</a>
+                  </li>
+                  <li>
+                    <a href="#overview-of-diagnostic-network" class="toc-h2 toc-link" data-title="Overview of Diagnostic Network">Overview of Diagnostic Network</a>
+                  </li>
+              </ul>
           </li>
           <li>
             <a href="#authentication" class="toc-h1 toc-link" data-title="Authentication">Authentication</a>
-          </li>
-          <li>
-            <a href="#kittens" class="toc-h1 toc-link" data-title="Kittens">Kittens</a>
               <ul class="toc-list-h2">
                   <li>
-                    <a href="#get-all-kittens" class="toc-h2 toc-link" data-title="Get All Kittens">Get All Kittens</a>
+                    <a href="#partner-authentication" class="toc-h2 toc-link" data-title="Partner Authentication">Partner Authentication</a>
                   </li>
                   <li>
-                    <a href="#get-a-specific-kitten" class="toc-h2 toc-link" data-title="Get a Specific Kitten">Get a Specific Kitten</a>
+                    <a href="#user-authentication" class="toc-h2 toc-link" data-title="User Authentication">User Authentication</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
+            <a href="#partner-customers" class="toc-h1 toc-link" data-title="Partner Customers">Partner Customers</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#email-notifications" class="toc-h2 toc-link" data-title="Email Notifications">Email Notifications</a>
                   </li>
                   <li>
-                    <a href="#delete-a-specific-kitten" class="toc-h2 toc-link" data-title="Delete a Specific Kitten">Delete a Specific Kitten</a>
+                    <a href="#create-a-partner-customer" class="toc-h2 toc-link" data-title="Create a Partner Customer">Create a Partner Customer</a>
+                  </li>
+                  <li>
+                    <a href="#get-a-partner-customer" class="toc-h2 toc-link" data-title="Get a Partner Customer">Get a Partner Customer</a>
+                  </li>
+                  <li>
+                    <a href="#update-a-partner-customer" class="toc-h2 toc-link" data-title="Update a Partner Customer">Update a Partner Customer</a>
+                  </li>
+                  <li>
+                    <a href="#delete-a-partner-customer" class="toc-h2 toc-link" data-title="Delete a Partner Customer">Delete a Partner Customer</a>
                   </li>
               </ul>
           </li>
@@ -246,141 +266,383 @@
           </li>
       </ul>
         <ul class="toc-footer">
-            <li><a href='#'>Sign Up for a Developer Key</a></li>
-            <li><a href='https://github.com/slatedocs/slate'>Documentation Powered by Slate</a></li>
+            <li><a href='https://diag.net/contact'>Contact Diagnostic Network</a></li>
         </ul>
     </div>
     <div class="page-wrapper">
       <div class="dark-box"></div>
       <div class="content">
-        <h1 id='introduction'>Introduction</h1>
-<p>Welcome to the Kittn API! You can use our API to access Kittn API endpoints, which can get information on various cats, kittens, and breeds in our database.</p>
+        <h1 id='diagnostic-network-api'>Diagnostic Network API</h1><h3 id='api-documentation'>API Documentation</h3><div class="highlight"><pre class="highlight csharp tab-csharp"><code><span class="k">using</span> <span class="nn">Newtonsoft.Json</span><span class="p">;</span>
+<span class="k">using</span> <span class="nn">System.Net</span><span class="p">;</span>
+<span class="k">using</span> <span class="nn">System.Net.Http</span><span class="p">;</span>
+<span class="k">using</span> <span class="nn">System.Security.Cryptography</span><span class="p">;</span>
+<span class="k">using</span> <span class="nn">System.Text</span><span class="p">;</span>
+<span class="k">using</span> <span class="nn">System.Threading.Tasks</span><span class="p">;</span>
 
-<p>We have language bindings in Shell, Ruby, Python, and JavaScript! You can view code examples in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right.</p>
+<span class="k">public</span> <span class="k">class</span> <span class="nc">DNAPI</span>
+<span class="p">{</span>
+  <span class="c1">// Set this to diag.net for production, or test.diag.net </span>
+  <span class="c1">// for testing. Please see our "Testing" section for more </span>
+  <span class="c1">// details on test.diag.net.</span>
+  <span class="k">public</span> <span class="k">static</span> <span class="kt">string</span> <span class="n">BaseHref</span> <span class="p">=</span> <span class="s">"https://diag.net"</span><span class="p">;</span>
 
-<p>This example API documentation page was created with <a href="https://github.com/slatedocs/slate">Slate</a>. Feel free to edit it and use it as a base for your own API&#39;s documentation.</p>
-<h1 id='authentication'>Authentication</h1>
-<blockquote>
-<p>To authorize, use this code:</p>
-</blockquote>
-<div class="highlight"><pre class="highlight ruby tab-ruby"><code><span class="nb">require</span> <span class="s1">'kittn'</span>
+  <span class="c1">// Cookie handling is needed when getting User Auth cookies</span>
+  <span class="k">public</span> <span class="k">static</span> <span class="n">CookieContainer</span> <span class="n">CookieContainer</span> <span class="p">=</span> <span class="k">new</span> <span class="nf">CookieContainer</span><span class="p">();</span>
 
-<span class="n">api</span> <span class="o">=</span> <span class="no">Kittn</span><span class="o">::</span><span class="no">APIClient</span><span class="p">.</span><span class="nf">authorize!</span><span class="p">(</span><span class="s1">'meowmeowmeow'</span><span class="p">)</span>
-</code></pre></div><div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">kittn</span>
-
-<span class="n">api</span> <span class="o">=</span> <span class="n">kittn</span><span class="o">.</span><span class="n">authorize</span><span class="p">(</span><span class="s">'meowmeowmeow'</span><span class="p">)</span>
-</code></pre></div><div class="highlight"><pre class="highlight shell tab-shell"><code><span class="c"># With shell, you can just pass the correct header with each request</span>
-curl <span class="s2">"api_endpoint_here"</span>
-  <span class="nt">-H</span> <span class="s2">"Authorization: meowmeowmeow"</span>
-</code></pre></div><div class="highlight"><pre class="highlight javascript tab-javascript"><code><span class="kd">const</span> <span class="nx">kittn</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">kittn</span><span class="dl">'</span><span class="p">);</span>
-
-<span class="kd">let</span> <span class="nx">api</span> <span class="o">=</span> <span class="nx">kittn</span><span class="p">.</span><span class="nx">authorize</span><span class="p">(</span><span class="dl">'</span><span class="s1">meowmeowmeow</span><span class="dl">'</span><span class="p">);</span>
+  <span class="c1">// Use a singleton HttpClient for all API requests.</span>
+  <span class="k">public</span> <span class="k">static</span> <span class="k">readonly</span> <span class="n">HttpClient</span> <span class="n">Client</span> <span class="p">=</span> <span class="k">new</span> <span class="nf">HttpClient</span><span class="p">(</span>
+    <span class="k">new</span> <span class="n">SocketsHttpHandler</span> 
+    <span class="p">{</span>
+        <span class="c1">// Help with DNS handling: https://bit.ly/client-pooling</span>
+        <span class="n">PooledConnectionLifetime</span> <span class="p">=</span> <span class="n">TimeSpan</span><span class="p">.</span><span class="nf">FromMinutes</span><span class="p">(</span><span class="m">10</span><span class="p">),</span>
+        <span class="n">PooledConnectionIdleTimeout</span> <span class="p">=</span> <span class="n">TimeSpan</span><span class="p">.</span><span class="nf">FromMinutes</span><span class="p">(</span><span class="m">5</span><span class="p">),</span>
+        <span class="c1">// Contact us if you need more than 5 at a time</span>
+        <span class="n">MaxConnectionsPerServer</span> <span class="p">=</span> <span class="m">5</span><span class="p">,</span>    
+        <span class="c1">// Avoid redirecting on 201, 303, etc.</span>
+        <span class="n">AllowAutoRedirect</span> <span class="p">=</span> <span class="k">false</span><span class="p">,</span>
+        <span class="n">UseCookies</span> <span class="p">=</span> <span class="k">true</span><span class="p">,</span>
+        <span class="n">CookieContainer</span> <span class="p">=</span> <span class="n">CookieContainer</span>
+    <span class="p">}</span>
+  <span class="p">);</span>
+<span class="p">}</span>
 </code></pre></div>
-<blockquote>
-<p>Make sure to replace <code>meowmeowmeow</code> with your API key.</p>
-</blockquote>
+<p>This page documents the parts of our API which are currently public. Some of these API endpoints are only available to our partners. You can view code examples in the area to the right. We will be exposing more of our API over time. If you have any comments, questions, or requests, please open a <a href="https://github.com/DiagnosticNetwork/api/issues/new/choose">new issue</a>.</p>
+<h3 id='overview-of-diagnostic-network'>Overview of Diagnostic Network</h3>
+<p><a href="https://diag.net">Diagnostic Network</a> is a community platform to support the vehicle service industry. The primary interface is a continuous message &quot;stream,&quot; similar to Facebook, Twitter, and similar social networks, with the difference being each message in the stream is a link to a complete, threaded discussion. </p>
 
-<p>Kittn uses API keys to allow access to the API. You can register a new Kittn API key at our <a href="http://example.com/developers">developer portal</a>.</p>
+<p>Each message in the stream is primarily categorized by the message type (e.g. Discussion, Question, Event) and the topics and/or user groups to which the message was posted (e.g. Chassis, Driveability, Joe&#39;s User Group). Beyond that, every discussion has a title, an author, and a message body. Optionally, metadata can be attached to messages, usually varying depending on what kind of message it is, and where it&#39;s being posted. For example, an <em>Announcement</em> might have no metadata, an <em>Event</em> might have date/time metadata, and a <em>Question</em> might have a vehicle-specific metadata attached.</p>
 
-<p>Kittn expects for the API key to be included in all API requests to the server in a header that looks like the following:</p>
+<p>Most of the discussions take place within the <a href="https://diag.net/topics">core topics</a>, though members of the community can create their own <a href="https://diag.net/groups">user groups</a>, which can be open, closed, or private (hidden). </p>
 
-<p><code>Authorization: meowmeowmeow</code></p>
+<p>The homepage of Diagnostic Network currently features a stream of all non-private discussions, regardless of which topic or group they&#39;re in. However, every message type, topic, and user group has its own landing page, featuring a message stream that&#39;s filtered down to just the relevant discussions. Further, members are able to subscribe to their preferred topics and user groups, and have the option of showing just their subscription stream on the homepage, rather than the unfiltered view. </p>
+
+<p>Typically message streams on DN display just the &quot;root message&quot; of each discussion, and to see the replies, you need to click through to view the entire discussion. The two exceptions where replies are also shown in message streams: </p>
+
+<ul>
+<li>Search results</li>
+<li>Member profiles</li>
+</ul>
+
+<p>If you&#39;re a professional working in or retired from the vehicle service industry, please <a href="https://diag.net/account/register">join us</a>.</p>
+<h1 id='authentication'>Authentication</h1>
+<p>Some API endpoints are only available for our partners, using <a href="#partner-authentication"><em>Partner Authentication</em></a>. Other API endpoints require <a href="#user-authentication"><em>User Authentication</em></a>, the same kind of authentication users experience directly on our website. And finally, some API endpoints, like our &quot;Get Messages&quot; endpoint, require no authentication, but may work differently when accessed by an authenticated client (e.g. anonymized messages when not authenticated, versus complete messages with full details for authenticated users).</p>
+<h2 id='partner-authentication'>Partner Authentication</h2><div class="highlight"><pre class="highlight csharp tab-csharp"><code><span class="c1">/// Sends requests to the partner API that are authenticated using the</span>
+<span class="c1">/// `PartnerApiId` and `PartnerApiKey` specified above.</span>
+<span class="k">public</span> <span class="k">async</span> <span class="k">static</span> <span class="n">Task</span><span class="p">&lt;</span><span class="n">HttpResponseMessage</span><span class="p">&gt;</span> 
+<span class="nf">PartnerSendAsync</span><span class="p">(</span><span class="n">HttpMethod</span> <span class="n">method</span><span class="p">,</span> <span class="kt">string</span> <span class="n">path</span><span class="p">,</span> <span class="kt">dynamic</span> <span class="n">json</span><span class="p">)</span>
+<span class="p">{</span>
+  <span class="k">using</span> <span class="p">(</span><span class="kt">var</span> <span class="n">hmacsha256</span> <span class="p">=</span> <span class="k">new</span> <span class="nf">HMACSHA256</span><span class="p">(</span><span class="n">PartnerApiKey</span><span class="p">))</span> 
+  <span class="p">{</span>
+    <span class="kt">var</span> <span class="n">requestMessage</span> <span class="p">=</span> <span class="k">new</span> <span class="n">HttpRequestMessage</span> <span class="p">{</span>
+      <span class="n">RequestUri</span> <span class="p">=</span> <span class="k">new</span> <span class="nf">Uri</span><span class="p">(</span><span class="s">$"</span><span class="p">{</span><span class="n">DNAPI</span><span class="p">.</span><span class="n">BaseHref</span><span class="p">}{</span><span class="n">path</span><span class="p">}</span><span class="s">"</span><span class="p">),</span>
+      <span class="n">Method</span> <span class="p">=</span> <span class="n">method</span><span class="p">,</span>
+      <span class="n">Content</span> <span class="p">=</span> <span class="k">new</span> <span class="nf">StringContent</span><span class="p">(</span>
+        <span class="n">JsonConvert</span><span class="p">.</span><span class="nf">SerializeObject</span><span class="p">(</span><span class="n">json</span><span class="p">),</span>
+        <span class="n">Encoding</span><span class="p">.</span><span class="n">UTF8</span><span class="p">,</span> 
+        <span class="s">"application/json"</span>
+      <span class="p">)</span>
+    <span class="p">};</span>
+    <span class="n">requestMessage</span><span class="p">.</span><span class="n">Headers</span><span class="p">.</span><span class="nf">Add</span><span class="p">(</span><span class="s">"Authentication"</span><span class="p">,</span> <span class="s">$"hmac "</span> <span class="p">+</span> 
+      <span class="n">PartnerApiId</span> <span class="p">+</span> <span class="s">":"</span> <span class="p">+</span> 
+      <span class="n">Convert</span><span class="p">.</span><span class="nf">ToBase64String</span><span class="p">(</span>
+        <span class="n">hmacsha256</span><span class="p">.</span><span class="nf">ComputeHash</span><span class="p">(</span>
+          <span class="n">AsciiEncoding</span><span class="p">.</span><span class="nf">GetBytes</span><span class="p">(</span><span class="s">$"</span><span class="p">{</span><span class="n">method</span><span class="p">}</span><span class="s">+</span><span class="p">{</span><span class="n">path</span><span class="p">}</span><span class="s">"</span><span class="p">)</span>
+        <span class="p">)</span>
+      <span class="p">)</span>
+    <span class="p">);</span>
+    <span class="k">return</span> <span class="k">await</span> <span class="n">DNAPI</span><span class="p">.</span><span class="n">Client</span><span class="p">.</span><span class="nf">SendAsync</span><span class="p">(</span><span class="n">requestMessage</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>For Partner API functionality, we provide a <code>PartnerApiId</code> and a <code>PartnerApiKey</code> that are used to sign requests. Partners can <a href="https://diag.net/contact">contact us</a> to obtain these, and learn more about what features are authorized for your partnership level.</p>
+<h2 id='user-authentication'>User Authentication</h2><div class="highlight"><pre class="highlight csharp tab-csharp"><code><span class="kt">var</span> <span class="n">response</span> <span class="p">=</span> <span class="k">await</span> <span class="n">DNAPI</span><span class="p">.</span><span class="n">Client</span><span class="p">.</span><span class="nf">PostAsync</span>
+<span class="p">(</span>
+  <span class="s">$"</span><span class="p">{</span><span class="n">DNAPI</span><span class="p">.</span><span class="n">BaseHref</span><span class="p">}</span><span class="s">/api/v1/user/login"</span><span class="p">,</span>
+  <span class="k">new</span> <span class="nf">StringContent</span><span class="p">(</span>
+    <span class="n">JsonConvert</span><span class="p">.</span><span class="nf">SerializeObject</span><span class="p">(</span><span class="k">new</span> <span class="p">{</span>
+        <span class="n">Email</span> <span class="p">=</span> <span class="s">"janedoe@example.com"</span><span class="p">,</span>
+        <span class="n">Password</span> <span class="p">=</span> <span class="s">"Jane'sPassword"</span><span class="p">,</span>
+        <span class="n">RememberMe</span> <span class="p">=</span> <span class="k">true</span>
+    <span class="p">}),</span>
+    <span class="n">Encoding</span><span class="p">.</span><span class="n">UTF8</span><span class="p">,</span> 
+    <span class="s">"application/json"</span>
+  <span class="p">)</span>
+<span class="p">);</span>
+
+<span class="k">if</span> <span class="p">(</span><span class="n">response</span><span class="p">.</span><span class="n">StatusCode</span> <span class="p">==</span> <span class="n">HttpStatusCode</span><span class="p">.</span><span class="n">OK</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="c1">// Access the user's unique identifier with data["UserKey"]</span>
+    <span class="kt">var</span> <span class="n">data</span> <span class="p">=</span> <span class="n">Newtonsoft</span><span class="p">.</span><span class="n">Json</span><span class="p">.</span><span class="n">Linq</span><span class="p">.</span><span class="n">JObject</span><span class="p">.</span><span class="nf">Parse</span><span class="p">(</span>
+      <span class="k">await</span> <span class="n">response</span><span class="p">.</span><span class="n">Content</span><span class="p">.</span><span class="nf">ReadAsStringAsync</span><span class="p">()</span>
+    <span class="p">);</span>
+
+    <span class="c1">// If using our cookie handling code in DNAPI above, the cookie is</span>
+    <span class="c1">// now set and will be passed on subsequent API calls automatically.</span>
+    <span class="c1">// But if you need the value to manually pass the auth cookie later, </span>
+    <span class="c1">// you can retrieve it from the cookie handler like this:</span>
+    <span class="kt">var</span> <span class="n">authCookie</span> <span class="p">=</span> <span class="n">DNAPI</span><span class="p">.</span><span class="n">CookieContainer</span><span class="p">.</span><span class="nf">GetCookies</span><span class="p">(</span>
+      <span class="k">new</span> <span class="nf">Uri</span><span class="p">(</span>
+        <span class="s">$"</span><span class="p">{</span><span class="n">DNAPI</span><span class="p">.</span><span class="n">BaseHref</span><span class="p">}</span><span class="s">/api/v1/user/login"</span>
+      <span class="p">)</span>
+    <span class="p">)[</span><span class="s">"dnid"</span><span class="p">];</span>
+<span class="p">}</span>
+<span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">response</span><span class="p">.</span><span class="n">StatusCode</span> <span class="p">==</span> <span class="n">HttpStatusCode</span><span class="p">.</span><span class="n">Redirect</span><span class="p">)</span>
+<span class="p">{</span>
+  <span class="c1">// Redirects normally happen for bad passwords or incomplete accounts.</span>
+  <span class="c1">// Best option is to redirect the user to the given Location: header URL</span>
+  <span class="c1">// so they can resolve the problem directly.</span>
+<span class="p">}</span>
+</code></pre></div><div class="highlight"><pre class="highlight javascript tab-javascript"><code><span class="nx">jQuery</span><span class="p">.</span><span class="nx">ajax</span><span class="p">({</span>
+    <span class="na">url</span><span class="p">:</span> <span class="dl">"</span><span class="s2">https://diag.net/api/v1/user/login</span><span class="dl">"</span><span class="p">,</span>
+    <span class="na">type</span><span class="p">:</span> <span class="dl">"</span><span class="s2">POST</span><span class="dl">"</span><span class="p">,</span>
+    <span class="na">contentType</span><span class="p">:</span> <span class="dl">"</span><span class="s2">application/json</span><span class="dl">"</span><span class="p">,</span>
+    <span class="na">data</span><span class="p">:</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">({</span>
+        <span class="dl">"</span><span class="s2">Email</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">janedoe@example.com</span><span class="dl">"</span><span class="p">,</span>
+        <span class="dl">"</span><span class="s2">Password</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">Jane'sPassword</span><span class="dl">"</span><span class="p">,</span>
+        <span class="dl">"</span><span class="s2">RememberMe</span><span class="dl">"</span><span class="p">:</span> <span class="kc">true</span>
+    <span class="p">})</span>
+<span class="p">})</span>
+<span class="p">.</span><span class="nx">done</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">data</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// The User Authentication cookie is now set for future</span>
+    <span class="c1">// ajax calls. You can access the user's unique identifier </span>
+    <span class="c1">// with `data.UserKey`.</span>
+<span class="p">});</span>
+</code></pre></div>
+<p>Other API endpoints require <em>User Authentication</em>, i.e. the same <code>dnid</code> cookie that we set when users login to our website directly. This cookie can be obtained by hitting the <code>POST /api/v1/user/login</code> endpoint. The response will also include the <code>UserKey</code> that uniquely identifies the user, as well as the <code>dnid</code> cookie set in the <code>Cookies</code> header. That same <code>dnid</code> cookie must be passed with any API request that requires <em>User Authentication</em>.</p>
 
 <aside class="notice">
-You must replace <code>meowmeowmeow</code> with your personal API key.
+If you don't yet have a membership in Diagnostic Network, you can <a href="https://diag.net/account/register">create one here</a>.
 </aside>
-<h1 id='kittens'>Kittens</h1><h2 id='get-all-kittens'>Get All Kittens</h2><div class="highlight"><pre class="highlight ruby tab-ruby"><code><span class="nb">require</span> <span class="s1">'kittn'</span>
+<h1 id='partner-customers'>Partner Customers</h1>
+<blockquote>
+<p>Partner Customer objects look like this:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"PartnerCustomerKey"</span><span class="p">:</span><span class="w"> </span><span class="s2">"p0123456789abcdefghijklmno"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"Email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"janedoe@example.com"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"EmailAlt"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"Name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Jane Doe"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"BusinessName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Jane's Auto Repair"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"BusinessStreet"</span><span class="p">:</span><span class="w"> </span><span class="s2">"123 Main Street"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"BusinessCity"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Los Angeles"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"BusinessStateCode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"CA"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"BusinessCountryCode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"US"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"BusinessPostalCode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"90210"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"BusinessCounty"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Los Angeles County"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"BusinessLatitude"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"BusinessLongitude"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"BusinessPhone"</span><span class="p">:</span><span class="w"> </span><span class="s2">"+18005551234"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"MobilePhone"</span><span class="p">:</span><span class="w"> </span><span class="s2">"+13105555678"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"DateCreated"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2018-05-03T08:35:55.6492475+00:00"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"DateLinked"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2018-05-03T08:35:55.6492475+00:00"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<p>Some partnerships allow for creating user accounts on Diagnostic Network, on behalf of their customers, which we refer to as “partner customers.” You may also use this API to link your existing customers to their existing account on Diagnostic Network, linked using their email address. One reason you may want to do this is to make it easier for your customers to gain access to user groups you maintain on Diagnostic Network, which can be done as part of the Partner Customer API.</p>
 
-<span class="n">api</span> <span class="o">=</span> <span class="no">Kittn</span><span class="o">::</span><span class="no">APIClient</span><span class="p">.</span><span class="nf">authorize!</span><span class="p">(</span><span class="s1">'meowmeowmeow'</span><span class="p">)</span>
-<span class="n">api</span><span class="p">.</span><span class="nf">kittens</span><span class="p">.</span><span class="nf">get</span>
-</code></pre></div><div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">kittn</span>
+<p>Once created, a member of DN that is linked to a partner with a Partner Customer record may receive additional benefits from the partner, such as having access to closed and private user groups, and we may allow users to display these partner relationships on their user profile on DN, creating additional awareness of these partners. </p>
+<h3 id='email-notifications'>Email Notifications</h3>
+<p>If you link or unlink an <em>existing</em> DN member to you (via the Partner Customer <code>POST</code>, <code>PUT</code>, or <code>DELETE</code> endpoints), we will notify them of the change to their account status via email. Aside from that, we will <em>not</em> send any communication to Partner Customers that have no prior relationship with DN, unless you create a Partner Customer with the <code>CreateUser</code> and <code>NotifyUser</code> parameters set to <code>true</code>, in which case we will send the user an email to allow them to set their new account password and agree to our terms of service. </p>
 
-<span class="n">api</span> <span class="o">=</span> <span class="n">kittn</span><span class="o">.</span><span class="n">authorize</span><span class="p">(</span><span class="s">'meowmeowmeow'</span><span class="p">)</span>
-<span class="n">api</span><span class="o">.</span><span class="n">kittens</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
-</code></pre></div><div class="highlight"><pre class="highlight shell tab-shell"><code>curl <span class="s2">"http://example.com/api/kittens"</span>
-  <span class="nt">-H</span> <span class="s2">"Authorization: meowmeowmeow"</span>
-</code></pre></div><div class="highlight"><pre class="highlight javascript tab-javascript"><code><span class="kd">const</span> <span class="nx">kittn</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">kittn</span><span class="dl">'</span><span class="p">);</span>
+<p>You can tell whether or not a user has been sent a notification email due to your API call by referring to the <code>UserNotified</code> property in the responses.</p>
+<h2 id='create-a-partner-customer'>Create a Partner Customer</h2><div class="highlight"><pre class="highlight csharp tab-csharp"><code><span class="kt">var</span> <span class="n">response</span> <span class="p">=</span> <span class="k">await</span> <span class="n">DNAPI</span><span class="p">.</span><span class="nf">PartnerSendAsync</span>
+<span class="p">(</span>
+  <span class="n">HttpMethod</span><span class="p">.</span><span class="n">Post</span><span class="p">,</span>
+  <span class="s">"/api/v1/partner/customer"</span><span class="p">,</span>
+  <span class="k">new</span> 
+  <span class="p">{</span>
+    <span class="n">Email</span> <span class="p">=</span> <span class="s">"janedoe@example.com"</span><span class="p">,</span>
+    <span class="n">Name</span> <span class="p">=</span> <span class="s">"Jane Doe"</span><span class="p">,</span>
+    <span class="n">BusinessName</span> <span class="p">=</span> <span class="s">"Jane's Auto Repair"</span><span class="p">,</span>
+    <span class="n">BusinessStreet</span> <span class="p">=</span> <span class="s">"123 Main Street"</span><span class="p">,</span>
+    <span class="n">BusinessCity</span> <span class="p">=</span> <span class="s">"Los Angeles"</span><span class="p">,</span>
+    <span class="n">BusinessStateCode</span> <span class="p">=</span> <span class="s">"CA"</span><span class="p">,</span>
+    <span class="n">BusinessCountryCode</span> <span class="p">=</span> <span class="s">"US"</span><span class="p">,</span>
+    <span class="n">BusinessPostalCode</span> <span class="p">=</span> <span class="s">"90210"</span><span class="p">,</span>
+    <span class="n">BusinessCounty</span> <span class="p">=</span> <span class="s">"Los Angeles County"</span><span class="p">,</span>
+    <span class="n">BusinessLatitude</span> <span class="p">=</span> <span class="p">(</span><span class="kt">string</span><span class="p">)</span> <span class="k">null</span><span class="p">,</span>
+    <span class="n">BusinessLongitude</span> <span class="p">=</span> <span class="p">(</span><span class="kt">string</span><span class="p">)</span> <span class="k">null</span><span class="p">,</span>
+    <span class="n">BusinessPhone</span> <span class="p">=</span> <span class="s">"+18005551234"</span><span class="p">,</span>
+    <span class="n">MobilePhone</span> <span class="p">=</span> <span class="s">"+13105555678"</span><span class="p">,</span>
+    <span class="n">CreateUser</span> <span class="p">=</span> <span class="k">true</span> <span class="c1">// or `false` for stub user</span>
+  <span class="p">}</span>
+<span class="p">);</span>
 
-<span class="kd">let</span> <span class="nx">api</span> <span class="o">=</span> <span class="nx">kittn</span><span class="p">.</span><span class="nx">authorize</span><span class="p">(</span><span class="dl">'</span><span class="s1">meowmeowmeow</span><span class="dl">'</span><span class="p">);</span>
-<span class="kd">let</span> <span class="nx">kittens</span> <span class="o">=</span> <span class="nx">api</span><span class="p">.</span><span class="nx">kittens</span><span class="p">.</span><span class="kd">get</span><span class="p">();</span>
+<span class="k">if</span> <span class="p">(</span><span class="n">response</span><span class="p">.</span><span class="n">StatusCode</span> <span class="p">==</span> <span class="n">HttpStatusCode</span><span class="p">.</span><span class="n">Created</span> <span class="p">||</span>
+    <span class="n">response</span><span class="p">.</span><span class="n">StatusCode</span> <span class="p">==</span> <span class="n">HttpStatusCode</span><span class="p">.</span><span class="n">SeeOther</span><span class="p">)</span> <span class="c1">// Previously Created</span>
+<span class="p">{</span>
+    <span class="c1">// Access things like data["PartnerCustomerKey"]</span>
+    <span class="kt">var</span> <span class="n">data</span> <span class="p">=</span> <span class="n">Newtonsoft</span><span class="p">.</span><span class="n">Json</span><span class="p">.</span><span class="n">Linq</span><span class="p">.</span><span class="n">JObject</span><span class="p">.</span><span class="nf">Parse</span><span class="p">(</span>
+      <span class="k">await</span> <span class="n">response</span><span class="p">.</span><span class="n">Content</span><span class="p">.</span><span class="nf">ReadAsStringAsync</span><span class="p">()</span>
+    <span class="p">);</span>
+<span class="p">}</span>
 </code></pre></div>
 <blockquote>
-<p>The above command returns JSON structured like this:</p>
+<p>The create customer API call returns JSON like this.
+(Note the <code>PartnerCustomerKey</code>, which you will want to store.)</p>
 </blockquote>
-<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">[</span><span class="w">
-  </span><span class="p">{</span><span class="w">
-    </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Fluffums"</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"breed"</span><span class="p">:</span><span class="w"> </span><span class="s2">"calico"</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"fluffiness"</span><span class="p">:</span><span class="w"> </span><span class="mi">6</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"cuteness"</span><span class="p">:</span><span class="w"> </span><span class="mi">7</span><span class="w">
-  </span><span class="p">},</span><span class="w">
-  </span><span class="p">{</span><span class="w">
-    </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Max"</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"breed"</span><span class="p">:</span><span class="w"> </span><span class="s2">"unknown"</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"fluffiness"</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"cuteness"</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="w">
-  </span><span class="p">}</span><span class="w">
-</span><span class="p">]</span><span class="w">
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"PartnerCustomerKey"</span><span class="p">:</span><span class="w"> </span><span class="s2">"p0123456789abcdefghijklmno"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"Email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"janedoe@example.com"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"EmailAlt"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"Name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Jane Doe"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"BusinessName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Jane's Auto Repair"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"BusinessStreet"</span><span class="p">:</span><span class="w"> </span><span class="s2">"123 Main Street"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"BusinessCity"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Los Angeles"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"BusinessStateCode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"CA"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"BusinessCountryCode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"US"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"BusinessPostalCode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"90210"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"BusinessCounty"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Los Angeles County"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"BusinessLatitude"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"BusinessLongitude"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"BusinessPhone"</span><span class="p">:</span><span class="w"> </span><span class="s2">"+18005551234"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"MobilePhone"</span><span class="p">:</span><span class="w"> </span><span class="s2">"+13105555678"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"DateCreated"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2018-05-03T08:35:55.6492475+00:00"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"DateLinked"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2018-05-03T08:35:55.6492475+00:00"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"UserNotified"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+</span><span class="p">}</span><span class="w">
 </span></code></pre></div>
-<p>This endpoint retrieves all kittens.</p>
+<p>As a partner, with this API you can create either <strong>stub</strong> or <strong>real</strong> user accounts on Diagnostic Network. In either scenario, you must have <strong>permission from your customer</strong> to share their data with Diagnostic Network. Our <a href="https://diag.net/privacy">privacy policy</a> explains how we operate, but to put it bluntly, we don&#39;t spam our users and we don&#39;t allow others to spam our users, and this includes the user data provided by partners. </p>
+
+<blockquote>
+<p>Example PartnerCustomerKey: <code>p0123456789abcdefghijklmno</code></p>
+</blockquote>
+
+<p>These user accounts, once created, are explicitly linked to the partner, and have an associated unique <code>PartnerCustomerKey</code> associated with them, which begins with <code>p</code> and is 26 characters long (lowercase letters and numbers). This <code>PartnerCustomerKey</code> can be used later to sever the relationship with the partner, or to update the relationship (e.g. to enable/disable certain partner-specific features).</p>
+
+<p>A <strong>stub user</strong> acts as a reservation. The user visits a special link to create their password and complete their registration, but most of the information should be filled in for them based on what the partner shared with us, making registration quick and simple. In this scenario, we <strong>will not</strong> contact your customer, unless they are already a member of DN.</p>
+
+<p>Conversely, a <strong>real user</strong> can be created by a partner, on behalf of their customer, in the following limited circumstance:</p>
+
+<ol>
+<li>The partner has confirmed that their customer agrees to abide by the Diagnostic Network <a href="https://diag.net/terms">Terms of Service</a> and makes them aware of our <a href="https://diag.net/privacy">Privacy &amp; Cookie Policies</a>, both of which must be linked for the customer.
+Create Account. </li>
+<li>The partner must have confirmed that their customer is a professional in the vehicle service industry, or has a reasonable expectation that they are.</li>
+</ol>
+
+<p>If an API request is made to create a user, and we indicate the user was successfully created, the partner should inform their customer that they need to click a link in an email we&#39;ve sent them to complete their registration on DN and set their password with us.</p>
+
+<p>For both types of user creation, an implicit link is created between the partner and the user, which can later be severed using the <code>DELETE partner/customer</code> endpoint. If the Partner Customer already existed, a <code>303 See Other</code> will be returned, otherwise <code>201 Created</code>.</p>
 <h3 id='http-request'>HTTP Request</h3>
-<p><code>GET http://example.com/api/kittens</code></p>
-<h3 id='query-parameters'>Query Parameters</h3>
+<p><code>POST /api/v1/partner/customer</code></p>
+<h3 id='post-json-fields'>POST JSON Fields</h3>
 <table><thead>
 <tr>
-<th>Parameter</th>
-<th>Default</th>
+<th>Fields</th>
+<th>Type</th>
 <th>Description</th>
 </tr>
 </thead><tbody>
 <tr>
-<td>include_cats</td>
-<td>false</td>
-<td>If set to true, the result will also include cats.</td>
+<td>CreateUser</td>
+<td><code>boolean</code></td>
+<td>If true, create a real user; otherwise, stub user.</td>
 </tr>
 <tr>
-<td>available</td>
-<td>true</td>
-<td>If set to false, the result will include kittens that have already been adopted.</td>
+<td>Email</td>
+<td><code>string</code></td>
+<td>The email address of the user.</td>
+</tr>
+<tr>
+<td>Name</td>
+<td><code>string</code></td>
+<td>The full name (must contain at least two name parts).</td>
+</tr>
+<tr>
+<td>BusinessName</td>
+<td><code>string</code></td>
+<td>The business name.</td>
+</tr>
+<tr>
+<td>BusinessStreet</td>
+<td><code>string</code></td>
+<td>The business street address.</td>
+</tr>
+<tr>
+<td>BusinessCity</td>
+<td><code>string</code></td>
+<td>The business city.</td>
+</tr>
+<tr>
+<td>BusinessStateCode</td>
+<td><code>string</code></td>
+<td>The business state (ISO standard 2-letter code).</td>
+</tr>
+<tr>
+<td>BusinessCountryCode</td>
+<td><code>string</code></td>
+<td>The business country (ISO standard 2-letter code).</td>
+</tr>
+<tr>
+<td>BusinessPhone</td>
+<td><code>string</code></td>
+<td>The business phone number (ideally E.164 format)</td>
+</tr>
+<tr>
+<td>MobilePhone</td>
+<td><code>string</code></td>
+<td>The user&#39;s mobile phone number (ideally E.164 format)</td>
+</tr>
+<tr>
+<td>BusinessPostalCode</td>
+<td><code>string</code></td>
+<td>(Optional) The business zip/postal code.</td>
+</tr>
+<tr>
+<td>BusinessCounty</td>
+<td><code>string</code></td>
+<td>(Optional) The business county (not country)</td>
+</tr>
+<tr>
+<td>BusinessLatitude</td>
+<td><code>decimal</code></td>
+<td>(Optional) The business latitude coordinates.</td>
+</tr>
+<tr>
+<td>BusinessLongitude</td>
+<td><code>decimal</code></td>
+<td>(Optional) The business longitude coordinates.</td>
 </tr>
 </tbody></table>
+<h2 id='get-a-partner-customer'>Get a Partner Customer</h2><div class="highlight"><pre class="highlight csharp tab-csharp"><code><span class="kt">var</span> <span class="n">response</span> <span class="p">=</span> <span class="k">await</span> <span class="n">DNAPI</span><span class="p">.</span><span class="nf">PartnerSendAsync</span>
+<span class="p">(</span>
+  <span class="n">HttpMethod</span><span class="p">.</span><span class="n">Get</span><span class="p">,</span>
+  <span class="s">$"/api/v1/partner/customer/</span><span class="p">{</span><span class="n">PartnerCustomerKey</span><span class="p">}</span><span class="s">"</span>
+<span class="p">);</span>
 
-<aside class="success">
-Remember — a happy kitten is an authenticated kitten!
-</aside>
-<h2 id='get-a-specific-kitten'>Get a Specific Kitten</h2><div class="highlight"><pre class="highlight ruby tab-ruby"><code><span class="nb">require</span> <span class="s1">'kittn'</span>
-
-<span class="n">api</span> <span class="o">=</span> <span class="no">Kittn</span><span class="o">::</span><span class="no">APIClient</span><span class="p">.</span><span class="nf">authorize!</span><span class="p">(</span><span class="s1">'meowmeowmeow'</span><span class="p">)</span>
-<span class="n">api</span><span class="p">.</span><span class="nf">kittens</span><span class="p">.</span><span class="nf">get</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-</code></pre></div><div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">kittn</span>
-
-<span class="n">api</span> <span class="o">=</span> <span class="n">kittn</span><span class="o">.</span><span class="n">authorize</span><span class="p">(</span><span class="s">'meowmeowmeow'</span><span class="p">)</span>
-<span class="n">api</span><span class="o">.</span><span class="n">kittens</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-</code></pre></div><div class="highlight"><pre class="highlight shell tab-shell"><code>curl <span class="s2">"http://example.com/api/kittens/2"</span>
-  <span class="nt">-H</span> <span class="s2">"Authorization: meowmeowmeow"</span>
-</code></pre></div><div class="highlight"><pre class="highlight javascript tab-javascript"><code><span class="kd">const</span> <span class="nx">kittn</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">kittn</span><span class="dl">'</span><span class="p">);</span>
-
-<span class="kd">let</span> <span class="nx">api</span> <span class="o">=</span> <span class="nx">kittn</span><span class="p">.</span><span class="nx">authorize</span><span class="p">(</span><span class="dl">'</span><span class="s1">meowmeowmeow</span><span class="dl">'</span><span class="p">);</span>
-<span class="kd">let</span> <span class="nx">max</span> <span class="o">=</span> <span class="nx">api</span><span class="p">.</span><span class="nx">kittens</span><span class="p">.</span><span class="kd">get</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
+<span class="k">if</span> <span class="p">(</span><span class="n">response</span><span class="p">.</span><span class="n">StatusCode</span> <span class="p">==</span> <span class="n">HttpStatusCode</span><span class="p">.</span><span class="n">OK</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="c1">// Access things like data["PartnerCustomerKey"]</span>
+    <span class="kt">var</span> <span class="n">data</span> <span class="p">=</span> <span class="n">Newtonsoft</span><span class="p">.</span><span class="n">Json</span><span class="p">.</span><span class="n">Linq</span><span class="p">.</span><span class="n">JObject</span><span class="p">.</span><span class="nf">Parse</span><span class="p">(</span>
+      <span class="k">await</span> <span class="n">response</span><span class="p">.</span><span class="n">Content</span><span class="p">.</span><span class="nf">ReadAsStringAsync</span><span class="p">()</span>
+    <span class="p">);</span>
+<span class="p">}</span>
 </code></pre></div>
 <blockquote>
 <p>The above command returns JSON structured like this:</p>
 </blockquote>
 <div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-  </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Max"</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"breed"</span><span class="p">:</span><span class="w"> </span><span class="s2">"unknown"</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"fluffiness"</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"cuteness"</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="w">
+  </span><span class="nl">"PartnerCustomerKey"</span><span class="p">:</span><span class="w"> </span><span class="s2">"p0123456789abcdefghijklmno"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"Email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"janedoe@example.com"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"EmailAlt"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"Name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Jane Doe"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"BusinessName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Jane's Auto Repair"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"BusinessStreet"</span><span class="p">:</span><span class="w"> </span><span class="s2">"123 Main Street"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"BusinessCity"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Los Angeles"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"BusinessStateCode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"CA"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"BusinessCountryCode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"US"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"BusinessPostalCode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"90210"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"BusinessCounty"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Los Angeles County"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"BusinessLatitude"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"BusinessLongitude"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"BusinessPhone"</span><span class="p">:</span><span class="w"> </span><span class="s2">"+18005551234"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"MobilePhone"</span><span class="p">:</span><span class="w"> </span><span class="s2">"+13105555678"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"DateCreated"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2018-05-03T08:35:55.6492475+00:00"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"DateLinked"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2018-05-03T08:35:55.6492475+00:00"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div>
-<p>This endpoint retrieves a specific kitten.</p>
-
-<aside class="warning">Inside HTML code blocks like this one, you can't use Markdown, so use <code>&lt;code&gt;</code> blocks to denote code.</aside>
+<p>This endpoint retrieves a Partner Customer that you&#39;ve previously created.</p>
 <h3 id='http-request-2'>HTTP Request</h3>
-<p><code>GET http://example.com/kittens/&lt;ID&gt;</code></p>
+<p><code>GET /api/v1/partner/customer/{PartnerCustomerKey}</code></p>
 <h3 id='url-parameters'>URL Parameters</h3>
 <table><thead>
 <tr>
@@ -389,37 +651,61 @@ Remember — a happy kitten is an authenticated kitten!
 </tr>
 </thead><tbody>
 <tr>
-<td>ID</td>
-<td>The ID of the kitten to retrieve</td>
+<td>PartnerCustomerKey</td>
+<td>The unique identifier for a previously created Partner Customer</td>
 </tr>
 </tbody></table>
-<h2 id='delete-a-specific-kitten'>Delete a Specific Kitten</h2><div class="highlight"><pre class="highlight ruby tab-ruby"><code><span class="nb">require</span> <span class="s1">'kittn'</span>
+<h2 id='update-a-partner-customer'>Update a Partner Customer</h2><div class="highlight"><pre class="highlight csharp tab-csharp"><code><span class="kt">var</span> <span class="n">response</span> <span class="p">=</span> <span class="k">await</span> <span class="n">DNAPI</span><span class="p">.</span><span class="nf">PartnerSendAsync</span>
+<span class="p">(</span>
+  <span class="n">HttpMethod</span><span class="p">.</span><span class="n">Patch</span><span class="p">,</span>
+  <span class="s">$"/api/v1/partner/customer/</span><span class="p">{</span><span class="n">PartnerCustomerKey</span><span class="p">}</span><span class="s">"</span><span class="p">,</span>
+  <span class="k">new</span> 
+  <span class="p">{</span>
+    <span class="n">Email</span> <span class="p">=</span> <span class="s">"janedoe2@example.com"</span>
+  <span class="p">}</span>
+<span class="p">);</span>
 
-<span class="n">api</span> <span class="o">=</span> <span class="no">Kittn</span><span class="o">::</span><span class="no">APIClient</span><span class="p">.</span><span class="nf">authorize!</span><span class="p">(</span><span class="s1">'meowmeowmeow'</span><span class="p">)</span>
-<span class="n">api</span><span class="p">.</span><span class="nf">kittens</span><span class="p">.</span><span class="nf">delete</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-</code></pre></div><div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">kittn</span>
-
-<span class="n">api</span> <span class="o">=</span> <span class="n">kittn</span><span class="o">.</span><span class="n">authorize</span><span class="p">(</span><span class="s">'meowmeowmeow'</span><span class="p">)</span>
-<span class="n">api</span><span class="o">.</span><span class="n">kittens</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-</code></pre></div><div class="highlight"><pre class="highlight shell tab-shell"><code>curl <span class="s2">"http://example.com/api/kittens/2"</span>
-  <span class="nt">-X</span> DELETE
-  <span class="nt">-H</span> <span class="s2">"Authorization: meowmeowmeow"</span>
-</code></pre></div><div class="highlight"><pre class="highlight javascript tab-javascript"><code><span class="kd">const</span> <span class="nx">kittn</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">kittn</span><span class="dl">'</span><span class="p">);</span>
-
-<span class="kd">let</span> <span class="nx">api</span> <span class="o">=</span> <span class="nx">kittn</span><span class="p">.</span><span class="nx">authorize</span><span class="p">(</span><span class="dl">'</span><span class="s1">meowmeowmeow</span><span class="dl">'</span><span class="p">);</span>
-<span class="kd">let</span> <span class="nx">max</span> <span class="o">=</span> <span class="nx">api</span><span class="p">.</span><span class="nx">kittens</span><span class="p">.</span><span class="k">delete</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
+<span class="k">if</span> <span class="p">(</span><span class="n">response</span><span class="p">.</span><span class="n">StatusCode</span> <span class="p">==</span> <span class="n">HttpStatusCode</span><span class="p">.</span><span class="n">OK</span><span class="p">)</span>
+<span class="p">{</span>
+  <span class="c1">// Partner Customer updated. Access updated data:</span>
+  <span class="kt">var</span> <span class="n">data</span> <span class="p">=</span> <span class="n">Newtonsoft</span><span class="p">.</span><span class="n">Json</span><span class="p">.</span><span class="n">Linq</span><span class="p">.</span><span class="n">JObject</span><span class="p">.</span><span class="nf">Parse</span><span class="p">(</span>
+    <span class="k">await</span> <span class="n">response</span><span class="p">.</span><span class="n">Content</span><span class="p">.</span><span class="nf">ReadAsStringAsync</span><span class="p">()</span>
+  <span class="p">);</span>
+<span class="p">}</span>
 </code></pre></div>
 <blockquote>
-<p>The above command returns JSON structured like this:</p>
+<p>The update customer API call returns JSON like this.</p>
 </blockquote>
 <div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-  </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"deleted"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">":("</span><span class="w">
+  </span><span class="nl">"PartnerCustomerKey"</span><span class="p">:</span><span class="w"> </span><span class="s2">"p0123456789abcdefghijklmno"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"Email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"janedoe2@example.com"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"EmailAlt"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"Name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Jane Doe"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"BusinessName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Jane's Auto Repair"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"BusinessStreet"</span><span class="p">:</span><span class="w"> </span><span class="s2">"123 Main Street"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"BusinessCity"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Los Angeles"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"BusinessStateCode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"CA"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"BusinessCountryCode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"US"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"BusinessPostalCode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"90210"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"BusinessCounty"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Los Angeles County"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"BusinessLatitude"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"BusinessLongitude"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"BusinessPhone"</span><span class="p">:</span><span class="w"> </span><span class="s2">"+18005551234"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"MobilePhone"</span><span class="p">:</span><span class="w"> </span><span class="s2">"+13105555678"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"DateCreated"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2018-05-03T08:35:55.6492475+00:00"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"DateLinked"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2018-05-03T08:35:55.6492475+00:00"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"UserNotified"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div>
-<p>This endpoint deletes a specific kitten.</p>
+<p>Updating a Partner Customer is normally useful for adjusting metadata stored with the Partner Customer account that can impact their benefits on Diagnostic Network. For example, adding or removing closed/private user groups on DN that the Partner Customer is authorized to join.</p>
+
+<p>When updating a <strong>stub user</strong> Partner Customer that has not yet been linked to a real DN user account, any updated information will be used if and when the user registers to join Diagnostic Network, which can provide a better user experience for your customer. For example, if the customer changes their email address on your site, changing it on their Partner Customer record could make it easier for them to join DN later.</p>
+
+<p>For <strong>real user</strong> Partner Customers, or stub users that have already been linked to a real DN user account, updating a Partner Customer&#39;s basic information (like name, email, etc) will have no real impact, as these changes <strong>do not</strong> flow through to the user&#39;s account information on DN. (Changing that information on a real user account requires <em>User Authentication</em> and accessing the User API endpoints.)</p>
+
+<p>To sever a relationship with a Partner Customer completely, use the <a href="#delete-a-partner-customer">Delete Partner Customer</a> endpoint.</p>
 <h3 id='http-request-3'>HTTP Request</h3>
-<p><code>DELETE http://example.com/kittens/&lt;ID&gt;</code></p>
+<p><code>PATCH /api/v1/partner/customer/{PartnerCustomerKey}</code></p>
 <h3 id='url-parameters-2'>URL Parameters</h3>
 <table><thead>
 <tr>
@@ -428,58 +714,158 @@ Remember — a happy kitten is an authenticated kitten!
 </tr>
 </thead><tbody>
 <tr>
-<td>ID</td>
-<td>The ID of the kitten to delete</td>
+<td>PartnerCustomerKey</td>
+<td>The unique identifier for a previously created Partner Customer</td>
+</tr>
+</tbody></table>
+<h3 id='patch-json-fields'>PATCH JSON Fields</h3>
+<table><thead>
+<tr>
+<th>Fields</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>Email</td>
+<td><code>string</code></td>
+<td>(Optional) The email address of the user.</td>
+</tr>
+<tr>
+<td>Name</td>
+<td><code>string</code></td>
+<td>(Optional) The full name (must contain at least two name parts).</td>
+</tr>
+<tr>
+<td>BusinessName</td>
+<td><code>string</code></td>
+<td>(Optional) The business name.</td>
+</tr>
+<tr>
+<td>BusinessStreet</td>
+<td><code>string</code></td>
+<td>(Optional) The business street address.</td>
+</tr>
+<tr>
+<td>BusinessCity</td>
+<td><code>string</code></td>
+<td>(Optional) The business city.</td>
+</tr>
+<tr>
+<td>BusinessStateCode</td>
+<td><code>string</code></td>
+<td>(Optional) The business state (ISO standard 2-letter code).</td>
+</tr>
+<tr>
+<td>BusinessCountryCode</td>
+<td><code>string</code></td>
+<td>(Optional) The business country (ISO standard 2-letter code).</td>
+</tr>
+<tr>
+<td>BusinessPhone</td>
+<td><code>string</code></td>
+<td>(Optional) The business phone number (ideally E.164 format)</td>
+</tr>
+<tr>
+<td>MobilePhone</td>
+<td><code>string</code></td>
+<td>(Optional) The user&#39;s mobile phone number (ideally E.164 format)</td>
+</tr>
+<tr>
+<td>BusinessPostalCode</td>
+<td><code>string</code></td>
+<td>(Optional) The business zip/postal code.</td>
+</tr>
+<tr>
+<td>BusinessCounty</td>
+<td><code>string</code></td>
+<td>(Optional) The business county (not country)</td>
+</tr>
+<tr>
+<td>BusinessLatitude</td>
+<td><code>decimal</code></td>
+<td>(Optional) The business latitude coordinates.</td>
+</tr>
+<tr>
+<td>BusinessLongitude</td>
+<td><code>decimal</code></td>
+<td>(Optional) The business longitude coordinates.</td>
+</tr>
+</tbody></table>
+<h2 id='delete-a-partner-customer'>Delete a Partner Customer</h2><div class="highlight"><pre class="highlight csharp tab-csharp"><code><span class="kt">var</span> <span class="n">response</span> <span class="p">=</span> <span class="k">await</span> <span class="n">DNAPI</span><span class="p">.</span><span class="nf">PartnerSendAsync</span>
+<span class="p">(</span>
+  <span class="n">HttpMethod</span><span class="p">.</span><span class="n">Delete</span><span class="p">,</span>
+  <span class="s">$"/api/v1/partner/customer/</span><span class="p">{</span><span class="n">PartnerCustomerKey</span><span class="p">}</span><span class="s">"</span>
+<span class="p">);</span>
+
+<span class="k">if</span> <span class="p">(</span><span class="n">response</span><span class="p">.</span><span class="n">StatusCode</span> <span class="p">==</span> <span class="n">HttpStatusCode</span><span class="p">.</span><span class="n">OK</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="c1">// Partner Customer deleted. Access data["UserNotified"]:</span>
+    <span class="kt">var</span> <span class="n">data</span> <span class="p">=</span> <span class="n">Newtonsoft</span><span class="p">.</span><span class="n">Json</span><span class="p">.</span><span class="n">Linq</span><span class="p">.</span><span class="n">JObject</span><span class="p">.</span><span class="nf">Parse</span><span class="p">(</span>
+      <span class="k">await</span> <span class="n">response</span><span class="p">.</span><span class="n">Content</span><span class="p">.</span><span class="nf">ReadAsStringAsync</span><span class="p">()</span>
+    <span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>
+<blockquote>
+<p>The above command returns JSON structured like this:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"UserNotified"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w"> 
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<p>This endpoint is used to delete a Partner Customer, and if an existing Diagnostic Network member account is linked to this record, the relationship between the partner and the DN member will be severed: they&#39;ll no longer receive any partner benefits they may have previously been receiving. The user will also be removed from any closed/private user groups they previously were subscribed to for the partner. </p>
+
+<p>The entire partner customer record will be deleted once we have notified the user of the change to their account status. This should allow you to comply with any GDPR requests to erase all traces of a user. Until then, the GET response data includes a <code>DateLinked</code> field that will be <code>null</code> if the <code>DELETE</code> endpoint has been used on the Partner Customer.</p>
+<h3 id='http-request-4'>HTTP Request</h3>
+<p><code>DELETE /api/v1/partner/customer/{PartnerCustomerKey}</code></p>
+<h3 id='url-parameters-3'>URL Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>PartnerCustomerKey</td>
+<td>The unique identifier for a previously created Partner Customer</td>
 </tr>
 </tbody></table>
 <h1 id='errors'>Errors</h1>
-<aside class="notice">
-This error section is stored in a separate file in <code>includes/_errors.md</code>. Slate allows you to optionally separate out your docs into many files...just save them to the <code>includes</code> folder and add them to the top of your <code>index.md</code>'s frontmatter. Files are included in the order listed.
-</aside>
-
-<p>The Kittn API uses the following error codes:</p>
+<p>The API uses the following HTTP status codes for errors or other issues.</p>
 
 <table><thead>
 <tr>
-<th>Error Code</th>
+<th>Code</th>
 <th>Meaning</th>
 </tr>
 </thead><tbody>
+<tr>
+<td>303</td>
+<td>See Other -- Likely the resource you&#39;re trying to create already exists.</td>
+</tr>
 <tr>
 <td>400</td>
 <td>Bad Request -- Your request is invalid.</td>
 </tr>
 <tr>
 <td>401</td>
-<td>Unauthorized -- Your API key is wrong.</td>
+<td>Unauthorized -- For Partners, your API key is wrong or your signature on the request is wrong.</td>
 </tr>
 <tr>
 <td>403</td>
-<td>Forbidden -- The kitten requested is hidden for administrators only.</td>
+<td>Forbidden -- The endpoint you tried to access is not authorized for the current authentication method.</td>
 </tr>
 <tr>
 <td>404</td>
-<td>Not Found -- The specified kitten could not be found.</td>
+<td>Not Found -- The resource you&#39;re trying to access could not be found with the identifier you provided.</td>
 </tr>
 <tr>
 <td>405</td>
-<td>Method Not Allowed -- You tried to access a kitten with an invalid method.</td>
+<td>Method Not Allowed -- You tried to access with an invalid HTTP method.</td>
 </tr>
 <tr>
 <td>406</td>
-<td>Not Acceptable -- You requested a format that isn&#39;t json.</td>
-</tr>
-<tr>
-<td>410</td>
-<td>Gone -- The kitten requested has been removed from our servers.</td>
-</tr>
-<tr>
-<td>418</td>
-<td>I&#39;m a teapot.</td>
-</tr>
-<tr>
-<td>429</td>
-<td>Too Many Requests -- You&#39;re requesting too many kittens! Slow down!</td>
+<td>Not Acceptable -- You requested a format that isn&#39;t supported. (Please use JSON.)</td>
 </tr>
 <tr>
 <td>500</td>
@@ -494,9 +880,7 @@ This error section is stored in a separate file in <code>includes/_errors.md</co
       </div>
       <div class="dark-box">
           <div class="lang-selector">
-                <a href="#" data-language-name="shell">shell</a>
-                <a href="#" data-language-name="ruby">ruby</a>
-                <a href="#" data-language-name="python">python</a>
+                <a href="#" data-language-name="csharp">csharp</a>
                 <a href="#" data-language-name="javascript">javascript</a>
           </div>
       </div>
