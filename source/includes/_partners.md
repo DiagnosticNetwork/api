@@ -5,6 +5,7 @@
 ```json
 {
   "PartnerCustomerKey": "p0123456789abcdefghijklmno",
+  "PartnerRemoteId": "customer-unique-id-from-partner",
   "Email": "janedoe@example.com",
   "EmailAlt": null,
   "Name": "Jane Doe",
@@ -25,7 +26,14 @@
     "group-one",
     "group-two",
     "group-three"
-  ]
+  ],
+  "Metadata": {
+    "Anything": {
+      "ThePartner": "wants",
+      "SuchAs": 12345,
+      "OrEven": true
+    }
+  }
 }
 ```
 
@@ -50,6 +58,7 @@ var response = await DNAPI.PartnerSendAsync
   "/api/v1/partner/customer",
   new 
   {
+    PartnerRemoteId = "customer-unique-id-from-partner",
     Email = "janedoe@example.com",
     Name = "Jane Doe",
     BusinessName = "Jane's Auto Repair",
@@ -68,6 +77,13 @@ var response = await DNAPI.PartnerSendAsync
       "group-one",
       "group-two",
       "group-three"
+    },
+    Metadata = new {
+      Anything = new {
+        ThePartner = "wants",
+        SuchAs = 12345,
+        OrEven = true
+      }
     },
     CreateUser = true // or `false` for stub user
   }
@@ -90,6 +106,7 @@ if (response.StatusCode == HttpStatusCode.Created ||
 {
   "PartnerCustomer": {
     "PartnerCustomerKey": "p0123456789abcdefghijklmno",
+    "PartnerRemoteId": "customer-unique-id-from-partner",
     "Email": "janedoe@example.com",
     "EmailAlt": null,
     "Name": "Jane Doe",
@@ -111,7 +128,14 @@ if (response.StatusCode == HttpStatusCode.Created ||
       "group-one",
       "group-two",
       "group-three"
-    ]
+    ],
+    "Metadata": {
+      "Anything": {
+        "ThePartner": "wants",
+        "SuchAs": 12345,
+        "OrEven": true
+      }
+    }
   },
   "GroupInvitationErrors: []
 }
@@ -121,7 +145,7 @@ As a partner, with this API you can create either **stub** or **real** user acco
 
 > Example PartnerCustomerKey: `p0123456789abcdefghijklmno`
 
-These user accounts, once created, are explicitly linked to the partner, and have an associated unique `PartnerCustomerKey` associated with them, which begins with `p` and is 26 characters long (lowercase letters and numbers). This `PartnerCustomerKey` can be used later to sever the relationship with the partner, or to update the relationship (e.g. to enable/disable certain partner-specific features).
+These user accounts, once created, are explicitly linked to the partner, and have an associated unique `PartnerCustomerKey` associated with them, which begins with `p` and is 26 characters long (lowercase letters and numbers). This `PartnerCustomerKey` can be used later to update the Partner Customer, sever the relationship with the partner, or to update the relationship (e.g. to enable/disable certain partner-specific features). In addition, you can (and should) specify your own unique identifier for this customer, especially if you anticipate that Diagnostic Network may be making requests against _your_ API in the future.
 
 A **stub user** acts as a reservation. The user visits a special link to create their password and complete their registration, but most of the information should be filled in for them based on what the partner shared with us, making registration quick and simple. In this scenario, we **will not** contact your customer, unless they are already a member of DN.
 
@@ -154,12 +178,13 @@ BusinessStateCode    | `string`        | The business state (ISO standard 2-lett
 BusinessCountryCode  | `string`        | The business country (ISO standard 2-letter code).
 BusinessPhone        | `string`        | The business phone number (ideally E.164 format)
 MobilePhone          | `string`        | The user's mobile phone number (ideally E.164 format)
+PartnerRemoteId      | `string`        | (Recommended) Unique identifier for this customer, supplied by the partner, which can be used in the future for API requests that originate _from_ Diagnostic Network to you.
 BusinessPostalCode   | `string`        | (Optional) The business zip/postal code.
 BusinessCounty       | `string`        | (Optional) The business county (not country)
 BusinessLatitude     | `decimal`       | (Optional) The business latitude coordinates.
 BusinessLongitude    | `decimal`       | (Optional) The business longitude coordinates.
 GroupInvitations     | `array<string>` | (Optional) Array of your user groups to which this user will have access. 
-
+Metadata             | `json`          | (Optional) Any additional data DN or the partner needs associated with this customer, perhaps to unlock other features on DN.
 
 ## Get a Partner Customer
 
@@ -184,6 +209,7 @@ if (response.StatusCode == HttpStatusCode.OK)
 ```json
 {
   "PartnerCustomerKey": "p0123456789abcdefghijklmno",
+  "PartnerRemoteId": "customer-unique-id-from-partner",  
   "Email": "janedoe@example.com",
   "EmailAlt": null,
   "Name": "Jane Doe",
@@ -204,7 +230,14 @@ if (response.StatusCode == HttpStatusCode.OK)
     "group-one",
     "group-two",
     "group-three"
-  ]
+  ],
+  "Metadata": {
+    "Anything": {
+      "ThePartner": "wants",
+      "SuchAs": 12345,
+      "OrEven": true
+    }
+  }
 }
 ```
 
@@ -254,6 +287,7 @@ if (response.StatusCode == HttpStatusCode.OK)
 {
   "PartnerCustomer": {
     "PartnerCustomerKey": "p0123456789abcdefghijklmno",
+    "PartnerRemoteId": "customer-unique-id-from-partner",
     "Email": "janedoe2@example.com",
     "EmailAlt": null,
     "Name": "Jane Doe",
@@ -270,6 +304,13 @@ if (response.StatusCode == HttpStatusCode.OK)
     "MobilePhone": "+13105555678",
     "DateCreated": "2018-05-03T08:35:55.6492475+00:00",
     "DateLinked": "2018-05-03T08:35:55.6492475+00:00",
+    "Metadata": {
+      "Anything": {
+        "ThePartner": "wants",
+        "SuchAs": 12345,
+        "OrEven": true
+      }
+    },
     "UserNotified": false
   },
   "GroupInvitationErrors: []
@@ -307,12 +348,13 @@ BusinessStateCode    | `string`        | (Optional) The business state (ISO stan
 BusinessCountryCode  | `string`        | (Optional) The business country (ISO standard 2-letter code).
 BusinessPhone        | `string`        | (Optional) The business phone number (ideally E.164 format)
 MobilePhone          | `string`        | (Optional) The user's mobile phone number (ideally E.164 format)
+PartnerRemoteId      | `string`        | (Optional) Unique identifier for this customer, supplied by the partner, which can be used in the future for API requests that originate _from_ Diagnostic Network to you.
 BusinessPostalCode   | `string`        | (Optional) The business zip/postal code.
 BusinessCounty       | `string`        | (Optional) The business county (not country)
 BusinessLatitude     | `decimal`       | (Optional) The business latitude coordinates.
 BusinessLongitude    | `decimal`       | (Optional) The business longitude coordinates.
 GroupInvitations     | `array<string>` | (Optional) Array of your user groups to which this user will have access. If this is different from a previous `POST` or `PATCH` request, they'll be removed from any groups not listed here.
-
+Metadata             | `json`          | (Optional) Any additional data DN or the partner needs associated with this customer, perhaps to unlock other features on DN.
 
 ## Delete a Partner Customer
 
