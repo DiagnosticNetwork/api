@@ -102,7 +102,7 @@ var response = await DNAPI.Client.PostAsync
   "/api/v1/user/login",
   new StringContent(
     JsonConvert.SerializeObject(new {
-      Email = "janedoe@example.com",
+      Email = "jane-work@example.com",
       Password = "Jane'sPassword",
       RememberMe = true
     }),
@@ -143,7 +143,7 @@ $.ajax({
   type: "POST",
   contentType: "application/json",
   data: JSON.stringify({
-    "Email": "janedoe@example.com",
+    "Email": "jane-work@example.com",
     "Password": "Jane'sPassword",
     "RememberMe": true
   })
