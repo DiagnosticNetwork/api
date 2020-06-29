@@ -196,7 +196,7 @@
   color: #f92672;
 }
     </style>
-    <link href="stylesheets/screen-d6c9eb03.css" rel="stylesheet" media="screen" />
+    <link href="stylesheets/screen-604a08b2.css" rel="stylesheet" media="screen" />
     <link href="stylesheets/print-c427a123.css" rel="stylesheet" media="print" />
       <script src="javascripts/all-c5541673.js"></script>
   </head>
@@ -434,6 +434,7 @@ If you don't yet have a membership in Diagnostic Network, you can <a href="https
 </blockquote>
 <div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
   </span><span class="nl">"PartnerCustomerKey"</span><span class="p">:</span><span class="w"> </span><span class="s2">"p0123456789abcdefghijklmno"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"PartnerRemoteId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"customer-unique-id-from-partner"</span><span class="p">,</span><span class="w">
   </span><span class="nl">"Email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"janedoe@example.com"</span><span class="p">,</span><span class="w">
   </span><span class="nl">"EmailAlt"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
   </span><span class="nl">"Name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Jane Doe"</span><span class="p">,</span><span class="w">
@@ -454,7 +455,14 @@ If you don't yet have a membership in Diagnostic Network, you can <a href="https
     </span><span class="s2">"group-one"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"group-two"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"group-three"</span><span class="w">
-  </span><span class="p">]</span><span class="w">
+  </span><span class="p">],</span><span class="w">
+  </span><span class="nl">"Metadata"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"Anything"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"ThePartner"</span><span class="p">:</span><span class="w"> </span><span class="s2">"wants"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"SuchAs"</span><span class="p">:</span><span class="w"> </span><span class="mi">12345</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"OrEven"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div>
 <p>Some partnerships allow for creating user accounts on Diagnostic Network, on behalf of their customers, which we refer to as “partner customers.” You may also use this API to link your existing customers to their existing account on Diagnostic Network, linked using their email address. One reason you may want to do this is to make it easier for your customers to gain access to user groups you maintain on Diagnostic Network, which can be done as part of the Partner Customer API.</p>
@@ -470,6 +478,7 @@ If you don't yet have a membership in Diagnostic Network, you can <a href="https
   <span class="s">"/api/v1/partner/customer"</span><span class="p">,</span>
   <span class="k">new</span> 
   <span class="p">{</span>
+    <span class="n">PartnerRemoteId</span> <span class="p">=</span> <span class="s">"customer-unique-id-from-partner"</span><span class="p">,</span>
     <span class="n">Email</span> <span class="p">=</span> <span class="s">"janedoe@example.com"</span><span class="p">,</span>
     <span class="n">Name</span> <span class="p">=</span> <span class="s">"Jane Doe"</span><span class="p">,</span>
     <span class="n">BusinessName</span> <span class="p">=</span> <span class="s">"Jane's Auto Repair"</span><span class="p">,</span>
@@ -488,6 +497,13 @@ If you don't yet have a membership in Diagnostic Network, you can <a href="https
       <span class="s">"group-one"</span><span class="p">,</span>
       <span class="s">"group-two"</span><span class="p">,</span>
       <span class="s">"group-three"</span>
+    <span class="p">},</span>
+    <span class="n">Metadata</span> <span class="p">=</span> <span class="k">new</span> <span class="p">{</span>
+      <span class="n">Anything</span> <span class="p">=</span> <span class="k">new</span> <span class="p">{</span>
+        <span class="n">ThePartner</span> <span class="p">=</span> <span class="s">"wants"</span><span class="p">,</span>
+        <span class="n">SuchAs</span> <span class="p">=</span> <span class="m">12345</span><span class="p">,</span>
+        <span class="n">OrEven</span> <span class="p">=</span> <span class="k">true</span>
+      <span class="p">}</span>
     <span class="p">},</span>
     <span class="n">CreateUser</span> <span class="p">=</span> <span class="k">true</span> <span class="c1">// or `false` for stub user</span>
   <span class="p">}</span>
@@ -509,6 +525,7 @@ If you don't yet have a membership in Diagnostic Network, you can <a href="https
 <div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
   </span><span class="nl">"PartnerCustomer"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
     </span><span class="nl">"PartnerCustomerKey"</span><span class="p">:</span><span class="w"> </span><span class="s2">"p0123456789abcdefghijklmno"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"PartnerRemoteId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"customer-unique-id-from-partner"</span><span class="p">,</span><span class="w">
     </span><span class="nl">"Email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"janedoe@example.com"</span><span class="p">,</span><span class="w">
     </span><span class="nl">"EmailAlt"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
     </span><span class="nl">"Name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Jane Doe"</span><span class="p">,</span><span class="w">
@@ -530,7 +547,14 @@ If you don't yet have a membership in Diagnostic Network, you can <a href="https
       </span><span class="s2">"group-one"</span><span class="p">,</span><span class="w">
       </span><span class="s2">"group-two"</span><span class="p">,</span><span class="w">
       </span><span class="s2">"group-three"</span><span class="w">
-    </span><span class="p">]</span><span class="w">
+    </span><span class="p">],</span><span class="w">
+    </span><span class="nl">"Metadata"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"Anything"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"ThePartner"</span><span class="p">:</span><span class="w"> </span><span class="s2">"wants"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"SuchAs"</span><span class="p">:</span><span class="w"> </span><span class="mi">12345</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"OrEven"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+      </span><span class="p">}</span><span class="w">
+    </span><span class="p">}</span><span class="w">
   </span><span class="p">},</span><span class="w">
   </span><span class="s2">"GroupInvitationErrors: []
 }
@@ -541,7 +565,7 @@ If you don't yet have a membership in Diagnostic Network, you can <a href="https
 <p>Example PartnerCustomerKey: <code>p0123456789abcdefghijklmno</code></p>
 </blockquote>
 
-<p>These user accounts, once created, are explicitly linked to the partner, and have an associated unique <code>PartnerCustomerKey</code> associated with them, which begins with <code>p</code> and is 26 characters long (lowercase letters and numbers). This <code>PartnerCustomerKey</code> can be used later to sever the relationship with the partner, or to update the relationship (e.g. to enable/disable certain partner-specific features).</p>
+<p>These user accounts, once created, are explicitly linked to the partner, and have an associated unique <code>PartnerCustomerKey</code> associated with them, which begins with <code>p</code> and is 26 characters long (lowercase letters and numbers). This <code>PartnerCustomerKey</code> can be used later to update the Partner Customer, sever the relationship with the partner, or to update the relationship (e.g. to enable/disable certain partner-specific features). In addition, you can (and should) specify your own unique identifier for this customer, especially if you anticipate that Diagnostic Network may be making requests against <em>your</em> API in the future.</p>
 
 <p>A <strong>stub user</strong> acts as a reservation. The user visits a special link to create their password and complete their registration, but most of the information should be filled in for them based on what the partner shared with us, making registration quick and simple. In this scenario, we <strong>will not</strong> contact your customer, unless they are already a member of DN.</p>
 
@@ -617,6 +641,11 @@ Create Account. </li>
 <td>The user&#39;s mobile phone number (ideally E.164 format)</td>
 </tr>
 <tr>
+<td>PartnerRemoteId</td>
+<td><code>string</code></td>
+<td>(Recommended) Unique identifier for this customer, supplied by the partner, which can be used in the future for API requests that originate <em>from</em> Diagnostic Network to you.</td>
+</tr>
+<tr>
 <td>BusinessPostalCode</td>
 <td><code>string</code></td>
 <td>(Optional) The business zip/postal code.</td>
@@ -641,6 +670,11 @@ Create Account. </li>
 <td><code>array&lt;string&gt;</code></td>
 <td>(Optional) Array of your user groups to which this user will have access.</td>
 </tr>
+<tr>
+<td>Metadata</td>
+<td><code>json</code></td>
+<td>(Optional) Any additional data DN or the partner needs associated with this customer, perhaps to unlock other features on DN.</td>
+</tr>
 </tbody></table>
 <h2 id='get-a-partner-customer'>Get a Partner Customer</h2><div class="highlight"><pre class="highlight csharp tab-csharp"><code><span class="kt">var</span> <span class="n">response</span> <span class="p">=</span> <span class="k">await</span> <span class="n">DNAPI</span><span class="p">.</span><span class="nf">PartnerSendAsync</span>
 <span class="p">(</span>
@@ -661,6 +695,7 @@ Create Account. </li>
 </blockquote>
 <div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
   </span><span class="nl">"PartnerCustomerKey"</span><span class="p">:</span><span class="w"> </span><span class="s2">"p0123456789abcdefghijklmno"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"PartnerRemoteId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"customer-unique-id-from-partner"</span><span class="p">,</span><span class="w">  
   </span><span class="nl">"Email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"janedoe@example.com"</span><span class="p">,</span><span class="w">
   </span><span class="nl">"EmailAlt"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
   </span><span class="nl">"Name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Jane Doe"</span><span class="p">,</span><span class="w">
@@ -681,7 +716,14 @@ Create Account. </li>
     </span><span class="s2">"group-one"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"group-two"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"group-three"</span><span class="w">
-  </span><span class="p">]</span><span class="w">
+  </span><span class="p">],</span><span class="w">
+  </span><span class="nl">"Metadata"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"Anything"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"ThePartner"</span><span class="p">:</span><span class="w"> </span><span class="s2">"wants"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"SuchAs"</span><span class="p">:</span><span class="w"> </span><span class="mi">12345</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"OrEven"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div>
 <p>This endpoint retrieves a Partner Customer that you&#39;ve previously created.</p>
@@ -728,6 +770,7 @@ Create Account. </li>
 <div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
   </span><span class="nl">"PartnerCustomer"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
     </span><span class="nl">"PartnerCustomerKey"</span><span class="p">:</span><span class="w"> </span><span class="s2">"p0123456789abcdefghijklmno"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"PartnerRemoteId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"customer-unique-id-from-partner"</span><span class="p">,</span><span class="w">
     </span><span class="nl">"Email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"janedoe2@example.com"</span><span class="p">,</span><span class="w">
     </span><span class="nl">"EmailAlt"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
     </span><span class="nl">"Name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Jane Doe"</span><span class="p">,</span><span class="w">
@@ -744,6 +787,13 @@ Create Account. </li>
     </span><span class="nl">"MobilePhone"</span><span class="p">:</span><span class="w"> </span><span class="s2">"+13105555678"</span><span class="p">,</span><span class="w">
     </span><span class="nl">"DateCreated"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2018-05-03T08:35:55.6492475+00:00"</span><span class="p">,</span><span class="w">
     </span><span class="nl">"DateLinked"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2018-05-03T08:35:55.6492475+00:00"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"Metadata"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"Anything"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"ThePartner"</span><span class="p">:</span><span class="w"> </span><span class="s2">"wants"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"SuchAs"</span><span class="p">:</span><span class="w"> </span><span class="mi">12345</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"OrEven"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+      </span><span class="p">}</span><span class="w">
+    </span><span class="p">},</span><span class="w">
     </span><span class="nl">"UserNotified"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
   </span><span class="p">},</span><span class="w">
   </span><span class="s2">"GroupInvitationErrors: []
@@ -824,6 +874,11 @@ Create Account. </li>
 <td>(Optional) The user&#39;s mobile phone number (ideally E.164 format)</td>
 </tr>
 <tr>
+<td>PartnerRemoteId</td>
+<td><code>string</code></td>
+<td>(Optional) Unique identifier for this customer, supplied by the partner, which can be used in the future for API requests that originate <em>from</em> Diagnostic Network to you.</td>
+</tr>
+<tr>
 <td>BusinessPostalCode</td>
 <td><code>string</code></td>
 <td>(Optional) The business zip/postal code.</td>
@@ -847,6 +902,11 @@ Create Account. </li>
 <td>GroupInvitations</td>
 <td><code>array&lt;string&gt;</code></td>
 <td>(Optional) Array of your user groups to which this user will have access. If this is different from a previous <code>POST</code> or <code>PATCH</code> request, they&#39;ll be removed from any groups not listed here.</td>
+</tr>
+<tr>
+<td>Metadata</td>
+<td><code>json</code></td>
+<td>(Optional) Any additional data DN or the partner needs associated with this customer, perhaps to unlock other features on DN.</td>
 </tr>
 </tbody></table>
 <h2 id='delete-a-partner-customer'>Delete a Partner Customer</h2><div class="highlight"><pre class="highlight csharp tab-csharp"><code><span class="kt">var</span> <span class="n">response</span> <span class="p">=</span> <span class="k">await</span> <span class="n">DNAPI</span><span class="p">.</span><span class="nf">PartnerSendAsync</span>
