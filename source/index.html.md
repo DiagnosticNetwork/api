@@ -20,42 +20,6 @@ search: true
 
 ### API Documentation 
 
-```csharp
-using Newtonsoft.Json;
-using System.Net;
-using System.Net.Http;
-using System.Security.Cryptography;
-using System.Text;
-using System.Threading.Tasks;
-
-public class DNAPI
-{
-  // Set this to diag.net for production, or test.diag.net 
-  // for testing. Please see our "Testing" section for more 
-  // details on test.diag.net.
-  public static string BaseHref = "https://diag.net";
-
-  // Cookie handling is needed when getting User Auth cookies
-  public static CookieContainer CookieContainer = new CookieContainer();
-
-  // Use a singleton HttpClient for all API requests.
-  public static readonly HttpClient Client = new HttpClient(
-    new SocketsHttpHandler 
-    {
-        // Help with DNS handling: https://bit.ly/client-pooling
-        PooledConnectionLifetime = TimeSpan.FromMinutes(10),
-        PooledConnectionIdleTimeout = TimeSpan.FromMinutes(5),
-        // Contact us if you need more than 5 at a time
-        MaxConnectionsPerServer = 5,    
-        // Avoid redirecting on 201, 303, etc.
-        AllowAutoRedirect = false,
-        UseCookies = true,
-        CookieContainer = CookieContainer
-    }
-  );
-}
-```
-
 This page documents the parts of our API which are currently public. Some of these API endpoints are only available to our partners. You can view code examples in the area to the right. We will be exposing more of our API over time. If you have any comments, questions, or requests, please open a [new issue](https://github.com/DiagnosticNetwork/api/issues/new/choose).
 
 ### Overview of Diagnostic Network

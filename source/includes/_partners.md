@@ -20,7 +20,12 @@
   "BusinessPhone": "+18005551234",
   "MobilePhone": "+13105555678",
   "DateCreated": "2018-05-03T08:35:55.6492475+00:00",
-  "DateLinked": "2018-05-03T08:35:55.6492475+00:00"
+  "DateLinked": "2018-05-03T08:35:55.6492475+00:00",
+  "GroupInvitations": [
+    "group-one",
+    "group-two",
+    "group-three"
+  ]
 }
 ```
 
@@ -30,7 +35,7 @@ Once created, a member of DN that is linked to a partner with a Partner Customer
 
 ### Email Notifications
 
-If you link or unlink an _existing_ DN member to you (via the Partner Customer `POST`, `PUT`, or `DELETE` endpoints), we will notify them of the change to their account status via email. Aside from that, we will _not_ send any communication to Partner Customers that have no prior relationship with DN, unless you create a Partner Customer with the `CreateUser` and `NotifyUser` parameters set to `true`, in which case we will send the user an email to allow them to set their new account password and agree to our terms of service. 
+If you link or unlink an _existing_ DN member to you (via the Partner Customer `POST`, `PATCH`, or `DELETE` endpoints), we will notify them of the change to their account status via email. Aside from that, we will _not_ send any communication to Partner Customers that have no prior relationship with DN, unless you create a Partner Customer with the `CreateUser` and `NotifyUser` parameters set to `true`, in which case we will send the user an email to allow them to set their new account password and agree to our terms of service. 
 
 You can tell whether or not a user has been sent a notification email due to your API call by referring to the `UserNotified` property in the responses.
 
@@ -58,6 +63,12 @@ var response = await DNAPI.PartnerSendAsync
     BusinessLongitude = (string) null,
     BusinessPhone = "+18005551234",
     MobilePhone = "+13105555678",
+    // if you're inviting the user to your group(s)
+    GroupInvitations = new List<int> {
+      "group-one",
+      "group-two",
+      "group-three"
+    },
     CreateUser = true // or `false` for stub user
   }
 );
@@ -77,24 +88,32 @@ if (response.StatusCode == HttpStatusCode.Created ||
 
 ```json
 {
-  "PartnerCustomerKey": "p0123456789abcdefghijklmno",
-  "Email": "janedoe@example.com",
-  "EmailAlt": null,
-  "Name": "Jane Doe",
-  "BusinessName": "Jane's Auto Repair",
-  "BusinessStreet": "123 Main Street",
-  "BusinessCity": "Los Angeles",
-  "BusinessStateCode": "CA",
-  "BusinessCountryCode": "US",
-  "BusinessPostalCode": "90210",
-  "BusinessCounty": "Los Angeles County",
-  "BusinessLatitude": null,
-  "BusinessLongitude": null,
-  "BusinessPhone": "+18005551234",
-  "MobilePhone": "+13105555678",
-  "DateCreated": "2018-05-03T08:35:55.6492475+00:00",
-  "DateLinked": "2018-05-03T08:35:55.6492475+00:00",
-  "UserNotified": false
+  "PartnerCustomer": {
+    "PartnerCustomerKey": "p0123456789abcdefghijklmno",
+    "Email": "janedoe@example.com",
+    "EmailAlt": null,
+    "Name": "Jane Doe",
+    "BusinessName": "Jane's Auto Repair",
+    "BusinessStreet": "123 Main Street",
+    "BusinessCity": "Los Angeles",
+    "BusinessStateCode": "CA",
+    "BusinessCountryCode": "US",
+    "BusinessPostalCode": "90210",
+    "BusinessCounty": "Los Angeles County",
+    "BusinessLatitude": null,
+    "BusinessLongitude": null,
+    "BusinessPhone": "+18005551234",
+    "MobilePhone": "+13105555678",
+    "DateCreated": "2018-05-03T08:35:55.6492475+00:00",
+    "DateLinked": "2018-05-03T08:35:55.6492475+00:00",
+    "UserNotified": false,
+    "GroupInvitations": [
+      "group-one",
+      "group-two",
+      "group-three"
+    ]
+  },
+  "GroupInvitationErrors: []
 }
 ```
 
@@ -123,23 +142,23 @@ For both types of user creation, an implicit link is created between the partner
 
 ### POST JSON Fields
 
-Fields               | Type        | Description
--------------------- | ----------- | -----------
-CreateUser           | `boolean`   | If true, create a real user; otherwise, stub user.
-Email                | `string`    | The email address of the user.
-Name                 | `string`    | The full name (must contain at least two name parts).
-BusinessName         | `string`    | The business name.
-BusinessStreet       | `string`    | The business street address.
-BusinessCity         | `string`    | The business city.
-BusinessStateCode    | `string`    | The business state (ISO standard 2-letter code).
-BusinessCountryCode  | `string`    | The business country (ISO standard 2-letter code).
-BusinessPhone        | `string`    | The business phone number (ideally E.164 format)
-MobilePhone          | `string`    | The user's mobile phone number (ideally E.164 format)
-BusinessPostalCode   | `string`    | (Optional) The business zip/postal code.
-BusinessCounty       | `string`    | (Optional) The business county (not country)
-BusinessLatitude     | `decimal`   | (Optional) The business latitude coordinates.
-BusinessLongitude    | `decimal`   | (Optional) The business longitude coordinates.
-
+Fields               | Type            | Description
+-------------------- | --------------- | -----------
+CreateUser           | `boolean`       | If true, create a real user; otherwise, stub user.
+Email                | `string`        | The email address of the user.
+Name                 | `string`        | The full name (must contain at least two name parts).
+BusinessName         | `string`        | The business name.
+BusinessStreet       | `string`        | The business street address.
+BusinessCity         | `string`        | The business city.
+BusinessStateCode    | `string`        | The business state (ISO standard 2-letter code).
+BusinessCountryCode  | `string`        | The business country (ISO standard 2-letter code).
+BusinessPhone        | `string`        | The business phone number (ideally E.164 format)
+MobilePhone          | `string`        | The user's mobile phone number (ideally E.164 format)
+BusinessPostalCode   | `string`        | (Optional) The business zip/postal code.
+BusinessCounty       | `string`        | (Optional) The business county (not country)
+BusinessLatitude     | `decimal`       | (Optional) The business latitude coordinates.
+BusinessLongitude    | `decimal`       | (Optional) The business longitude coordinates.
+GroupInvitations     | `array<string>` | (Optional) Array of your user groups to which this user will have access. 
 
 
 ## Get a Partner Customer
@@ -180,7 +199,12 @@ if (response.StatusCode == HttpStatusCode.OK)
   "BusinessPhone": "+18005551234",
   "MobilePhone": "+13105555678",
   "DateCreated": "2018-05-03T08:35:55.6492475+00:00",
-  "DateLinked": "2018-05-03T08:35:55.6492475+00:00"
+  "DateLinked": "2018-05-03T08:35:55.6492475+00:00",
+  "GroupInvitations": [
+    "group-one",
+    "group-two",
+    "group-three"
+  ]
 }
 ```
 
@@ -206,7 +230,12 @@ var response = await DNAPI.PartnerSendAsync
   $"/api/v1/partner/customer/{PartnerCustomerKey}",
   new 
   {
-    Email = "janedoe2@example.com"
+    Email = "janedoe2@example.com",
+    // Removing them from other groups you may have invited
+    // them to, and only letting them access your group-three.
+    GroupInvitations = new List<int> {
+      "group-three"
+    }
   }
 );
 
@@ -223,24 +252,27 @@ if (response.StatusCode == HttpStatusCode.OK)
 
 ```json
 {
-  "PartnerCustomerKey": "p0123456789abcdefghijklmno",
-  "Email": "janedoe2@example.com",
-  "EmailAlt": null,
-  "Name": "Jane Doe",
-  "BusinessName": "Jane's Auto Repair",
-  "BusinessStreet": "123 Main Street",
-  "BusinessCity": "Los Angeles",
-  "BusinessStateCode": "CA",
-  "BusinessCountryCode": "US",
-  "BusinessPostalCode": "90210",
-  "BusinessCounty": "Los Angeles County",
-  "BusinessLatitude": null,
-  "BusinessLongitude": null,
-  "BusinessPhone": "+18005551234",
-  "MobilePhone": "+13105555678",
-  "DateCreated": "2018-05-03T08:35:55.6492475+00:00",
-  "DateLinked": "2018-05-03T08:35:55.6492475+00:00",
-  "UserNotified": false
+  "PartnerCustomer": {
+    "PartnerCustomerKey": "p0123456789abcdefghijklmno",
+    "Email": "janedoe2@example.com",
+    "EmailAlt": null,
+    "Name": "Jane Doe",
+    "BusinessName": "Jane's Auto Repair",
+    "BusinessStreet": "123 Main Street",
+    "BusinessCity": "Los Angeles",
+    "BusinessStateCode": "CA",
+    "BusinessCountryCode": "US",
+    "BusinessPostalCode": "90210",
+    "BusinessCounty": "Los Angeles County",
+    "BusinessLatitude": null,
+    "BusinessLongitude": null,
+    "BusinessPhone": "+18005551234",
+    "MobilePhone": "+13105555678",
+    "DateCreated": "2018-05-03T08:35:55.6492475+00:00",
+    "DateLinked": "2018-05-03T08:35:55.6492475+00:00",
+    "UserNotified": false
+  },
+  "GroupInvitationErrors: []
 }
 ```
 
@@ -264,22 +296,22 @@ PartnerCustomerKey | The unique identifier for a previously created Partner Cust
 
 ### PATCH JSON Fields
 
-Fields               | Type        | Description
--------------------- | ----------- | -----------
-Email                | `string`    | (Optional) The email address of the user.
-Name                 | `string`    | (Optional) The full name (must contain at least two name parts).
-BusinessName         | `string`    | (Optional) The business name.
-BusinessStreet       | `string`    | (Optional) The business street address.
-BusinessCity         | `string`    | (Optional) The business city.
-BusinessStateCode    | `string`    | (Optional) The business state (ISO standard 2-letter code).
-BusinessCountryCode  | `string`    | (Optional) The business country (ISO standard 2-letter code).
-BusinessPhone        | `string`    | (Optional) The business phone number (ideally E.164 format)
-MobilePhone          | `string`    | (Optional) The user's mobile phone number (ideally E.164 format)
-BusinessPostalCode   | `string`    | (Optional) The business zip/postal code.
-BusinessCounty       | `string`    | (Optional) The business county (not country)
-BusinessLatitude     | `decimal`   | (Optional) The business latitude coordinates.
-BusinessLongitude    | `decimal`   | (Optional) The business longitude coordinates.
-
+Fields               | Type            | Description
+-------------------- | --------------- | -----------
+Email                | `string`        | (Optional) The email address of the user.
+Name                 | `string`        | (Optional) The full name (must contain at least two name parts).
+BusinessName         | `string`        | (Optional) The business name.
+BusinessStreet       | `string`        | (Optional) The business street address.
+BusinessCity         | `string`        | (Optional) The business city.
+BusinessStateCode    | `string`        | (Optional) The business state (ISO standard 2-letter code).
+BusinessCountryCode  | `string`        | (Optional) The business country (ISO standard 2-letter code).
+BusinessPhone        | `string`        | (Optional) The business phone number (ideally E.164 format)
+MobilePhone          | `string`        | (Optional) The user's mobile phone number (ideally E.164 format)
+BusinessPostalCode   | `string`        | (Optional) The business zip/postal code.
+BusinessCounty       | `string`        | (Optional) The business county (not country)
+BusinessLatitude     | `decimal`       | (Optional) The business latitude coordinates.
+BusinessLongitude    | `decimal`       | (Optional) The business longitude coordinates.
+GroupInvitations     | `array<string>` | (Optional) Array of your user groups to which this user will have access. If this is different from a previous `POST` or `PATCH` request, they'll be removed from any groups not listed here.
 
 
 ## Delete a Partner Customer
