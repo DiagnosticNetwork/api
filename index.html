@@ -435,8 +435,8 @@ If you don't yet have a membership in Diagnostic Network, you can <a href="https
 <div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
   </span><span class="nl">"PartnerCustomerKey"</span><span class="p">:</span><span class="w"> </span><span class="s2">"p0123456789abcdefghijklmno"</span><span class="p">,</span><span class="w">
   </span><span class="nl">"PartnerRemoteId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"customer-unique-id-from-partner"</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"Email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"janedoe@example.com"</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"EmailAlt"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"Email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"jane-work@example.com"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"EmailAlt"</span><span class="p">:</span><span class="w"> </span><span class="s2">"jane-personal@example.com"</span><span class="p">,</span><span class="w">
   </span><span class="nl">"Name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Jane Doe"</span><span class="p">,</span><span class="w">
   </span><span class="nl">"BusinessName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Jane's Auto Repair"</span><span class="p">,</span><span class="w">
   </span><span class="nl">"BusinessStreet"</span><span class="p">:</span><span class="w"> </span><span class="s2">"123 Main Street"</span><span class="p">,</span><span class="w">
@@ -479,7 +479,8 @@ If you don't yet have a membership in Diagnostic Network, you can <a href="https
   <span class="k">new</span> 
   <span class="p">{</span>
     <span class="n">PartnerRemoteId</span> <span class="p">=</span> <span class="s">"customer-unique-id-from-partner"</span><span class="p">,</span>
-    <span class="n">Email</span> <span class="p">=</span> <span class="s">"janedoe@example.com"</span><span class="p">,</span>
+    <span class="n">Email</span> <span class="p">=</span> <span class="s">"jane-work@example.com"</span><span class="p">,</span>
+    <span class="n">EmailAlt</span> <span class="p">=</span> <span class="s">"jane-personal@example.com"</span><span class="p">,</span>
     <span class="n">Name</span> <span class="p">=</span> <span class="s">"Jane Doe"</span><span class="p">,</span>
     <span class="n">BusinessName</span> <span class="p">=</span> <span class="s">"Jane's Auto Repair"</span><span class="p">,</span>
     <span class="n">BusinessStreet</span> <span class="p">=</span> <span class="s">"123 Main Street"</span><span class="p">,</span>
@@ -526,8 +527,8 @@ If you don't yet have a membership in Diagnostic Network, you can <a href="https
   </span><span class="nl">"PartnerCustomer"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
     </span><span class="nl">"PartnerCustomerKey"</span><span class="p">:</span><span class="w"> </span><span class="s2">"p0123456789abcdefghijklmno"</span><span class="p">,</span><span class="w">
     </span><span class="nl">"PartnerRemoteId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"customer-unique-id-from-partner"</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"Email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"janedoe@example.com"</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"EmailAlt"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"Email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"jane-work@example.com"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"EmailAlt"</span><span class="p">:</span><span class="w"> </span><span class="s2">"jane-personal@example.com"</span><span class="p">,</span><span class="w">
     </span><span class="nl">"Name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Jane Doe"</span><span class="p">,</span><span class="w">
     </span><span class="nl">"BusinessName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Jane's Auto Repair"</span><span class="p">,</span><span class="w">
     </span><span class="nl">"BusinessStreet"</span><span class="p">:</span><span class="w"> </span><span class="s2">"123 Main Street"</span><span class="p">,</span><span class="w">
@@ -599,6 +600,11 @@ Create Account. </li>
 <td>Email</td>
 <td><code>string</code></td>
 <td>The email address of the user.</td>
+</tr>
+<tr>
+<td>EmailAlt</td>
+<td><code>string</code></td>
+<td>(Optional) An alternate email address of the user.</td>
 </tr>
 <tr>
 <td>Name</td>
@@ -696,8 +702,8 @@ Create Account. </li>
 <div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
   </span><span class="nl">"PartnerCustomerKey"</span><span class="p">:</span><span class="w"> </span><span class="s2">"p0123456789abcdefghijklmno"</span><span class="p">,</span><span class="w">
   </span><span class="nl">"PartnerRemoteId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"customer-unique-id-from-partner"</span><span class="p">,</span><span class="w">  
-  </span><span class="nl">"Email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"janedoe@example.com"</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"EmailAlt"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"Email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"jane-work@example.com"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"EmailAlt"</span><span class="p">:</span><span class="w"> </span><span class="s2">"jane-personal@example.com"</span><span class="p">,</span><span class="w">
   </span><span class="nl">"Name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Jane Doe"</span><span class="p">,</span><span class="w">
   </span><span class="nl">"BusinessName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Jane's Auto Repair"</span><span class="p">,</span><span class="w">
   </span><span class="nl">"BusinessStreet"</span><span class="p">:</span><span class="w"> </span><span class="s2">"123 Main Street"</span><span class="p">,</span><span class="w">
@@ -747,7 +753,7 @@ Create Account. </li>
   <span class="s">$"/api/v1/partner/customer/</span><span class="p">{</span><span class="n">PartnerCustomerKey</span><span class="p">}</span><span class="s">"</span><span class="p">,</span>
   <span class="k">new</span> 
   <span class="p">{</span>
-    <span class="n">Email</span> <span class="p">=</span> <span class="s">"janedoe2@example.com"</span><span class="p">,</span>
+    <span class="n">Email</span> <span class="p">=</span> <span class="s">"jane-work@example.com"</span><span class="p">,</span>
     <span class="c1">// Removing them from other groups you may have invited</span>
     <span class="c1">// them to, and only letting them access your group-three.</span>
     <span class="n">GroupInvitations</span> <span class="p">=</span> <span class="k">new</span> <span class="n">List</span><span class="p">&lt;</span><span class="kt">int</span><span class="p">&gt;</span> <span class="p">{</span>
@@ -771,8 +777,8 @@ Create Account. </li>
   </span><span class="nl">"PartnerCustomer"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
     </span><span class="nl">"PartnerCustomerKey"</span><span class="p">:</span><span class="w"> </span><span class="s2">"p0123456789abcdefghijklmno"</span><span class="p">,</span><span class="w">
     </span><span class="nl">"PartnerRemoteId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"customer-unique-id-from-partner"</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"Email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"janedoe2@example.com"</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"EmailAlt"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"Email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"jane-work@example.com"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"EmailAlt"</span><span class="p">:</span><span class="w"> </span><span class="s2">"jane-personal@example.com"</span><span class="p">,</span><span class="w">
     </span><span class="nl">"Name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Jane Doe"</span><span class="p">,</span><span class="w">
     </span><span class="nl">"BusinessName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Jane's Auto Repair"</span><span class="p">,</span><span class="w">
     </span><span class="nl">"BusinessStreet"</span><span class="p">:</span><span class="w"> </span><span class="s2">"123 Main Street"</span><span class="p">,</span><span class="w">
@@ -832,6 +838,11 @@ Create Account. </li>
 <td>Email</td>
 <td><code>string</code></td>
 <td>(Optional) The email address of the user.</td>
+</tr>
+<tr>
+<td>EmailAlt</td>
+<td><code>string</code></td>
+<td>(Optional) An alternate email address of the user.</td>
 </tr>
 <tr>
 <td>Name</td>
