@@ -6,8 +6,8 @@
 {
   "PartnerCustomerKey": "p0123456789abcdefghijklmno",
   "PartnerRemoteId": "customer-unique-id-from-partner",
-  "Email": "janedoe@example.com",
-  "EmailAlt": null,
+  "Email": "jane-work@example.com",
+  "EmailAlt": "jane-personal@example.com",
   "Name": "Jane Doe",
   "BusinessName": "Jane's Auto Repair",
   "BusinessStreet": "123 Main Street",
@@ -59,7 +59,8 @@ var response = await DNAPI.PartnerSendAsync
   new 
   {
     PartnerRemoteId = "customer-unique-id-from-partner",
-    Email = "janedoe@example.com",
+    Email = "jane-work@example.com",
+    EmailAlt = "jane-personal@example.com",
     Name = "Jane Doe",
     BusinessName = "Jane's Auto Repair",
     BusinessStreet = "123 Main Street",
@@ -107,8 +108,8 @@ if (response.StatusCode == HttpStatusCode.Created ||
   "PartnerCustomer": {
     "PartnerCustomerKey": "p0123456789abcdefghijklmno",
     "PartnerRemoteId": "customer-unique-id-from-partner",
-    "Email": "janedoe@example.com",
-    "EmailAlt": null,
+    "Email": "jane-work@example.com",
+    "EmailAlt": "jane-personal@example.com",
     "Name": "Jane Doe",
     "BusinessName": "Jane's Auto Repair",
     "BusinessStreet": "123 Main Street",
@@ -170,6 +171,7 @@ Fields               | Type            | Description
 -------------------- | --------------- | -----------
 CreateUser           | `boolean`       | If true, create a real user; otherwise, stub user.
 Email                | `string`        | The email address of the user.
+EmailAlt             | `string`        | (Optional) An alternate email address of the user.
 Name                 | `string`        | The full name (must contain at least two name parts).
 BusinessName         | `string`        | The business name.
 BusinessStreet       | `string`        | The business street address.
@@ -210,8 +212,8 @@ if (response.StatusCode == HttpStatusCode.OK)
 {
   "PartnerCustomerKey": "p0123456789abcdefghijklmno",
   "PartnerRemoteId": "customer-unique-id-from-partner",  
-  "Email": "janedoe@example.com",
-  "EmailAlt": null,
+  "Email": "jane-work@example.com",
+  "EmailAlt": "jane-personal@example.com",
   "Name": "Jane Doe",
   "BusinessName": "Jane's Auto Repair",
   "BusinessStreet": "123 Main Street",
@@ -263,7 +265,7 @@ var response = await DNAPI.PartnerSendAsync
   $"/api/v1/partner/customer/{PartnerCustomerKey}",
   new 
   {
-    Email = "janedoe2@example.com",
+    Email = "jane-work@example.com",
     // Removing them from other groups you may have invited
     // them to, and only letting them access your group-three.
     GroupInvitations = new List<int> {
@@ -288,8 +290,8 @@ if (response.StatusCode == HttpStatusCode.OK)
   "PartnerCustomer": {
     "PartnerCustomerKey": "p0123456789abcdefghijklmno",
     "PartnerRemoteId": "customer-unique-id-from-partner",
-    "Email": "janedoe2@example.com",
-    "EmailAlt": null,
+    "Email": "jane-work@example.com",
+    "EmailAlt": "jane-personal@example.com",
     "Name": "Jane Doe",
     "BusinessName": "Jane's Auto Repair",
     "BusinessStreet": "123 Main Street",
@@ -340,6 +342,7 @@ PartnerCustomerKey | The unique identifier for a previously created Partner Cust
 Fields               | Type            | Description
 -------------------- | --------------- | -----------
 Email                | `string`        | (Optional) The email address of the user.
+EmailAlt             | `string`        | (Optional) An alternate email address of the user.
 Name                 | `string`        | (Optional) The full name (must contain at least two name parts).
 BusinessName         | `string`        | (Optional) The business name.
 BusinessStreet       | `string`        | (Optional) The business street address.
