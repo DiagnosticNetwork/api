@@ -234,6 +234,9 @@
             <a href="#authentication" class="toc-h1 toc-link" data-title="Authentication">Authentication</a>
               <ul class="toc-list-h2">
                   <li>
+                    <a href="#test-access" class="toc-h2 toc-link" data-title="Test Access">Test Access</a>
+                  </li>
+                  <li>
                     <a href="#partner-authentication" class="toc-h2 toc-link" data-title="Partner Authentication">Partner Authentication</a>
                   </li>
                   <li>
@@ -272,40 +275,7 @@
     <div class="page-wrapper">
       <div class="dark-box"></div>
       <div class="content">
-        <h1 id='diagnostic-network-api'>Diagnostic Network API</h1><h3 id='api-documentation'>API Documentation</h3><div class="highlight"><pre class="highlight csharp tab-csharp"><code><span class="k">using</span> <span class="nn">Newtonsoft.Json</span><span class="p">;</span>
-<span class="k">using</span> <span class="nn">System.Net</span><span class="p">;</span>
-<span class="k">using</span> <span class="nn">System.Net.Http</span><span class="p">;</span>
-<span class="k">using</span> <span class="nn">System.Security.Cryptography</span><span class="p">;</span>
-<span class="k">using</span> <span class="nn">System.Text</span><span class="p">;</span>
-<span class="k">using</span> <span class="nn">System.Threading.Tasks</span><span class="p">;</span>
-
-<span class="k">public</span> <span class="k">class</span> <span class="nc">DNAPI</span>
-<span class="p">{</span>
-  <span class="c1">// Set this to diag.net for production, or test.diag.net </span>
-  <span class="c1">// for testing. Please see our "Testing" section for more </span>
-  <span class="c1">// details on test.diag.net.</span>
-  <span class="k">public</span> <span class="k">static</span> <span class="kt">string</span> <span class="n">BaseHref</span> <span class="p">=</span> <span class="s">"https://diag.net"</span><span class="p">;</span>
-
-  <span class="c1">// Cookie handling is needed when getting User Auth cookies</span>
-  <span class="k">public</span> <span class="k">static</span> <span class="n">CookieContainer</span> <span class="n">CookieContainer</span> <span class="p">=</span> <span class="k">new</span> <span class="nf">CookieContainer</span><span class="p">();</span>
-
-  <span class="c1">// Use a singleton HttpClient for all API requests.</span>
-  <span class="k">public</span> <span class="k">static</span> <span class="k">readonly</span> <span class="n">HttpClient</span> <span class="n">Client</span> <span class="p">=</span> <span class="k">new</span> <span class="nf">HttpClient</span><span class="p">(</span>
-    <span class="k">new</span> <span class="n">SocketsHttpHandler</span> 
-    <span class="p">{</span>
-        <span class="c1">// Help with DNS handling: https://bit.ly/client-pooling</span>
-        <span class="n">PooledConnectionLifetime</span> <span class="p">=</span> <span class="n">TimeSpan</span><span class="p">.</span><span class="nf">FromMinutes</span><span class="p">(</span><span class="m">10</span><span class="p">),</span>
-        <span class="n">PooledConnectionIdleTimeout</span> <span class="p">=</span> <span class="n">TimeSpan</span><span class="p">.</span><span class="nf">FromMinutes</span><span class="p">(</span><span class="m">5</span><span class="p">),</span>
-        <span class="c1">// Contact us if you need more than 5 at a time</span>
-        <span class="n">MaxConnectionsPerServer</span> <span class="p">=</span> <span class="m">5</span><span class="p">,</span>    
-        <span class="c1">// Avoid redirecting on 201, 303, etc.</span>
-        <span class="n">AllowAutoRedirect</span> <span class="p">=</span> <span class="k">false</span><span class="p">,</span>
-        <span class="n">UseCookies</span> <span class="p">=</span> <span class="k">true</span><span class="p">,</span>
-        <span class="n">CookieContainer</span> <span class="p">=</span> <span class="n">CookieContainer</span>
-    <span class="p">}</span>
-  <span class="p">);</span>
-<span class="p">}</span>
-</code></pre></div>
+        <h1 id='diagnostic-network-api'>Diagnostic Network API</h1><h3 id='api-documentation'>API Documentation</h3>
 <p>This page documents the parts of our API which are currently public. Some of these API endpoints are only available to our partners. You can view code examples in the area to the right. We will be exposing more of our API over time. If you have any comments, questions, or requests, please open a <a href="https://github.com/DiagnosticNetwork/api/issues/new/choose">new issue</a>.</p>
 <h3 id='overview-of-diagnostic-network'>Overview of Diagnostic Network</h3>
 <p><a href="https://diag.net">Diagnostic Network</a> is a community platform to support the vehicle service industry. The primary interface is a continuous message &quot;stream,&quot; similar to Facebook, Twitter, and similar social networks, with the difference being each message in the stream is a link to a complete, threaded discussion. </p>
@@ -324,17 +294,61 @@
 </ul>
 
 <p>If you&#39;re a professional working in or retired from the vehicle service industry, please <a href="https://diag.net/account/register">join us</a>.</p>
-<h1 id='authentication'>Authentication</h1>
+<h1 id='authentication'>Authentication</h1><div class="highlight"><pre class="highlight csharp tab-csharp"><code><span class="k">using</span> <span class="nn">Newtonsoft.Json</span><span class="p">;</span>
+<span class="k">using</span> <span class="nn">System.Net</span><span class="p">;</span>
+<span class="k">using</span> <span class="nn">System.Net.Http</span><span class="p">;</span>
+<span class="k">using</span> <span class="nn">System.Security.Cryptography</span><span class="p">;</span>
+<span class="k">using</span> <span class="nn">System.Text</span><span class="p">;</span>
+<span class="k">using</span> <span class="nn">System.Threading.Tasks</span><span class="p">;</span>
+
+<span class="k">public</span> <span class="k">class</span> <span class="nc">DNAPI</span>
+<span class="p">{</span>
+  <span class="k">static</span> <span class="nf">DNAPI</span><span class="p">()</span>
+  <span class="p">{</span>
+    <span class="c1">// Set this to diag.net for production, or test.diag.net for testing</span>
+    <span class="c1">// Please see our "Test Access" section for more details on test.diag.net.</span>
+    <span class="n">Client</span><span class="p">.</span><span class="n">BaseAddress</span> <span class="p">=</span> <span class="k">new</span> <span class="nf">Uri</span><span class="p">(</span><span class="s">"https://test.diag.net"</span><span class="p">);</span>
+  <span class="p">}</span>
+
+  <span class="c1">// Cookie handling is needed when getting User Auth cookies</span>
+  <span class="k">public</span> <span class="k">static</span> <span class="n">CookieContainer</span> <span class="n">CookieContainer</span> <span class="p">=</span> <span class="k">new</span> <span class="nf">CookieContainer</span><span class="p">();</span>
+
+  <span class="c1">// Use a singleton HttpClient for all API requests.</span>
+  <span class="k">public</span> <span class="k">static</span> <span class="k">readonly</span> <span class="n">HttpClient</span> <span class="n">Client</span> <span class="p">=</span> <span class="k">new</span> <span class="nf">HttpClient</span><span class="p">(</span>
+    <span class="k">new</span> <span class="n">SocketsHttpHandler</span> 
+    <span class="p">{</span>
+      <span class="n">PooledConnectionLifetime</span> <span class="p">=</span> <span class="n">TimeSpan</span><span class="p">.</span><span class="nf">FromMinutes</span><span class="p">(</span><span class="m">10</span><span class="p">),</span>   <span class="c1">// Help with DNS handling:</span>
+      <span class="n">PooledConnectionIdleTimeout</span> <span class="p">=</span> <span class="n">TimeSpan</span><span class="p">.</span><span class="nf">FromMinutes</span><span class="p">(</span><span class="m">5</span><span class="p">),</span> <span class="c1">// https://bit.ly/client-pooling</span>
+      <span class="n">MaxConnectionsPerServer</span> <span class="p">=</span> <span class="m">5</span><span class="p">,</span>  <span class="c1">// Contact us if you need more than 5 at a time  </span>
+      <span class="n">AllowAutoRedirect</span> <span class="p">=</span> <span class="k">false</span><span class="p">,</span>    <span class="c1">// Avoid redirecting on 201, 303, etc.</span>
+      <span class="n">UseCookies</span> <span class="p">=</span> <span class="k">true</span><span class="p">,</span>
+      <span class="n">CookieContainer</span> <span class="p">=</span> <span class="n">CookieContainer</span>
+    <span class="p">}</span>
+  <span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>
 <p>Some API endpoints are only available for our partners, using <a href="#partner-authentication"><em>Partner Authentication</em></a>. Other API endpoints require <a href="#user-authentication"><em>User Authentication</em></a>, the same kind of authentication users experience directly on our website. And finally, some API endpoints, like our &quot;Get Messages&quot; endpoint, require no authentication, but may work differently when accessed by an authenticated client (e.g. anonymized messages when not authenticated, versus complete messages with full details for authenticated users).</p>
-<h2 id='partner-authentication'>Partner Authentication</h2><div class="highlight"><pre class="highlight csharp tab-csharp"><code><span class="c1">/// Sends requests to the partner API that are authenticated using the</span>
-<span class="c1">/// `PartnerApiId` and `PartnerApiKey` specified above.</span>
+<h2 id='test-access'>Test Access</h2><div class="highlight"><pre class="highlight csharp tab-csharp"><code><span class="c1">// Set the test platform cookie to allow access</span>
+<span class="k">await</span> <span class="n">DNAPI</span><span class="p">.</span><span class="n">Client</span><span class="p">.</span><span class="nf">GetAsync</span><span class="p">(</span><span class="n">MAGIC_LINK</span><span class="p">);</span>
+</code></pre></div><div class="highlight"><pre class="highlight javascript tab-javascript"><code><span class="c1">// Set the test platform cookie to allow access</span>
+<span class="nx">$</span><span class="p">.</span><span class="kd">get</span><span class="p">(</span><span class="nx">MAGIC_LINK</span><span class="p">);</span>
+</code></pre></div>
+<p>We <em>highly</em> recommend testing your API access against our test environment at <code>test.diag.net</code>. In order to access this site, you must pass a special cookie with each request. The easiest way to set this cookie is to hit a special URL that can be provided to you. Please contact us for the <code>MAGIC_LINK</code> URL used in the code sample here.</p>
+<h2 id='partner-authentication'>Partner Authentication</h2><div class="highlight"><pre class="highlight csharp tab-csharp"><code><span class="k">private</span> <span class="k">static</span> <span class="n">ASCIIEncoding</span> <span class="n">AsciiEncoding</span> <span class="p">=</span> <span class="k">new</span> <span class="nf">ASCIIEncoding</span><span class="p">();</span>
+
+<span class="c1">// These next two values are provided by DN to partners</span>
+<span class="k">private</span> <span class="k">static</span> <span class="kt">int</span> <span class="n">PartnerId</span> <span class="p">=</span> <span class="n">PARTNER_ID</span><span class="p">;</span>
+<span class="k">private</span> <span class="k">static</span> <span class="kt">byte</span><span class="p">[]</span> <span class="n">PartnerApiKey</span> <span class="p">=</span> <span class="n">AsciiEncoding</span><span class="p">.</span><span class="nf">GetBytes</span><span class="p">(</span><span class="s">"PARTNER_API_KEY"</span><span class="p">);</span>
+
+<span class="c1">/// Sends requests to the partner API that are authenticated using the</span>
+<span class="c1">/// `PartnerId` and `PartnerApiKey` specified above.</span>
 <span class="k">public</span> <span class="k">async</span> <span class="k">static</span> <span class="n">Task</span><span class="p">&lt;</span><span class="n">HttpResponseMessage</span><span class="p">&gt;</span> 
 <span class="nf">PartnerSendAsync</span><span class="p">(</span><span class="n">HttpMethod</span> <span class="n">method</span><span class="p">,</span> <span class="kt">string</span> <span class="n">path</span><span class="p">,</span> <span class="kt">dynamic</span> <span class="n">json</span><span class="p">)</span>
 <span class="p">{</span>
   <span class="k">using</span> <span class="p">(</span><span class="kt">var</span> <span class="n">hmacsha256</span> <span class="p">=</span> <span class="k">new</span> <span class="nf">HMACSHA256</span><span class="p">(</span><span class="n">PartnerApiKey</span><span class="p">))</span> 
   <span class="p">{</span>
     <span class="kt">var</span> <span class="n">requestMessage</span> <span class="p">=</span> <span class="k">new</span> <span class="n">HttpRequestMessage</span> <span class="p">{</span>
-      <span class="n">RequestUri</span> <span class="p">=</span> <span class="k">new</span> <span class="nf">Uri</span><span class="p">(</span><span class="s">$"</span><span class="p">{</span><span class="n">DNAPI</span><span class="p">.</span><span class="n">BaseHref</span><span class="p">}{</span><span class="n">path</span><span class="p">}</span><span class="s">"</span><span class="p">),</span>
+      <span class="n">RequestUri</span> <span class="p">=</span> <span class="k">new</span> <span class="nf">Uri</span><span class="p">(</span><span class="n">DNAPI</span><span class="p">.</span><span class="n">Client</span><span class="p">.</span><span class="n">BaseAddress</span><span class="p">,</span> <span class="n">path</span><span class="p">),</span>
       <span class="n">Method</span> <span class="p">=</span> <span class="n">method</span><span class="p">,</span>
       <span class="n">Content</span> <span class="p">=</span> <span class="k">new</span> <span class="nf">StringContent</span><span class="p">(</span>
         <span class="n">JsonConvert</span><span class="p">.</span><span class="nf">SerializeObject</span><span class="p">(</span><span class="n">json</span><span class="p">),</span>
@@ -343,7 +357,7 @@
       <span class="p">)</span>
     <span class="p">};</span>
     <span class="n">requestMessage</span><span class="p">.</span><span class="n">Headers</span><span class="p">.</span><span class="nf">Add</span><span class="p">(</span><span class="s">"Authentication"</span><span class="p">,</span> <span class="s">$"hmac "</span> <span class="p">+</span> 
-      <span class="n">PartnerApiId</span> <span class="p">+</span> <span class="s">":"</span> <span class="p">+</span> 
+      <span class="n">PartnerId</span> <span class="p">+</span> <span class="s">":"</span> <span class="p">+</span> 
       <span class="n">Convert</span><span class="p">.</span><span class="nf">ToBase64String</span><span class="p">(</span>
         <span class="n">hmacsha256</span><span class="p">.</span><span class="nf">ComputeHash</span><span class="p">(</span>
           <span class="n">AsciiEncoding</span><span class="p">.</span><span class="nf">GetBytes</span><span class="p">(</span><span class="s">$"</span><span class="p">{</span><span class="n">method</span><span class="p">}</span><span class="s">+</span><span class="p">{</span><span class="n">path</span><span class="p">}</span><span class="s">"</span><span class="p">)</span>
@@ -354,15 +368,15 @@
   <span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
-<p>For Partner API functionality, we provide a <code>PartnerApiId</code> and a <code>PartnerApiKey</code> that are used to sign requests. Partners can <a href="https://diag.net/contact">contact us</a> to obtain these, and learn more about what features are authorized for your partnership level.</p>
+<p>For Partner API functionality, we provide a <code>PartnerId</code> and a <code>PartnerApiKey</code> that are used to sign requests. Partners can <a href="https://diag.net/contact">contact us</a> to obtain these, and learn more about what features are authorized for your partnership level.</p>
 <h2 id='user-authentication'>User Authentication</h2><div class="highlight"><pre class="highlight csharp tab-csharp"><code><span class="kt">var</span> <span class="n">response</span> <span class="p">=</span> <span class="k">await</span> <span class="n">DNAPI</span><span class="p">.</span><span class="n">Client</span><span class="p">.</span><span class="nf">PostAsync</span>
 <span class="p">(</span>
-  <span class="s">$"</span><span class="p">{</span><span class="n">DNAPI</span><span class="p">.</span><span class="n">BaseHref</span><span class="p">}</span><span class="s">/api/v1/user/login"</span><span class="p">,</span>
+  <span class="s">"/api/v1/user/login"</span><span class="p">,</span>
   <span class="k">new</span> <span class="nf">StringContent</span><span class="p">(</span>
     <span class="n">JsonConvert</span><span class="p">.</span><span class="nf">SerializeObject</span><span class="p">(</span><span class="k">new</span> <span class="p">{</span>
-        <span class="n">Email</span> <span class="p">=</span> <span class="s">"janedoe@example.com"</span><span class="p">,</span>
-        <span class="n">Password</span> <span class="p">=</span> <span class="s">"Jane'sPassword"</span><span class="p">,</span>
-        <span class="n">RememberMe</span> <span class="p">=</span> <span class="k">true</span>
+      <span class="n">Email</span> <span class="p">=</span> <span class="s">"janedoe@example.com"</span><span class="p">,</span>
+      <span class="n">Password</span> <span class="p">=</span> <span class="s">"Jane'sPassword"</span><span class="p">,</span>
+      <span class="n">RememberMe</span> <span class="p">=</span> <span class="k">true</span>
     <span class="p">}),</span>
     <span class="n">Encoding</span><span class="p">.</span><span class="n">UTF8</span><span class="p">,</span> 
     <span class="s">"application/json"</span>
@@ -382,7 +396,8 @@
     <span class="c1">// you can retrieve it from the cookie handler like this:</span>
     <span class="kt">var</span> <span class="n">authCookie</span> <span class="p">=</span> <span class="n">DNAPI</span><span class="p">.</span><span class="n">CookieContainer</span><span class="p">.</span><span class="nf">GetCookies</span><span class="p">(</span>
       <span class="k">new</span> <span class="nf">Uri</span><span class="p">(</span>
-        <span class="s">$"</span><span class="p">{</span><span class="n">DNAPI</span><span class="p">.</span><span class="n">BaseHref</span><span class="p">}</span><span class="s">/api/v1/user/login"</span>
+        <span class="n">DNAPI</span><span class="p">.</span><span class="n">Client</span><span class="p">.</span><span class="n">BaseAddress</span><span class="p">,</span> 
+        <span class="s">"/api/v1/user/login"</span>
       <span class="p">)</span>
     <span class="p">)[</span><span class="s">"dnid"</span><span class="p">];</span>
 <span class="p">}</span>
@@ -392,20 +407,20 @@
   <span class="c1">// Best option is to redirect the user to the given Location: header URL</span>
   <span class="c1">// so they can resolve the problem directly.</span>
 <span class="p">}</span>
-</code></pre></div><div class="highlight"><pre class="highlight javascript tab-javascript"><code><span class="nx">jQuery</span><span class="p">.</span><span class="nx">ajax</span><span class="p">({</span>
-    <span class="na">url</span><span class="p">:</span> <span class="dl">"</span><span class="s2">https://diag.net/api/v1/user/login</span><span class="dl">"</span><span class="p">,</span>
-    <span class="na">type</span><span class="p">:</span> <span class="dl">"</span><span class="s2">POST</span><span class="dl">"</span><span class="p">,</span>
-    <span class="na">contentType</span><span class="p">:</span> <span class="dl">"</span><span class="s2">application/json</span><span class="dl">"</span><span class="p">,</span>
-    <span class="na">data</span><span class="p">:</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">({</span>
-        <span class="dl">"</span><span class="s2">Email</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">janedoe@example.com</span><span class="dl">"</span><span class="p">,</span>
-        <span class="dl">"</span><span class="s2">Password</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">Jane'sPassword</span><span class="dl">"</span><span class="p">,</span>
-        <span class="dl">"</span><span class="s2">RememberMe</span><span class="dl">"</span><span class="p">:</span> <span class="kc">true</span>
-    <span class="p">})</span>
+</code></pre></div><div class="highlight"><pre class="highlight javascript tab-javascript"><code><span class="nx">$</span><span class="p">.</span><span class="nx">ajax</span><span class="p">({</span>
+  <span class="na">url</span><span class="p">:</span> <span class="dl">"</span><span class="s2">https://diag.net/api/v1/user/login</span><span class="dl">"</span><span class="p">,</span>
+  <span class="na">type</span><span class="p">:</span> <span class="dl">"</span><span class="s2">POST</span><span class="dl">"</span><span class="p">,</span>
+  <span class="na">contentType</span><span class="p">:</span> <span class="dl">"</span><span class="s2">application/json</span><span class="dl">"</span><span class="p">,</span>
+  <span class="na">data</span><span class="p">:</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">({</span>
+    <span class="dl">"</span><span class="s2">Email</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">janedoe@example.com</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">Password</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">Jane'sPassword</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">RememberMe</span><span class="dl">"</span><span class="p">:</span> <span class="kc">true</span>
+  <span class="p">})</span>
 <span class="p">})</span>
 <span class="p">.</span><span class="nx">done</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">data</span><span class="p">)</span> <span class="p">{</span>
-    <span class="c1">// The User Authentication cookie is now set for future</span>
-    <span class="c1">// ajax calls. You can access the user's unique identifier </span>
-    <span class="c1">// with `data.UserKey`.</span>
+  <span class="c1">// The User Authentication cookie is now set for future</span>
+  <span class="c1">// ajax calls. You can access the user's unique identifier </span>
+  <span class="c1">// with `data.UserKey`.</span>
 <span class="p">});</span>
 </code></pre></div>
 <p>Other API endpoints require <em>User Authentication</em>, i.e. the same <code>dnid</code> cookie that we set when users login to our website directly. This cookie can be obtained by hitting the <code>POST /api/v1/user/login</code> endpoint. The response will also include the <code>UserKey</code> that uniquely identifies the user, as well as the <code>dnid</code> cookie set in the <code>Cookies</code> header. That same <code>dnid</code> cookie must be passed with any API request that requires <em>User Authentication</em>.</p>
@@ -434,14 +449,19 @@ If you don't yet have a membership in Diagnostic Network, you can <a href="https
   </span><span class="nl">"BusinessPhone"</span><span class="p">:</span><span class="w"> </span><span class="s2">"+18005551234"</span><span class="p">,</span><span class="w">
   </span><span class="nl">"MobilePhone"</span><span class="p">:</span><span class="w"> </span><span class="s2">"+13105555678"</span><span class="p">,</span><span class="w">
   </span><span class="nl">"DateCreated"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2018-05-03T08:35:55.6492475+00:00"</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"DateLinked"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2018-05-03T08:35:55.6492475+00:00"</span><span class="w">
+  </span><span class="nl">"DateLinked"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2018-05-03T08:35:55.6492475+00:00"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"GroupInvitations"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="s2">"group-one"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"group-two"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"group-three"</span><span class="w">
+  </span><span class="p">]</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div>
 <p>Some partnerships allow for creating user accounts on Diagnostic Network, on behalf of their customers, which we refer to as “partner customers.” You may also use this API to link your existing customers to their existing account on Diagnostic Network, linked using their email address. One reason you may want to do this is to make it easier for your customers to gain access to user groups you maintain on Diagnostic Network, which can be done as part of the Partner Customer API.</p>
 
 <p>Once created, a member of DN that is linked to a partner with a Partner Customer record may receive additional benefits from the partner, such as having access to closed and private user groups, and we may allow users to display these partner relationships on their user profile on DN, creating additional awareness of these partners. </p>
 <h3 id='email-notifications'>Email Notifications</h3>
-<p>If you link or unlink an <em>existing</em> DN member to you (via the Partner Customer <code>POST</code>, <code>PUT</code>, or <code>DELETE</code> endpoints), we will notify them of the change to their account status via email. Aside from that, we will <em>not</em> send any communication to Partner Customers that have no prior relationship with DN, unless you create a Partner Customer with the <code>CreateUser</code> and <code>NotifyUser</code> parameters set to <code>true</code>, in which case we will send the user an email to allow them to set their new account password and agree to our terms of service. </p>
+<p>If you link or unlink an <em>existing</em> DN member to you (via the Partner Customer <code>POST</code>, <code>PATCH</code>, or <code>DELETE</code> endpoints), we will notify them of the change to their account status via email. Aside from that, we will <em>not</em> send any communication to Partner Customers that have no prior relationship with DN, unless you create a Partner Customer with the <code>CreateUser</code> and <code>NotifyUser</code> parameters set to <code>true</code>, in which case we will send the user an email to allow them to set their new account password and agree to our terms of service. </p>
 
 <p>You can tell whether or not a user has been sent a notification email due to your API call by referring to the <code>UserNotified</code> property in the responses.</p>
 <h2 id='create-a-partner-customer'>Create a Partner Customer</h2><div class="highlight"><pre class="highlight csharp tab-csharp"><code><span class="kt">var</span> <span class="n">response</span> <span class="p">=</span> <span class="k">await</span> <span class="n">DNAPI</span><span class="p">.</span><span class="nf">PartnerSendAsync</span>
@@ -463,6 +483,12 @@ If you don't yet have a membership in Diagnostic Network, you can <a href="https
     <span class="n">BusinessLongitude</span> <span class="p">=</span> <span class="p">(</span><span class="kt">string</span><span class="p">)</span> <span class="k">null</span><span class="p">,</span>
     <span class="n">BusinessPhone</span> <span class="p">=</span> <span class="s">"+18005551234"</span><span class="p">,</span>
     <span class="n">MobilePhone</span> <span class="p">=</span> <span class="s">"+13105555678"</span><span class="p">,</span>
+    <span class="c1">// if you're inviting the user to your group(s)</span>
+    <span class="n">GroupInvitations</span> <span class="p">=</span> <span class="k">new</span> <span class="n">List</span><span class="p">&lt;</span><span class="kt">int</span><span class="p">&gt;</span> <span class="p">{</span>
+      <span class="s">"group-one"</span><span class="p">,</span>
+      <span class="s">"group-two"</span><span class="p">,</span>
+      <span class="s">"group-three"</span>
+    <span class="p">},</span>
     <span class="n">CreateUser</span> <span class="p">=</span> <span class="k">true</span> <span class="c1">// or `false` for stub user</span>
   <span class="p">}</span>
 <span class="p">);</span>
@@ -481,25 +507,33 @@ If you don't yet have a membership in Diagnostic Network, you can <a href="https
 (Note the <code>PartnerCustomerKey</code>, which you will want to store.)</p>
 </blockquote>
 <div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-  </span><span class="nl">"PartnerCustomerKey"</span><span class="p">:</span><span class="w"> </span><span class="s2">"p0123456789abcdefghijklmno"</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"Email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"janedoe@example.com"</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"EmailAlt"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"Name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Jane Doe"</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"BusinessName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Jane's Auto Repair"</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"BusinessStreet"</span><span class="p">:</span><span class="w"> </span><span class="s2">"123 Main Street"</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"BusinessCity"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Los Angeles"</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"BusinessStateCode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"CA"</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"BusinessCountryCode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"US"</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"BusinessPostalCode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"90210"</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"BusinessCounty"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Los Angeles County"</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"BusinessLatitude"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"BusinessLongitude"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"BusinessPhone"</span><span class="p">:</span><span class="w"> </span><span class="s2">"+18005551234"</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"MobilePhone"</span><span class="p">:</span><span class="w"> </span><span class="s2">"+13105555678"</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"DateCreated"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2018-05-03T08:35:55.6492475+00:00"</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"DateLinked"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2018-05-03T08:35:55.6492475+00:00"</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"UserNotified"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
-</span><span class="p">}</span><span class="w">
+  </span><span class="nl">"PartnerCustomer"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"PartnerCustomerKey"</span><span class="p">:</span><span class="w"> </span><span class="s2">"p0123456789abcdefghijklmno"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"Email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"janedoe@example.com"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"EmailAlt"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"Name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Jane Doe"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"BusinessName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Jane's Auto Repair"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"BusinessStreet"</span><span class="p">:</span><span class="w"> </span><span class="s2">"123 Main Street"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"BusinessCity"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Los Angeles"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"BusinessStateCode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"CA"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"BusinessCountryCode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"US"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"BusinessPostalCode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"90210"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"BusinessCounty"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Los Angeles County"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"BusinessLatitude"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"BusinessLongitude"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"BusinessPhone"</span><span class="p">:</span><span class="w"> </span><span class="s2">"+18005551234"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"MobilePhone"</span><span class="p">:</span><span class="w"> </span><span class="s2">"+13105555678"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"DateCreated"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2018-05-03T08:35:55.6492475+00:00"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"DateLinked"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2018-05-03T08:35:55.6492475+00:00"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"UserNotified"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"GroupInvitations"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+      </span><span class="s2">"group-one"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"group-two"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"group-three"</span><span class="w">
+    </span><span class="p">]</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="s2">"GroupInvitationErrors: []
+}
 </span></code></pre></div>
 <p>As a partner, with this API you can create either <strong>stub</strong> or <strong>real</strong> user accounts on Diagnostic Network. In either scenario, you must have <strong>permission from your customer</strong> to share their data with Diagnostic Network. Our <a href="https://diag.net/privacy">privacy policy</a> explains how we operate, but to put it bluntly, we don&#39;t spam our users and we don&#39;t allow others to spam our users, and this includes the user data provided by partners. </p>
 
@@ -602,6 +636,11 @@ Create Account. </li>
 <td><code>decimal</code></td>
 <td>(Optional) The business longitude coordinates.</td>
 </tr>
+<tr>
+<td>GroupInvitations</td>
+<td><code>array&lt;string&gt;</code></td>
+<td>(Optional) Array of your user groups to which this user will have access.</td>
+</tr>
 </tbody></table>
 <h2 id='get-a-partner-customer'>Get a Partner Customer</h2><div class="highlight"><pre class="highlight csharp tab-csharp"><code><span class="kt">var</span> <span class="n">response</span> <span class="p">=</span> <span class="k">await</span> <span class="n">DNAPI</span><span class="p">.</span><span class="nf">PartnerSendAsync</span>
 <span class="p">(</span>
@@ -637,7 +676,12 @@ Create Account. </li>
   </span><span class="nl">"BusinessPhone"</span><span class="p">:</span><span class="w"> </span><span class="s2">"+18005551234"</span><span class="p">,</span><span class="w">
   </span><span class="nl">"MobilePhone"</span><span class="p">:</span><span class="w"> </span><span class="s2">"+13105555678"</span><span class="p">,</span><span class="w">
   </span><span class="nl">"DateCreated"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2018-05-03T08:35:55.6492475+00:00"</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"DateLinked"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2018-05-03T08:35:55.6492475+00:00"</span><span class="w">
+  </span><span class="nl">"DateLinked"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2018-05-03T08:35:55.6492475+00:00"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"GroupInvitations"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="s2">"group-one"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"group-two"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"group-three"</span><span class="w">
+  </span><span class="p">]</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div>
 <p>This endpoint retrieves a Partner Customer that you&#39;ve previously created.</p>
@@ -661,7 +705,12 @@ Create Account. </li>
   <span class="s">$"/api/v1/partner/customer/</span><span class="p">{</span><span class="n">PartnerCustomerKey</span><span class="p">}</span><span class="s">"</span><span class="p">,</span>
   <span class="k">new</span> 
   <span class="p">{</span>
-    <span class="n">Email</span> <span class="p">=</span> <span class="s">"janedoe2@example.com"</span>
+    <span class="n">Email</span> <span class="p">=</span> <span class="s">"janedoe2@example.com"</span><span class="p">,</span>
+    <span class="c1">// Removing them from other groups you may have invited</span>
+    <span class="c1">// them to, and only letting them access your group-three.</span>
+    <span class="n">GroupInvitations</span> <span class="p">=</span> <span class="k">new</span> <span class="n">List</span><span class="p">&lt;</span><span class="kt">int</span><span class="p">&gt;</span> <span class="p">{</span>
+      <span class="s">"group-three"</span>
+    <span class="p">}</span>
   <span class="p">}</span>
 <span class="p">);</span>
 
@@ -677,25 +726,28 @@ Create Account. </li>
 <p>The update customer API call returns JSON like this.</p>
 </blockquote>
 <div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-  </span><span class="nl">"PartnerCustomerKey"</span><span class="p">:</span><span class="w"> </span><span class="s2">"p0123456789abcdefghijklmno"</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"Email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"janedoe2@example.com"</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"EmailAlt"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"Name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Jane Doe"</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"BusinessName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Jane's Auto Repair"</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"BusinessStreet"</span><span class="p">:</span><span class="w"> </span><span class="s2">"123 Main Street"</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"BusinessCity"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Los Angeles"</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"BusinessStateCode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"CA"</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"BusinessCountryCode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"US"</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"BusinessPostalCode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"90210"</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"BusinessCounty"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Los Angeles County"</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"BusinessLatitude"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"BusinessLongitude"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"BusinessPhone"</span><span class="p">:</span><span class="w"> </span><span class="s2">"+18005551234"</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"MobilePhone"</span><span class="p">:</span><span class="w"> </span><span class="s2">"+13105555678"</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"DateCreated"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2018-05-03T08:35:55.6492475+00:00"</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"DateLinked"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2018-05-03T08:35:55.6492475+00:00"</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"UserNotified"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
-</span><span class="p">}</span><span class="w">
+  </span><span class="nl">"PartnerCustomer"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"PartnerCustomerKey"</span><span class="p">:</span><span class="w"> </span><span class="s2">"p0123456789abcdefghijklmno"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"Email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"janedoe2@example.com"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"EmailAlt"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"Name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Jane Doe"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"BusinessName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Jane's Auto Repair"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"BusinessStreet"</span><span class="p">:</span><span class="w"> </span><span class="s2">"123 Main Street"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"BusinessCity"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Los Angeles"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"BusinessStateCode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"CA"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"BusinessCountryCode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"US"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"BusinessPostalCode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"90210"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"BusinessCounty"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Los Angeles County"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"BusinessLatitude"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"BusinessLongitude"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"BusinessPhone"</span><span class="p">:</span><span class="w"> </span><span class="s2">"+18005551234"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"MobilePhone"</span><span class="p">:</span><span class="w"> </span><span class="s2">"+13105555678"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"DateCreated"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2018-05-03T08:35:55.6492475+00:00"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"DateLinked"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2018-05-03T08:35:55.6492475+00:00"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"UserNotified"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="s2">"GroupInvitationErrors: []
+}
 </span></code></pre></div>
 <p>Updating a Partner Customer is normally useful for adjusting metadata stored with the Partner Customer account that can impact their benefits on Diagnostic Network. For example, adding or removing closed/private user groups on DN that the Partner Customer is authorized to join.</p>
 
@@ -790,6 +842,11 @@ Create Account. </li>
 <td>BusinessLongitude</td>
 <td><code>decimal</code></td>
 <td>(Optional) The business longitude coordinates.</td>
+</tr>
+<tr>
+<td>GroupInvitations</td>
+<td><code>array&lt;string&gt;</code></td>
+<td>(Optional) Array of your user groups to which this user will have access. If this is different from a previous <code>POST</code> or <code>PATCH</code> request, they&#39;ll be removed from any groups not listed here.</td>
 </tr>
 </tbody></table>
 <h2 id='delete-a-partner-customer'>Delete a Partner Customer</h2><div class="highlight"><pre class="highlight csharp tab-csharp"><code><span class="kt">var</span> <span class="n">response</span> <span class="p">=</span> <span class="k">await</span> <span class="n">DNAPI</span><span class="p">.</span><span class="nf">PartnerSendAsync</span>
