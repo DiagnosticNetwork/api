@@ -506,7 +506,9 @@ If you don't yet have a membership in Diagnostic Network, you can <a href="https
         <span class="n">OrEven</span> <span class="p">=</span> <span class="k">true</span>
       <span class="p">}</span>
     <span class="p">},</span>
-    <span class="n">CreateUser</span> <span class="p">=</span> <span class="k">true</span> <span class="c1">// or `false` for stub user</span>
+    <span class="n">CreateUser</span> <span class="p">=</span> <span class="k">true</span><span class="p">,</span> <span class="c1">// or `false` for stub user</span>
+    <span class="n">NotifyUser</span> <span class="p">=</span> <span class="k">true</span><span class="p">,</span> <span class="c1">// (recommended) notify the user</span>
+    <span class="n">Introduction</span> <span class="p">=</span> <span class="s">"We look forward to seeing you on DN!"</span>
   <span class="p">}</span>
 <span class="p">);</span>
 
@@ -543,7 +545,6 @@ If you don't yet have a membership in Diagnostic Network, you can <a href="https
     </span><span class="nl">"MobilePhone"</span><span class="p">:</span><span class="w"> </span><span class="s2">"+13105555678"</span><span class="p">,</span><span class="w">
     </span><span class="nl">"DateCreated"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2018-05-03T08:35:55.6492475+00:00"</span><span class="p">,</span><span class="w">
     </span><span class="nl">"DateLinked"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2018-05-03T08:35:55.6492475+00:00"</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"UserNotified"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
     </span><span class="nl">"GroupInvitations"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
       </span><span class="s2">"group-one"</span><span class="p">,</span><span class="w">
       </span><span class="s2">"group-two"</span><span class="p">,</span><span class="w">
@@ -557,6 +558,7 @@ If you don't yet have a membership in Diagnostic Network, you can <a href="https
       </span><span class="p">}</span><span class="w">
     </span><span class="p">}</span><span class="w">
   </span><span class="p">},</span><span class="w">
+  </span><span class="nl">"UserNotified"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
   </span><span class="s2">"GroupInvitationErrors: []
 }
 </span></code></pre></div>
@@ -594,7 +596,17 @@ Create Account. </li>
 <tr>
 <td>CreateUser</td>
 <td><code>boolean</code></td>
-<td>If true, create a real user; otherwise, stub user.</td>
+<td>If true (the default), create a real user; otherwise, a stub user.</td>
+</tr>
+<tr>
+<td>NotifyUser</td>
+<td><code>boolean</code></td>
+<td>If true (the default), send an email notification to the user, which is recommended as it allows us to give them a link to complete their DN account. If you&#39;ve invited them to any groups using <code>GroupInvitations</code>, these will also be included in this email.</td>
+</tr>
+<tr>
+<td>Introduction</td>
+<td><code>string</code></td>
+<td>(Optional) If set, we&#39;ll display this HTML message from you in the email we send to the user, at the top of the email, with your partner name signed at the end. If the account you&#39;re creating is not being done in realtime at your customer&#39;s request, we highly recommend using this to explain to your customer why the account was created.</td>
 </tr>
 <tr>
 <td>Email</td>
