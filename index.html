@@ -496,6 +496,10 @@ If you don't yet have a membership in Diagnostic Network, you can <a href="https
 <h3 id='http-request-2'>HTTP Request</h3>
 <p><code>GET /api/v1/messages?o=atom</code></p>
 <h3 id='url-querystring-parameters'>URL Querystring Parameters</h3>
+<blockquote>
+<p>NOTE: For any parameters that contain something other than a letter or a number, the value must be URL encoded first.</p>
+</blockquote>
+
 <table><thead>
 <tr>
 <th>Name</th>
@@ -531,10 +535,6 @@ If you don't yet have a membership in Diagnostic Network, you can <a href="https
 <td>Vehicle Type Group: <code>0</code> (Unknown), <code>2</code> (Light Duty), <code>7</code> (Powersports), or <code>8</code> (Medium/Heavy Duty). E.g. <code>v=8</code> would filter down to just medium/heavy duty discussions. By default, we don&#39;t constrain the vehicle type group. Currently, Light Duty (<code>v=2</code>) are the most commonly discussed vehicles on Diagnostic Network.</td>
 </tr>
 </tbody></table>
-
-<blockquote>
-<p>NOTE: For any parameters that contain something other than a letter or a number, the value must be URL encoded first.</p>
-</blockquote>
 <h2 id='message-topics'>Message Topics</h2>
 <blockquote>
 <p>NOTE: Eventually we plan to offer an API endpoint to retrieve the current mapping of all message topics and user groups. If you need a User Group TopicId in the meantime, please contact us.</p>
@@ -701,10 +701,6 @@ If you don't yet have a membership in Diagnostic Network, you can <a href="https
 </tr>
 </tbody></table>
 <h2 id='message-types'>Message Types</h2>
-<blockquote>
-<p>NOTE: Eventually we plan to offer an API endpoint to retrieve the current mapping of all message types.</p>
-</blockquote>
-
 <p>This mapping from <code>TypeId</code> to a type name shouldn&#39;t change, but the available types will change over time. </p>
 
 <table><thead>
