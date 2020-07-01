@@ -49,6 +49,8 @@ You can use this endpoint in an RSS feed reader (or in Slack using `/feed subscr
 
 ### URL Querystring Parameters
 
+> NOTE: For any parameters that contain something other than a letter or a number, the value must be URL encoded first.
+
 Name | Description
 ---- | -----------
 o    | **(Required)** Output Format: Currently we support `atom` or `rss` output formats. Atom is recommended if you want to see the author's name.
@@ -62,8 +64,6 @@ v    | Vehicle Type Group: `0` (Unknown), `2` (Light Duty), `7` (Powersports), o
 [//]: # (k    | Keywords: Filter the results down to matching keywords. This may change over time, but currently the keywords search the following message properties: title, author name, message body, metadata (e.g. symptoms, DTCs, vehicles). Multiple keywords should be separated by spaces (encoded as `%20`). The more keywords supplied, the more constrained your search will be, because every keyword must match. To search for a phrase, wrap the keywords in quotation marks (`%22`). Example: `k=toyota corolla` will match any post containing "toyota" and "corolla", anywhere in our searched message properties, wheras `k="Toyota Corolla"` would only match messages with "toyota" followed directly by "corolla". (Keywords are _not_ case sensitive.))
 [//]: # (mk   | Make: Any make name, such as Ford, Toyota, and so on. You can specify multiple `mk` parameters to filter down to messages matching _any_ of those given makes. This field is case sensitive: the make you supply must match the way we spell it in our list of makes on the site. See [Makes](#makes))
 [//]: # (nr    | No Replies: If you're searching with the `k` or `uk` parameters, the results will begin to include replies as well. You can prevent this by setting `nr=1` in your request.)
-
-> NOTE: For any parameters that contain something other than a letter or a number, the value must be URL encoded first.
 
 ## Message Topics
 
@@ -106,8 +106,6 @@ TopicId | TopicKey           | Name
 
 
 ## Message Types
-
-> NOTE: Eventually we plan to offer an API endpoint to retrieve the current mapping of all message types.
 
 This mapping from `TypeId` to a type name shouldn't change, but the available types will change over time. 
 
