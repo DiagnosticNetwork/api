@@ -196,7 +196,7 @@
   color: #f92672;
 }
     </style>
-    <link href="stylesheets/screen-3e20236a.css" rel="stylesheet" media="screen" />
+    <link href="stylesheets/screen-37629b41.css" rel="stylesheet" media="screen" />
     <link href="stylesheets/print-c427a123.css" rel="stylesheet" media="print" />
       <script src="javascripts/all-c5541673.js"></script>
   </head>
@@ -245,6 +245,26 @@
               </ul>
           </li>
           <li>
+            <a href="#messages" class="toc-h1 toc-link" data-title="Messages">Messages</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#embeddable-html" class="toc-h2 toc-link" data-title="Embeddable HTML">Embeddable HTML</a>
+                  </li>
+                  <li>
+                    <a href="#get-messages" class="toc-h2 toc-link" data-title="Get Messages">Get Messages</a>
+                  </li>
+                  <li>
+                    <a href="#message-topics" class="toc-h2 toc-link" data-title="Message Topics">Message Topics</a>
+                  </li>
+                  <li>
+                    <a href="#message-types" class="toc-h2 toc-link" data-title="Message Types">Message Types</a>
+                  </li>
+                  <li>
+                    <a href="#social-media-feeds" class="toc-h2 toc-link" data-title="Social Media Feeds">Social Media Feeds</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
             <a href="#partner-customers" class="toc-h1 toc-link" data-title="Partner Customers">Partner Customers</a>
               <ul class="toc-list-h2">
                   <li>
@@ -276,7 +296,7 @@
       <div class="dark-box"></div>
       <div class="content">
         <h1 id='diagnostic-network-api'>Diagnostic Network API</h1><h3 id='api-documentation'>API Documentation</h3>
-<p>This page documents the parts of our API which are currently public. Some of these API endpoints are only available to our partners. You can view code examples in the area to the right. We will be exposing more of our API over time. If you have any comments, questions, or requests, please open a <a href="https://github.com/DiagnosticNetwork/api/issues/new/choose">new issue</a>.</p>
+<p>This page documents the parts of our API which are currently public. Some of these API endpoints are only available to our partners. You can view code examples throughout<span class="hide-xs"> in the area to the right</span>. We will be exposing more of our API over time. If you have any comments, questions, or requests, please open a <a href="https://github.com/DiagnosticNetwork/api/issues/new/choose">new issue</a>.</p>
 <h3 id='overview-of-diagnostic-network'>Overview of Diagnostic Network</h3>
 <p><a href="https://diag.net">Diagnostic Network</a> is a community platform to support the vehicle service industry. The primary interface is a continuous message &quot;stream,&quot; similar to Facebook, Twitter, and similar social networks, with the difference being each message in the stream is a link to a complete, threaded discussion. </p>
 
@@ -428,6 +448,330 @@
 <aside class="notice">
 If you don't yet have a membership in Diagnostic Network, you can <a href="https://diag.net/account/register">create one here</a>.
 </aside>
+<h1 id='messages'>Messages</h1>
+<p>Currently you can access message feeds from Diagnostic Network as RSS/Atom, embeddable HTML (suitable for dropping into an <code>iframe</code> on your website), or on social media like Twitter and Facebook.</p>
+<h2 id='embeddable-html'>Embeddable HTML</h2><div class="highlight"><pre class="highlight html tab-html"><code><span class="nt">&lt;iframe</span> <span class="na">src=</span><span class="s">"https://diag.net/case-studies?e=1"</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;iframe</span> <span class="na">src=</span><span class="s">"https://diag.net/t/driveability?e=1"</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;iframe</span> <span class="na">src=</span><span class="s">"https://diag.net/case-studies/t/driveability?e=1"</span><span class="nt">/&gt;</span>
+</code></pre></div>
+<blockquote>
+<p>The above HTML code embeds three streams into iframes: recent Case Studies, recent Driveability discussions, and recent Driveability Case Studies, respectively.</p>
+</blockquote>
+
+<p>It&#39;s easy to embed any message stream from Diagnostic Network on your website, using embeddable feeds. The easiest way is to navigate around DN until you are on the view that you would like to embed, and then add <code>?e=1</code> to the URL. If the user is not logged in to Diagnostic Network, this embed will show a &quot;About DN&quot; opening box. If you&#39;d like to hide that, just add <code>&amp;hd=1</code> to the querystring. </p>
+<h3 id='http-request'>HTTP Request</h3>
+<p><code>GET /?e=1</code> (all recent discussions)</p>
+
+<p><code>GET /{TypeKey}?e=1</code> (filter by type)</p>
+
+<p><code>GET /t/{TopicKey}?e=1</code> (filter by topic)</p>
+
+<p><code>GET /t/{TopicKey}?e=1</code> (filter by user group)</p>
+
+<p><code>GET /{TypeKey}/t/{TopicKey}?e=1</code> (filter by type and topic)</p>
+
+<p><code>GET /{TypeKey}/g/{TopicKey}?e=1</code> (filter by type and user group)</p>
+<h3 id='url-parameters'>URL Parameters</h3>
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>TopicKey</td>
+<td>(Optional) Filter messages by topic or user group. If user group, make sure to use <code>/g/</code> in the URL instead of the <code>/t/</code>. See <a href="#message-topics">Message Topics</a> for a list of topic TopicKeys. You can also ascertain any User Group&#39;s TopicKey by looking at the URL for any <a href="https://diag.net/groups">user group</a>.</td>
+</tr>
+<tr>
+<td>TypeKey</td>
+<td>(Optional) Filter messages by message type. See <a href="#message-types">Message Types</a> for a list of TypeKeys.</td>
+</tr>
+</tbody></table>
+<h2 id='get-messages'>Get Messages</h2>
+<p>This API endpoint does <em>not</em> require any authentication. But if the request uses <a href="#user-authentication">User Authentication</a>, the results will return more information, e.g. the messages will no longer be anonymized, and full names of members will be displayed. In this scenario, please do <strong>not</strong> publish any of the returned data publicly, to preserve the privacy of our members. Instead, please use the anonymous API results.</p>
+
+<p>Our Messages API will normally return the root message of each discussion happening on Diagnostic Network, not the replies. </p>
+
+<p>You can use this endpoint in an RSS feed reader (or in Slack using <code>/feed subscribe {url}</code>) by specifying <code>o=atom</code> or <code>o=rss</code> for Atom or RSS output format. We recommend Atom format as it returns the author with the results. (Soon we will publish details on obtaining messages in JSON format, keyword searching, vehicle make filtering, etc.)</p>
+<h3 id='http-request-2'>HTTP Request</h3>
+<p><code>GET /api/v1/messages?o=atom</code></p>
+<h3 id='url-querystring-parameters'>URL Querystring Parameters</h3>
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>o</td>
+<td><strong>(Required)</strong> Output Format: Currently we support <code>atom</code> or <code>rss</code> output formats. Atom is recommended if you want to see the author&#39;s name.</td>
+</tr>
+<tr>
+<td>me</td>
+<td>Returns only discussions created by the current user, requires <a href="#user-authentication">User Authentication</a>.</td>
+</tr>
+<tr>
+<td>s</td>
+<td>Sort: <code>0</code> (latest messages, the default), <code>1</code> (latest bookmarked messages first, requires <a href="#user-authentication">User Authentication</a> and will only return messages bookmarked by the current user), <code>2</code> (highest scoring first, only useful if passing keywords), <code>3</code> (for searches filtering down to bounties only, this returns not only the latest bounties, but also the most recently increased bounties), or <code>4</code> (oldest messages first).</td>
+</tr>
+<tr>
+<td>to</td>
+<td>Topic (or User Group): E.g. <code>1</code> for <code>Autonomous Vehicles</code>, <code>2</code> for <code>Braking</code>, and so on. You can specify multiple <code>to</code> parameters to filter down to messages matching <em>any</em> of those given topics/groups. For a full breakdown of available types, see <a href="#message-topics">Message Topics</a>. <strong>NOTE:</strong> Soon this parameter will accept topic keys as well, e.g. <code>braking</code> instead of <code>2</code>.</td>
+</tr>
+<tr>
+<td>ty</td>
+<td>Type: E.g. 1 for <code>Case Studies</code>, 2 for <code>Demonstrations</code>, and so on. You can specify multiple <code>ty</code> parameters to filter down to messages matching <em>any</em> of those given types. For a full breakdown of available types, see <a href="#message-types">Message Types</a>.</td>
+</tr>
+<tr>
+<td>uk</td>
+<td>UserKey: Filter the stream down to messages written by a specific user. The UserKey is the unique identifier found in a user&#39;s profile URL. E.g. Diagnostic Network&#39;s brand account <code>UserKey</code> is <code>u3udukosklafng6pp4647hrq1u</code>.</td>
+</tr>
+<tr>
+<td>v</td>
+<td>Vehicle Type Group: <code>0</code> (Unknown), <code>2</code> (Light Duty), <code>7</code> (Powersports), or <code>8</code> (Medium/Heavy Duty). E.g. <code>v=8</code> would filter down to just medium/heavy duty discussions. By default, we don&#39;t constrain the vehicle type group. Currently, Light Duty (<code>v=2</code>) are the most commonly discussed vehicles on Diagnostic Network.</td>
+</tr>
+</tbody></table>
+
+<blockquote>
+<p>NOTE: For any parameters that contain something other than a letter or a number, the value must be URL encoded first.</p>
+</blockquote>
+<h2 id='message-topics'>Message Topics</h2>
+<blockquote>
+<p>NOTE: Eventually we plan to offer an API endpoint to retrieve the current mapping of all message topics and user groups. If you need a User Group TopicId in the meantime, please contact us.</p>
+</blockquote>
+
+<p>The available topics may change over time. In addition to topics, every user group can also be specified if you know the group&#39;s TopicId. </p>
+
+<table><thead>
+<tr>
+<th>TopicId</th>
+<th>TopicKey</th>
+<th>Name</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>1</td>
+<td>autonomousvehicles</td>
+<td>Autonomous Vehicles</td>
+</tr>
+<tr>
+<td>2</td>
+<td>braking</td>
+<td>Braking</td>
+</tr>
+<tr>
+<td>3</td>
+<td>chassis</td>
+<td>Chassis</td>
+</tr>
+<tr>
+<td>4</td>
+<td>collision</td>
+<td>Collision</td>
+</tr>
+<tr>
+<td>5</td>
+<td>diagnosticnetwork</td>
+<td>Diagnostic Network</td>
+</tr>
+<tr>
+<td>6</td>
+<td>driveability</td>
+<td>Driveability</td>
+</tr>
+<tr>
+<td>7</td>
+<td>drivetrain</td>
+<td>Drivetrain</td>
+</tr>
+<tr>
+<td>8</td>
+<td>education</td>
+<td>Education</td>
+</tr>
+<tr>
+<td>9</td>
+<td>electrical</td>
+<td>Electrical</td>
+</tr>
+<tr>
+<td>10</td>
+<td>electrification</td>
+<td>Electrification</td>
+</tr>
+<tr>
+<td>11</td>
+<td>emissions</td>
+<td>Emissions</td>
+</tr>
+<tr>
+<td>12</td>
+<td>employment</td>
+<td>Employment</td>
+</tr>
+<tr>
+<td>14</td>
+<td>fabrication</td>
+<td>Fabrication</td>
+</tr>
+<tr>
+<td>46</td>
+<td>heavyduty</td>
+<td>Heavy Duty</td>
+</tr>
+<tr>
+<td>15</td>
+<td>hvac</td>
+<td>HVAC</td>
+</tr>
+<tr>
+<td>16</td>
+<td>industry</td>
+<td>Industry</td>
+</tr>
+<tr>
+<td>102</td>
+<td>infotainment</td>
+<td>Infotainment</td>
+</tr>
+<tr>
+<td>17</td>
+<td>management</td>
+<td>Management</td>
+</tr>
+<tr>
+<td>18</td>
+<td>marketplace</td>
+<td>Marketplace</td>
+</tr>
+<tr>
+<td>19</td>
+<td>motorsports</td>
+<td>Motorsports</td>
+</tr>
+<tr>
+<td>45</td>
+<td>networkcomms</td>
+<td>Network Communications</td>
+</tr>
+<tr>
+<td>20</td>
+<td>other</td>
+<td>Other</td>
+</tr>
+<tr>
+<td>21</td>
+<td>parts</td>
+<td>Parts</td>
+</tr>
+<tr>
+<td>22</td>
+<td>powersports</td>
+<td>Powersports</td>
+</tr>
+<tr>
+<td>23</td>
+<td>programming</td>
+<td>Programming</td>
+</tr>
+<tr>
+<td>24</td>
+<td>propulsion</td>
+<td>Propulsion</td>
+</tr>
+<tr>
+<td>25</td>
+<td>restoration</td>
+<td>Restoration</td>
+</tr>
+<tr>
+<td>26</td>
+<td>safety</td>
+<td>Safety</td>
+</tr>
+<tr>
+<td>27</td>
+<td>security</td>
+<td>Security</td>
+</tr>
+<tr>
+<td>28</td>
+<td>tooling</td>
+<td>Tooling</td>
+</tr>
+</tbody></table>
+<h2 id='message-types'>Message Types</h2>
+<blockquote>
+<p>NOTE: Eventually we plan to offer an API endpoint to retrieve the current mapping of all message types.</p>
+</blockquote>
+
+<p>This mapping from <code>TypeId</code> to a type name shouldn&#39;t change, but the available types will change over time. </p>
+
+<table><thead>
+<tr>
+<th>TypeId</th>
+<th>TypeKey</th>
+<th>Name</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>10</td>
+<td>announcements</td>
+<td>Announcements</td>
+</tr>
+<tr>
+<td>9</td>
+<td>bounties</td>
+<td>Bounties</td>
+</tr>
+<tr>
+<td>1</td>
+<td>case-studies</td>
+<td>Case Studies</td>
+</tr>
+<tr>
+<td>2</td>
+<td>demos</td>
+<td>Demonstrations</td>
+</tr>
+<tr>
+<td>3</td>
+<td>discussions</td>
+<td>Discussions</td>
+</tr>
+<tr>
+<td>7</td>
+<td>events</td>
+<td>Events</td>
+</tr>
+<tr>
+<td>4</td>
+<td>questions</td>
+<td>Questions</td>
+</tr>
+<tr>
+<td>8</td>
+<td>resources</td>
+<td>Resources (special type that doesn&#39;t normally appear in message feeds, except when the user is searching with keywords)</td>
+</tr>
+<tr>
+<td>5</td>
+<td>surveys</td>
+<td>Surveys</td>
+</tr>
+<tr>
+<td>6</td>
+<td>tech-tips</td>
+<td>Tech Tips</td>
+</tr>
+</tbody></table>
+<h2 id='social-media-feeds'>Social Media Feeds</h2>
+<p>Every new discussion started on Diagnostic Network that is not posted to a <em>private</em> user group is posted to our Twitter and Facebook feeds:</p>
+
+<ul>
+<li><a href="https://twitter.com/OnDiagNetwork">twitter.com/OnDiagNetwork</a></li>
+<li><a href="https://facebook.com/OnDiagNetwork">facebook.com/OnDiagNetwork</a></li>
+</ul>
 <h1 id='partner-customers'>Partner Customers</h1>
 <blockquote>
 <p>Partner Customer objects look like this:</p>
@@ -469,9 +813,13 @@ If you don't yet have a membership in Diagnostic Network, you can <a href="https
 
 <p>Once created, a member of DN that is linked to a partner with a Partner Customer record may receive additional benefits from the partner, such as having access to closed and private user groups, and we may allow users to display these partner relationships on their user profile on DN, creating additional awareness of these partners. </p>
 <h3 id='email-notifications'>Email Notifications</h3>
-<p>If you link or unlink an <em>existing</em> DN member to you (via the Partner Customer <code>POST</code>, <code>PATCH</code>, or <code>DELETE</code> endpoints), we will notify them of the change to their account status via email. Aside from that, we will <em>not</em> send any communication to Partner Customers that have no prior relationship with DN, unless you create a Partner Customer with the <code>CreateUser</code> and <code>NotifyUser</code> parameters set to <code>true</code>, in which case we will send the user an email to allow them to set their new account password and agree to our terms of service. </p>
+<p>If you link or unlink an <em>existing</em> DN member to you (via the Partner Customer <code>POST</code>, <code>PATCH</code>, or <code>DELETE</code> endpoints), we will notify them of the change to their account status via email. When you create a Partner Customer as a <em>real</em> user (setting <code>CreateUser</code> to <code>true</code>, and without setting <code>NotifyUser</code> to <code>false</code>), we&#39;ll send the user an email that lets them know about their new account. This is recommended, as it is the easiest way for the user to create the password for their new account. You can even specify a custom message we&#39;ll show above our messaging. Example:</p>
+
+<p><img src="images/partnercustomer-email-58fc3e76.png" alt="Email Notification Example" /></p>
 
 <p>You can tell whether or not a user has been sent a notification email due to your API call by referring to the <code>UserNotified</code> property in the responses.</p>
+
+<p>Aside from those situations, we will <em>not</em> send any communication to Partner Customers that have no prior relationship with us, nor will we share their email address with any third parties just as we protect our own member information according to our <a href="https://diag.net/privacy">privacy policy</a>.</p>
 <h2 id='create-a-partner-customer'>Create a Partner Customer</h2><div class="highlight"><pre class="highlight csharp tab-csharp"><code><span class="kt">var</span> <span class="n">response</span> <span class="p">=</span> <span class="k">await</span> <span class="n">DNAPI</span><span class="p">.</span><span class="nf">PartnerSendAsync</span>
 <span class="p">(</span>
   <span class="n">HttpMethod</span><span class="p">.</span><span class="n">Post</span><span class="p">,</span>
@@ -697,7 +1045,7 @@ Create Account. </li>
 <h2 id='get-a-partner-customer'>Get a Partner Customer</h2><div class="highlight"><pre class="highlight csharp tab-csharp"><code><span class="kt">var</span> <span class="n">response</span> <span class="p">=</span> <span class="k">await</span> <span class="n">DNAPI</span><span class="p">.</span><span class="nf">PartnerSendAsync</span>
 <span class="p">(</span>
   <span class="n">HttpMethod</span><span class="p">.</span><span class="n">Get</span><span class="p">,</span>
-  <span class="s">$"/api/v1/partner/customer/</span><span class="p">{</span><span class="n">PartnerCustomerKey</span><span class="p">}</span><span class="s">"</span>
+  <span class="s">$"/api/v1/partner/customer/</span><span class="p">{</span><span class="n">Identifier</span><span class="p">}</span><span class="s">"</span>
 <span class="p">);</span>
 
 <span class="k">if</span> <span class="p">(</span><span class="n">response</span><span class="p">.</span><span class="n">StatusCode</span> <span class="p">==</span> <span class="n">HttpStatusCode</span><span class="p">.</span><span class="n">OK</span><span class="p">)</span>
@@ -744,9 +1092,9 @@ Create Account. </li>
   </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div>
-<p>This endpoint retrieves a Partner Customer that you&#39;ve previously created.</p>
+<p>This endpoint retrieves a Partner Customer that you&#39;ve previously created. You can identify the customer using any of: <code>PartnerCustomerKey</code> (our identifier), <code>PartnerRemoteId</code> (your identifier), <code>Email</code>, or <code>EmailAlt</code>.</p>
 <h3 id='http-request-2'>HTTP Request</h3>
-<p><code>GET /api/v1/partner/customer/{PartnerCustomerKey}</code></p>
+<p><code>GET /api/v1/partner/customer/{Identifier}</code></p>
 <h3 id='url-parameters'>URL Parameters</h3>
 <table><thead>
 <tr>
@@ -755,14 +1103,14 @@ Create Account. </li>
 </tr>
 </thead><tbody>
 <tr>
-<td>PartnerCustomerKey</td>
-<td>The unique identifier for a previously created Partner Customer</td>
+<td>Identifier</td>
+<td>The <code>PartnerRemoteId</code>, <code>Email</code>, or <code>EmailAlt</code> you previously provided when creating or updating a Partner Customer, or the <code>PartnerCustomerKey</code> we generated when a Partner Customer was created.</td>
 </tr>
 </tbody></table>
 <h2 id='update-a-partner-customer'>Update a Partner Customer</h2><div class="highlight"><pre class="highlight csharp tab-csharp"><code><span class="kt">var</span> <span class="n">response</span> <span class="p">=</span> <span class="k">await</span> <span class="n">DNAPI</span><span class="p">.</span><span class="nf">PartnerSendAsync</span>
 <span class="p">(</span>
   <span class="n">HttpMethod</span><span class="p">.</span><span class="n">Patch</span><span class="p">,</span>
-  <span class="s">$"/api/v1/partner/customer/</span><span class="p">{</span><span class="n">PartnerCustomerKey</span><span class="p">}</span><span class="s">"</span><span class="p">,</span>
+  <span class="s">$"/api/v1/partner/customer/</span><span class="p">{</span><span class="n">Identifier</span><span class="p">}</span><span class="s">"</span><span class="p">,</span>
   <span class="k">new</span> 
   <span class="p">{</span>
     <span class="n">Email</span> <span class="p">=</span> <span class="s">"jane-work@example.com"</span><span class="p">,</span>
@@ -817,7 +1165,7 @@ Create Account. </li>
   </span><span class="s2">"GroupInvitationErrors: []
 }
 </span></code></pre></div>
-<p>Updating a Partner Customer is normally useful for adjusting metadata stored with the Partner Customer account that can impact their benefits on Diagnostic Network. For example, adding or removing closed/private user groups on DN that the Partner Customer is authorized to join.</p>
+<p>Updating a Partner Customer is normally useful for adjusting metadata stored with the Partner Customer account that can impact their benefits on Diagnostic Network. For example, adding or removing closed/private user groups on DN that the Partner Customer is authorized to join. You can identify the customer using any of: <code>PartnerCustomerKey</code> (our identifier), <code>PartnerRemoteId</code> (your identifier), <code>Email</code>, or <code>EmailAlt</code>.</p>
 
 <p>When updating a <strong>stub user</strong> Partner Customer that has not yet been linked to a real DN user account, any updated information will be used if and when the user registers to join Diagnostic Network, which can provide a better user experience for your customer. For example, if the customer changes their email address on your site, changing it on their Partner Customer record could make it easier for them to join DN later.</p>
 
@@ -825,7 +1173,7 @@ Create Account. </li>
 
 <p>To sever a relationship with a Partner Customer completely, use the <a href="#delete-a-partner-customer">Delete Partner Customer</a> endpoint.</p>
 <h3 id='http-request-3'>HTTP Request</h3>
-<p><code>PATCH /api/v1/partner/customer/{PartnerCustomerKey}</code></p>
+<p><code>PATCH /api/v1/partner/customer/{Identifier}</code></p>
 <h3 id='url-parameters-2'>URL Parameters</h3>
 <table><thead>
 <tr>
@@ -834,8 +1182,8 @@ Create Account. </li>
 </tr>
 </thead><tbody>
 <tr>
-<td>PartnerCustomerKey</td>
-<td>The unique identifier for a previously created Partner Customer</td>
+<td>Identifier</td>
+<td>The <code>PartnerRemoteId</code>, <code>Email</code>, or <code>EmailAlt</code> you previously provided when creating or updating a Partner Customer, or the <code>PartnerCustomerKey</code> we generated when a Partner Customer was created.</td>
 </tr>
 </tbody></table>
 <h3 id='patch-json-fields'>PATCH JSON Fields</h3>
@@ -935,7 +1283,7 @@ Create Account. </li>
 <h2 id='delete-a-partner-customer'>Delete a Partner Customer</h2><div class="highlight"><pre class="highlight csharp tab-csharp"><code><span class="kt">var</span> <span class="n">response</span> <span class="p">=</span> <span class="k">await</span> <span class="n">DNAPI</span><span class="p">.</span><span class="nf">PartnerSendAsync</span>
 <span class="p">(</span>
   <span class="n">HttpMethod</span><span class="p">.</span><span class="n">Delete</span><span class="p">,</span>
-  <span class="s">$"/api/v1/partner/customer/</span><span class="p">{</span><span class="n">PartnerCustomerKey</span><span class="p">}</span><span class="s">"</span>
+  <span class="s">$"/api/v1/partner/customer/</span><span class="p">{</span><span class="n">Identifier</span><span class="p">}</span><span class="s">"</span>
 <span class="p">);</span>
 
 <span class="k">if</span> <span class="p">(</span><span class="n">response</span><span class="p">.</span><span class="n">StatusCode</span> <span class="p">==</span> <span class="n">HttpStatusCode</span><span class="p">.</span><span class="n">OK</span><span class="p">)</span>
@@ -953,11 +1301,11 @@ Create Account. </li>
   </span><span class="nl">"UserNotified"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w"> 
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div>
-<p>This endpoint is used to delete a Partner Customer, and if an existing Diagnostic Network member account is linked to this record, the relationship between the partner and the DN member will be severed: they&#39;ll no longer receive any partner benefits they may have previously been receiving. The user will also be removed from any closed/private user groups they previously were subscribed to for the partner. </p>
+<p>This endpoint is used to delete a Partner Customer, and if an existing Diagnostic Network member account is linked to this record, the relationship between the partner and the DN member will be severed: they&#39;ll no longer receive any partner benefits they may have previously been receiving. The user will also be removed from any closed/private user groups they previously were subscribed to for the partner. You can identify the customer using any of: <code>PartnerCustomerKey</code> (our identifier), <code>PartnerRemoteId</code> (your identifier), <code>Email</code>, or <code>EmailAlt</code>.</p>
 
 <p>The entire partner customer record will be deleted once we have notified the user of the change to their account status. This should allow you to comply with any GDPR requests to erase all traces of a user. Until then, the GET response data includes a <code>DateLinked</code> field that will be <code>null</code> if the <code>DELETE</code> endpoint has been used on the Partner Customer.</p>
 <h3 id='http-request-4'>HTTP Request</h3>
-<p><code>DELETE /api/v1/partner/customer/{PartnerCustomerKey}</code></p>
+<p><code>DELETE /api/v1/partner/customer/{Identifier}</code></p>
 <h3 id='url-parameters-3'>URL Parameters</h3>
 <table><thead>
 <tr>
@@ -966,8 +1314,8 @@ Create Account. </li>
 </tr>
 </thead><tbody>
 <tr>
-<td>PartnerCustomerKey</td>
-<td>The unique identifier for a previously created Partner Customer</td>
+<td>Identifier</td>
+<td>The <code>PartnerRemoteId</code>, <code>Email</code>, or <code>EmailAlt</code> you previously provided when creating or updating a Partner Customer, or the <code>PartnerCustomerKey</code> we generated when a Partner Customer was created.</td>
 </tr>
 </tbody></table>
 <h1 id='errors'>Errors</h1>
