@@ -43,11 +43,13 @@ Once created, a member of DN that is linked to a partner with a Partner Customer
 
 ### Email Notifications
 
-If you link or unlink an _existing_ DN member to you (via the Partner Customer `POST`, `PATCH`, or `DELETE` endpoints), we will notify them of the change to their account status via email. Aside from that, we will _not_ send any communication to Partner Customers that have no prior relationship with DN, unless you create a Partner Customer with the `CreateUser` and `NotifyUser` parameters set to `true`, in which case we will send the user an email to allow them to set their new account password and agree to our terms of service. 
+If you link or unlink an _existing_ DN member to you (via the Partner Customer `POST`, `PATCH`, or `DELETE` endpoints), we will notify them of the change to their account status via email. When you create a Partner Customer as a _real_ user (setting `CreateUser` to `true`, and without setting `NotifyUser` to `false`), we'll send the user an email that lets them know about their new account. This is recommended, as it is the easiest way for the user to create the password for their new account. You can even specify a custom message we'll show above our messaging. Example:
+
+![Email Notification Example](/images/partnercustomer-email.png)
 
 You can tell whether or not a user has been sent a notification email due to your API call by referring to the `UserNotified` property in the responses.
 
-
+Aside from those situations, we will _not_ send any communication to Partner Customers that have no prior relationship with us, nor will we share their email address with any third parties just as we protect our own member information according to our [privacy policy](https://diag.net/privacy).
 
 ## Create a Partner Customer
 
@@ -198,7 +200,7 @@ Metadata             | `json`          | (Optional) Any additional data DN or th
 var response = await DNAPI.PartnerSendAsync
 (
   HttpMethod.Get,
-  $"/api/v1/partner/customer/{PartnerCustomerKey}"
+  $"/api/v1/partner/customer/{Identifier}"
 );
 
 if (response.StatusCode == HttpStatusCode.OK)
@@ -247,17 +249,17 @@ if (response.StatusCode == HttpStatusCode.OK)
 }
 ```
 
-This endpoint retrieves a Partner Customer that you've previously created.
+This endpoint retrieves a Partner Customer that you've previously created. You can identify the customer using any of: `PartnerCustomerKey` (our identifier), `PartnerRemoteId` (your identifier), `Email`, or `EmailAlt`.
 
 ### HTTP Request
 
-`GET /api/v1/partner/customer/{PartnerCustomerKey}`
+`GET /api/v1/partner/customer/{Identifier}`
 
 ### URL Parameters
 
 Parameter          | Description
 ------------------ | -----------
-PartnerCustomerKey | The unique identifier for a previously created Partner Customer
+Identifier         | The `PartnerRemoteId`, `Email`, or `EmailAlt` you previously provided when creating or updating a Partner Customer, or the `PartnerCustomerKey` we generated when a Partner Customer was created.
 
 
 ## Update a Partner Customer
@@ -266,7 +268,7 @@ PartnerCustomerKey | The unique identifier for a previously created Partner Cust
 var response = await DNAPI.PartnerSendAsync
 (
   HttpMethod.Patch,
-  $"/api/v1/partner/customer/{PartnerCustomerKey}",
+  $"/api/v1/partner/customer/{Identifier}",
   new 
   {
     Email = "jane-work@example.com",
@@ -323,7 +325,7 @@ if (response.StatusCode == HttpStatusCode.OK)
 }
 ```
 
-Updating a Partner Customer is normally useful for adjusting metadata stored with the Partner Customer account that can impact their benefits on Diagnostic Network. For example, adding or removing closed/private user groups on DN that the Partner Customer is authorized to join.
+Updating a Partner Customer is normally useful for adjusting metadata stored with the Partner Customer account that can impact their benefits on Diagnostic Network. For example, adding or removing closed/private user groups on DN that the Partner Customer is authorized to join. You can identify the customer using any of: `PartnerCustomerKey` (our identifier), `PartnerRemoteId` (your identifier), `Email`, or `EmailAlt`.
 
 When updating a **stub user** Partner Customer that has not yet been linked to a real DN user account, any updated information will be used if and when the user registers to join Diagnostic Network, which can provide a better user experience for your customer. For example, if the customer changes their email address on your site, changing it on their Partner Customer record could make it easier for them to join DN later.
 
@@ -333,13 +335,13 @@ To sever a relationship with a Partner Customer completely, use the [Delete Part
 
 ### HTTP Request
 
-`PATCH /api/v1/partner/customer/{PartnerCustomerKey}`
+`PATCH /api/v1/partner/customer/{Identifier}`
 
 ### URL Parameters
 
 Parameter          | Description
 ------------------ | -----------
-PartnerCustomerKey | The unique identifier for a previously created Partner Customer
+Identifier         | The `PartnerRemoteId`, `Email`, or `EmailAlt` you previously provided when creating or updating a Partner Customer, or the `PartnerCustomerKey` we generated when a Partner Customer was created.
 
 ### PATCH JSON Fields
 
@@ -369,7 +371,7 @@ Metadata             | `json`          | (Optional) Any additional data DN or th
 var response = await DNAPI.PartnerSendAsync
 (
   HttpMethod.Delete,
-  $"/api/v1/partner/customer/{PartnerCustomerKey}"
+  $"/api/v1/partner/customer/{Identifier}"
 );
 
 if (response.StatusCode == HttpStatusCode.OK)
@@ -389,17 +391,17 @@ if (response.StatusCode == HttpStatusCode.OK)
 }
 ```
 
-This endpoint is used to delete a Partner Customer, and if an existing Diagnostic Network member account is linked to this record, the relationship between the partner and the DN member will be severed: they'll no longer receive any partner benefits they may have previously been receiving. The user will also be removed from any closed/private user groups they previously were subscribed to for the partner. 
+This endpoint is used to delete a Partner Customer, and if an existing Diagnostic Network member account is linked to this record, the relationship between the partner and the DN member will be severed: they'll no longer receive any partner benefits they may have previously been receiving. The user will also be removed from any closed/private user groups they previously were subscribed to for the partner. You can identify the customer using any of: `PartnerCustomerKey` (our identifier), `PartnerRemoteId` (your identifier), `Email`, or `EmailAlt`.
 
 The entire partner customer record will be deleted once we have notified the user of the change to their account status. This should allow you to comply with any GDPR requests to erase all traces of a user. Until then, the GET response data includes a `DateLinked` field that will be `null` if the `DELETE` endpoint has been used on the Partner Customer.
 
 ### HTTP Request
 
-`DELETE /api/v1/partner/customer/{PartnerCustomerKey}`
+`DELETE /api/v1/partner/customer/{Identifier}`
 
 ### URL Parameters
 
 Parameter          | Description
 ------------------ | -----------
-PartnerCustomerKey | The unique identifier for a previously created Partner Customer
+Identifier         | The `PartnerRemoteId`, `Email`, or `EmailAlt` you previously provided when creating or updating a Partner Customer, or the `PartnerCustomerKey` we generated when a Partner Customer was created.
 

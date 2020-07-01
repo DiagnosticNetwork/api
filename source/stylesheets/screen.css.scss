@@ -50,6 +50,11 @@ aside > a:visited {
   color: #fff !important;
 }
 
+.content img {
+  border: 0.25rem solid #efefef;
+  border-radius: 7px;
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // TABLE OF CONTENTS
 ////////////////////////////////////////////////////////////////////////////////
@@ -621,6 +626,10 @@ aside > a:visited {
 
   %right-col + %left-col {
     margin-top: $main-padding;
+  }
+
+  .hide-xs {
+    display: none;
   }
 }
 

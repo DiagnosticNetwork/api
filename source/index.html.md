@@ -10,6 +10,7 @@ toc_footers:
 
 includes:
   - authentication
+  - messages
   - partners
   - errors
 
@@ -20,7 +21,7 @@ search: true
 
 ### API Documentation 
 
-This page documents the parts of our API which are currently public. Some of these API endpoints are only available to our partners. You can view code examples in the area to the right. We will be exposing more of our API over time. If you have any comments, questions, or requests, please open a [new issue](https://github.com/DiagnosticNetwork/api/issues/new/choose).
+This page documents the parts of our API which are currently public. Some of these API endpoints are only available to our partners. You can view code examples throughout<span class="hide-xs"> in the area to the right</span>. We will be exposing more of our API over time. If you have any comments, questions, or requests, please open a [new issue](https://github.com/DiagnosticNetwork/api/issues/new/choose).
 
 ### Overview of Diagnostic Network
 
