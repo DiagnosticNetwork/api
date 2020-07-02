@@ -466,11 +466,11 @@ If you don't yet have a membership in Diagnostic Network, you can <a href="https
 
 <p><code>GET /t/{TopicKey}?e=1</code> (filter by topic)</p>
 
-<p><code>GET /t/{TopicKey}?e=1</code> (filter by user group)</p>
+<p><code>GET /g/{GroupKey}?e=1</code> (filter by user group)</p>
 
 <p><code>GET /{TypeKey}/t/{TopicKey}?e=1</code> (filter by type and topic)</p>
 
-<p><code>GET /{TypeKey}/g/{TopicKey}?e=1</code> (filter by type and user group)</p>
+<p><code>GET /{TypeKey}/g/{GroupKey}?e=1</code> (filter by type and user group)</p>
 <h3 id='url-parameters'>URL Parameters</h3>
 <table><thead>
 <tr>
@@ -480,7 +480,7 @@ If you don't yet have a membership in Diagnostic Network, you can <a href="https
 </thead><tbody>
 <tr>
 <td>TopicKey</td>
-<td>(Optional) Filter messages by topic or user group. If user group, make sure to use <code>/g/</code> in the URL instead of the <code>/t/</code>. See <a href="#message-topics">Message Topics</a> for a list of topic TopicKeys. You can also ascertain any User Group&#39;s TopicKey by looking at the URL for any <a href="https://diag.net/groups">user group</a>.</td>
+<td>(Optional) Filter messages by topic or user group. If user group, make sure to use <code>/g/</code> in the URL instead of the <code>/t/</code>. See <a href="#message-topics">Message Topics</a> for a list of topic TopicKeys. You can also ascertain any User Group&#39;s <code>GroupKey</code> by looking at the URL for any <a href="https://diag.net/groups">user group</a>: the letters/dashes that appear after the <code>/g/</code> path is the <code>GroupKey</code> (usable anywhere <code>TopicKey</code> is used).</td>
 </tr>
 <tr>
 <td>TypeKey</td>
@@ -551,153 +551,153 @@ If you don't yet have a membership in Diagnostic Network, you can <a href="https
 </thead><tbody>
 <tr>
 <td>1</td>
-<td>autonomousvehicles</td>
-<td>Autonomous Vehicles</td>
+<td>autonomous-vehicles</td>
+<td><a href="https://diag.net/t/autonomous-vehicles">Autonomous Vehicles</a></td>
 </tr>
 <tr>
 <td>2</td>
 <td>braking</td>
-<td>Braking</td>
+<td><a href="https://diag.net/t/braking">Braking</a></td>
 </tr>
 <tr>
 <td>3</td>
 <td>chassis</td>
-<td>Chassis</td>
+<td><a href="https://diag.net/t/chassis">Chassis</a></td>
 </tr>
 <tr>
 <td>4</td>
 <td>collision</td>
-<td>Collision</td>
+<td><a href="https://diag.net/t/collision">Collision</a></td>
 </tr>
 <tr>
 <td>5</td>
-<td>diagnosticnetwork</td>
-<td>Diagnostic Network</td>
+<td>diagnostic-network</td>
+<td><a href="https://diag.net/t/diagnostic-network">Diagnostic Network</a></td>
 </tr>
 <tr>
 <td>6</td>
 <td>driveability</td>
-<td>Driveability</td>
+<td><a href="https://diag.net/t/driveability">Driveability</a></td>
 </tr>
 <tr>
 <td>7</td>
 <td>drivetrain</td>
-<td>Drivetrain</td>
+<td><a href="https://diag.net/t/drivetrain">Drivetrain</a></td>
 </tr>
 <tr>
 <td>8</td>
 <td>education</td>
-<td>Education</td>
+<td><a href="https://diag.net/t/education">Education</a></td>
 </tr>
 <tr>
 <td>9</td>
 <td>electrical</td>
-<td>Electrical</td>
+<td><a href="https://diag.net/t/electrical">Electrical</a></td>
 </tr>
 <tr>
 <td>10</td>
 <td>electrification</td>
-<td>Electrification</td>
+<td><a href="https://diag.net/t/electrification">Electrification</a></td>
 </tr>
 <tr>
 <td>11</td>
 <td>emissions</td>
-<td>Emissions</td>
+<td><a href="https://diag.net/t/emissions">Emissions</a></td>
 </tr>
 <tr>
 <td>12</td>
 <td>employment</td>
-<td>Employment</td>
+<td><a href="https://diag.net/t/employment">Employment</a></td>
 </tr>
 <tr>
 <td>14</td>
 <td>fabrication</td>
-<td>Fabrication</td>
+<td><a href="https://diag.net/t/fabrication">Fabrication</a></td>
 </tr>
 <tr>
 <td>46</td>
-<td>heavyduty</td>
-<td>Heavy Duty</td>
+<td>heavy-duty</td>
+<td><a href="https://diag.net/t/heavy-duty">Heavy Duty</a></td>
 </tr>
 <tr>
 <td>15</td>
 <td>hvac</td>
-<td>HVAC</td>
+<td><a href="https://diag.net/t/hvac">HVAC</a></td>
 </tr>
 <tr>
 <td>16</td>
 <td>industry</td>
-<td>Industry</td>
+<td><a href="https://diag.net/t/industry">Industry</a></td>
 </tr>
 <tr>
 <td>102</td>
 <td>infotainment</td>
-<td>Infotainment</td>
+<td><a href="https://diag.net/t/infotainment">Infotainment</a></td>
 </tr>
 <tr>
 <td>17</td>
 <td>management</td>
-<td>Management</td>
+<td><a href="https://diag.net/t/management">Management</a></td>
 </tr>
 <tr>
 <td>18</td>
 <td>marketplace</td>
-<td>Marketplace</td>
+<td><a href="https://diag.net/t/marketplace">Marketplace</a></td>
 </tr>
 <tr>
 <td>19</td>
 <td>motorsports</td>
-<td>Motorsports</td>
+<td><a href="https://diag.net/t/motorsports">Motorsports</a></td>
 </tr>
 <tr>
 <td>45</td>
-<td>networkcomms</td>
-<td>Network Communications</td>
+<td>network-comms</td>
+<td><a href="https://diag.net/t/network-comms">Network Communications</a></td>
 </tr>
 <tr>
 <td>20</td>
 <td>other</td>
-<td>Other</td>
+<td><a href="https://diag.net/t/other">Other</a></td>
 </tr>
 <tr>
 <td>21</td>
 <td>parts</td>
-<td>Parts</td>
+<td><a href="https://diag.net/t/parts">Parts</a></td>
 </tr>
 <tr>
 <td>22</td>
 <td>powersports</td>
-<td>Powersports</td>
+<td><a href="https://diag.net/t/powersports">Powersports</a></td>
 </tr>
 <tr>
 <td>23</td>
 <td>programming</td>
-<td>Programming</td>
+<td><a href="https://diag.net/t/programming">Programming</a></td>
 </tr>
 <tr>
 <td>24</td>
 <td>propulsion</td>
-<td>Propulsion</td>
+<td><a href="https://diag.net/t/propulsion">Propulsion</a></td>
 </tr>
 <tr>
 <td>25</td>
 <td>restoration</td>
-<td>Restoration</td>
+<td><a href="https://diag.net/t/restoration">Restoration</a></td>
 </tr>
 <tr>
 <td>26</td>
 <td>safety</td>
-<td>Safety</td>
+<td><a href="https://diag.net/t/safety">Safety</a></td>
 </tr>
 <tr>
 <td>27</td>
 <td>security</td>
-<td>Security</td>
+<td><a href="https://diag.net/t/security">Security</a></td>
 </tr>
 <tr>
 <td>28</td>
 <td>tooling</td>
-<td>Tooling</td>
+<td><a href="https://diag.net/t/tooling">Tooling</a></td>
 </tr>
 </tbody></table>
 <h2 id='message-types'>Message Types</h2>
@@ -713,52 +713,52 @@ If you don't yet have a membership in Diagnostic Network, you can <a href="https
 <tr>
 <td>10</td>
 <td>announcements</td>
-<td>Announcements</td>
+<td><a href="https://diag.net/announcements">Announcements</a></td>
 </tr>
 <tr>
 <td>9</td>
 <td>bounties</td>
-<td>Bounties</td>
+<td><a href="https://diag.net/bounties">Bounties</a></td>
 </tr>
 <tr>
 <td>1</td>
 <td>case-studies</td>
-<td>Case Studies</td>
+<td><a href="https://diag.net/case-studies">Case Studies</a></td>
 </tr>
 <tr>
 <td>2</td>
 <td>demos</td>
-<td>Demonstrations</td>
+<td><a href="https://diag.net/demos">Demonstrations</a></td>
 </tr>
 <tr>
 <td>3</td>
 <td>discussions</td>
-<td>Discussions</td>
+<td><a href="https://diag.net/discussions">Discussions</a></td>
 </tr>
 <tr>
 <td>7</td>
 <td>events</td>
-<td>Events</td>
+<td><a href="https://diag.net/events">Events</a></td>
 </tr>
 <tr>
 <td>4</td>
 <td>questions</td>
-<td>Questions</td>
+<td><a href="https://diag.net/questions">Questions</a></td>
 </tr>
 <tr>
 <td>8</td>
 <td>resources</td>
-<td>Resources (special type that doesn&#39;t normally appear in message feeds, except when the user is searching with keywords)</td>
+<td><a href="https://diag.net/resources">Resources</a> (special type that doesn&#39;t normally appear in message feeds, except when the user is searching with keywords)</td>
 </tr>
 <tr>
 <td>5</td>
 <td>surveys</td>
-<td>Surveys</td>
+<td><a href="https://diag.net/surveys">Surveys</a></td>
 </tr>
 <tr>
 <td>6</td>
 <td>tech-tips</td>
-<td>Tech Tips</td>
+<td><a href="https://diag.net/tech-tips">Tech Tips</a></td>
 </tr>
 </tbody></table>
 <h2 id='social-media-feeds'>Social Media Feeds</h2>
@@ -1315,7 +1315,30 @@ Create Account. </li>
 </tr>
 </tbody></table>
 <h1 id='errors'>Errors</h1>
-<p>The API uses the following HTTP status codes for errors or other issues.</p>
+<blockquote>
+<p>Below is an example error object for a <code>400 Bad Request</code>. Its keys represent the API request parameters, each pointing to an array of one or more error messages. If there are any generic errors that are not specific to a single request parameter, the key will be an empty string.</p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+    </span><span class="nl">""</span><span class="p">:</span><span class="w"> 
+    </span><span class="p">[</span><span class="w">
+        </span><span class="s2">"Error message #1, not specific to any particular request parameter."</span><span class="w">
+    </span><span class="p">],</span><span class="w">
+    </span><span class="nl">"ParameterA"</span><span class="p">:</span><span class="w"> 
+    </span><span class="p">[</span><span class="w">
+        </span><span class="s2">"Error message #1 about request ParameterA"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"Error message #2 about ParameterA"</span><span class="w">
+    </span><span class="p">],</span><span class="w">
+    </span><span class="nl">"ParameterB"</span><span class="p">:</span><span class="w"> 
+    </span><span class="p">[</span><span class="w">
+        </span><span class="s2">"Error message #1 about request ParameterB"</span><span class="w">
+    </span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<blockquote>
+<p>The benefit of this format is it enables you to place error messages near the parts of your UI that are relevant to the specific error. E.g. the <code>ParameterA</code> errors could be placed in red near the UI&#39;s input for <code>ParameterA</code>. </p>
+</blockquote>
+
+<p>The API uses the following HTTP status codes for errors or other issues. Typically a <code>400 Bad Request</code> is the most common error, indicating a problem with your request, and in this scenario the response will contain the error(s). </p>
 
 <table><thead>
 <tr>
