@@ -173,7 +173,7 @@ For both types of user creation, an implicit link is created between the partner
 
 Fields               | Type            | Description
 -------------------- | --------------- | -----------
-CreateUser           | `boolean`       | If true (the default), create a real user; otherwise, a stub user.
+CreateUser           | `boolean`       | If true, create a real user; otherwise (the default), a stub user.
 NotifyUser           | `boolean`       | If true (the default), send an email notification to the user, which is recommended as it allows us to give them a link to complete their DN account. If you've invited them to any groups using `GroupInvitations`, these will also be included in this email.
 Introduction         | `string`        | (Optional) If set, we'll display this HTML message from you in the email we send to the user, at the top of the email, with your partner name signed at the end. If the account you're creating is not being done in realtime at your customer's request, we highly recommend using this to explain to your customer why the account was created. 
 Email                | `string`        | The email address of the user.
