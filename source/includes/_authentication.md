@@ -151,11 +151,11 @@ $.ajax({
 .done(function(data) {
   // The User Authentication cookie is now set for future
   // ajax calls. You can access the user's unique identifier 
-  // with `data.UserKey`.
+  // with `data.UserProfile.UserKey`.
 });
 ```
 
-Other API endpoints require _User Authentication_, i.e. the same `dnid` cookie that we set when users login to our website directly. This cookie can be obtained by hitting the `POST /api/v1/user/login` endpoint. The response will also include the `UserKey` that uniquely identifies the user, as well as the `dnid` cookie set in the `Cookies` header. That same `dnid` cookie must be passed with any API request that requires _User Authentication_.
+Other API endpoints require _User Authentication_, i.e. the same `dnid` cookie that we set when users login to our website directly. This cookie can be obtained by hitting the `POST /api/v1/user/login` endpoint. The response will also include a `UserProfile` object which contains some additional information about the user as well as the `UserKey` that uniquely identifies the user, and a `dnid` cookie set in the `Cookies` header. That same `dnid` cookie must be passed with any API request that requires _User Authentication_.
 
 <aside class="notice">
 If you don't yet have a membership in Diagnostic Network, you can <a href="https://diag.net/account/register">create one here</a>.
