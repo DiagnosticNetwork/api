@@ -1,11 +1,4 @@
-# <img src="https://d3tl0hgcgcslkv.cloudfront.net/img/robot-avatars/aidn.jpg" width="35" height="35" alt="Image" style="float: left; margin-right: 1rem; border-radius: 5px"> AiDN&reg; — AI-powered assistant
-
-AiDN is Diagnostic Network's [award-winning](https://www.prnewswire.com/news-releases/diagnostic-network-receives-prestigious-motor-top-20-tool-award-for-2023-301931391.html) AI-powered virtual robot, designed specifically for assisting with vehicle diagnostics and repair. [First released](https://diag.net/msg/m3h0hjpu4jbpmh197p5f6jv3rj) in June 2023, AiDN responds to most questions posted to [Diagnostic Network](https://diag.net), and is now available for use outside of Diagnostic Network via this API.
-
-> Please [contact us](https://diag.net/contact) to inquire about pricing for AiDN and to obtain API credentials. We can also work with you to customize AiDN's capabilities and response formats to suit your needs.
-
-
-## Ask AiDN for Help
+# <img src="https://d3tl0hgcgcslkv.cloudfront.net/img/robot-avatars/aidn.jpg" width="35" height="35" alt="Image" style="float: left; margin-right: 0.5rem; border-radius: 5px; vertical-align: top; position: relative; top: -5px;">AiDN&reg; — AI-powered assistant
 
 ```csharp
 var response = await DNAPI.PartnerSendAsync
@@ -85,6 +78,58 @@ else
   }
 }
 ```
+
+```javascript
+$.ajax({
+  url: '/api/v1/robot',
+  type: 'POST',
+  contentType: 'application/json',
+  data: JSON.stringify
+  (
+    {
+      Vin: "JF2SKAWCXKH400000",                     // Optional, but helpful
+      Vehicle: "2019 Subaru Forester 2.5L",         // Highly recommended, in case VIN decoding fails
+      Classification: "{ClassificationIdentifier}", // We'll coordinate with you on this value
+      UserIdentifier: "{UserIdentifier}",           // Uniquely identify the customer/employee/user
+      Message: "{YourMessageToAiDN}",               // This is typically a user-supplied question
+      Data: {                                       // `Data` can be an arbitrary piece of data
+        Symptoms: [
+          "Crank / No Start",
+          "When Cold"
+        ],
+        TroubleCodes: [
+          {
+            Code: "P2837",
+            Definition: "Your internal DTC definition, if available" // Optional, but helpful
+          }
+        ]
+      }
+    }
+  ),
+  success: function (data, textStatus, jqXHR) {
+    if (jqXHR.status === 200) {
+      console.log("AiDN: " + data.Message);
+    }
+  },
+  error: function (jqXHR, textStatus, errorThrown) {
+    var data = JSON.parse(jqXHR.responseText);
+    if (data.Error && data.Error !== '') {
+      if (data.ShouldRetry) {
+        console.log("Retry your request later: " + data.Error);
+      } else {
+        console.log(data.Error);
+      }
+    } else {
+      if (jqXHR.status >= 400 && jqXHR.status < 500 && jqXHR.status !== 429) {
+        console.log("There's a problem with your request, please check before retrying.");
+      } else if (jqXHR.status >= 500) {
+        console.log("Server error, try again later.");
+      }
+    }
+  }
+});
+```
+
 > The Robot API call returns JSON like below when successful. The ResponseKey will be a 
 > unique identifier representing this response, currently useful for debugging issues with us.
 
@@ -121,3 +166,8 @@ else
   "ResponseKey": null
 }
 ```
+
+AiDN is Diagnostic Network's [award-winning](https://www.prnewswire.com/news-releases/diagnostic-network-receives-prestigious-motor-top-20-tool-award-for-2023-301931391.html) AI-powered virtual robot, designed specifically for assisting with vehicle diagnostics and repair. [First released](https://diag.net/msg/m3h0hjpu4jbpmh197p5f6jv3rj) in June 2023, AiDN responds to most questions posted to [Diagnostic Network](https://diag.net), and is now available for use outside of Diagnostic Network via this API.
+
+Please [contact us](https://diag.net/contact) to inquire about pricing for AiDN and to obtain API credentials. We can also work with you to customize AiDN's capabilities and response formats to suit your needs.
+

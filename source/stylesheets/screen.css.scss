@@ -50,6 +50,11 @@ aside > a:visited {
   color: #fff !important;
 }
 
+#toc img
+{
+  display: none !important;
+}
+
 .content img {
   border: 0.25rem solid #efefef;
   border-radius: 7px;
