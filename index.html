@@ -282,7 +282,7 @@
   color: #859900;
 }
     </style>
-    <link href="stylesheets/screen-f4d62458.css" rel="stylesheet" media="screen" />
+    <link href="stylesheets/screen-4597e9e2.css" rel="stylesheet" media="screen" />
     <link href="stylesheets/print-966d6edc.css" rel="stylesheet" media="print" />
       <script src="javascripts/all-024da600.js"></script>
 
@@ -318,12 +318,7 @@
               </ul>
           </li>
           <li>
-            <a href="#aidn-reg-ai-powered-assistant" class="toc-h1 toc-link" data-title=" AiDN® — AI-powered assistant"><img src="https://d3tl0hgcgcslkv.cloudfront.net/img/robot-avatars/aidn.jpg" width="35" height="35" alt="Image" style="float: left; margin-right: 1rem; border-radius: 5px"> AiDN® — AI-powered assistant</a>
-              <ul class="toc-list-h2">
-                  <li>
-                    <a href="#ask-aidn-for-help" class="toc-h2 toc-link" data-title="Ask AiDN for Help">Ask AiDN for Help</a>
-                  </li>
-              </ul>
+            <a href="#aidn-reg-ai-powered-assistant" class="toc-h1 toc-link" data-title="AiDN® — AI-powered assistant"><img src="https://d3tl0hgcgcslkv.cloudfront.net/img/robot-avatars/aidn.jpg" width="35" height="35" alt="Image" style="float: left; margin-right: 0.5rem; border-radius: 5px; vertical-align: top; position: relative; top: -5px;">AiDN® — AI-powered assistant</a>
           </li>
           <li>
             <a href="#authentication" class="toc-h1 toc-link" data-title="Authentication">Authentication</a>
@@ -409,13 +404,7 @@
 </ul>
 
 <p>If you&#39;re a professional working in or retired from the vehicle service industry, please <a href="https://diag.net/account/register">join us</a>.</p>
-<h1 id='aidn-reg-ai-powered-assistant'><img src="https://d3tl0hgcgcslkv.cloudfront.net/img/robot-avatars/aidn.jpg" width="35" height="35" alt="Image" style="float: left; margin-right: 1rem; border-radius: 5px"> AiDN&reg; — AI-powered assistant</h1>
-<p>AiDN is Diagnostic Network&#39;s <a href="https://www.prnewswire.com/news-releases/diagnostic-network-receives-prestigious-motor-top-20-tool-award-for-2023-301931391.html">award-winning</a> AI-powered virtual robot, designed specifically for assisting with vehicle diagnostics and repair. <a href="https://diag.net/msg/m3h0hjpu4jbpmh197p5f6jv3rj">First released</a> in June 2023, AiDN responds to most questions posted to <a href="https://diag.net">Diagnostic Network</a>, and is now available for use outside of Diagnostic Network via this API.</p>
-
-<blockquote>
-<p>Please <a href="https://diag.net/contact">contact us</a> to inquire about pricing for AiDN and to obtain API credentials. We can also work with you to customize AiDN&#39;s capabilities and response formats to suit your needs.</p>
-</blockquote>
-<h2 id='ask-aidn-for-help'>Ask AiDN for Help</h2><div class="highlight"><pre class="highlight csharp tab-csharp"><code><span class="kt">var</span> <span class="n">response</span> <span class="p">=</span> <span class="k">await</span> <span class="n">DNAPI</span><span class="p">.</span><span class="nf">PartnerSendAsync</span>
+<h1 id='aidn-reg-ai-powered-assistant'><img src="https://d3tl0hgcgcslkv.cloudfront.net/img/robot-avatars/aidn.jpg" width="35" height="35" alt="Image" style="float: left; margin-right: 0.5rem; border-radius: 5px; vertical-align: top; position: relative; top: -5px;">AiDN&reg; — AI-powered assistant</h1><div class="highlight"><pre class="highlight csharp tab-csharp"><code><span class="kt">var</span> <span class="n">response</span> <span class="p">=</span> <span class="k">await</span> <span class="n">DNAPI</span><span class="p">.</span><span class="nf">PartnerSendAsync</span>
 <span class="p">(</span>
   <span class="n">HttpMethod</span><span class="p">.</span><span class="n">Post</span><span class="p">,</span>
   <span class="s">"/api/v1/robot"</span><span class="p">,</span>
@@ -491,6 +480,54 @@
     <span class="c1">// temporary, and you can retry your request (preferably with an exponential back-off).</span>
   <span class="p">}</span>
 <span class="p">}</span>
+</code></pre></div><div class="highlight"><pre class="highlight javascript tab-javascript"><code><span class="nx">$</span><span class="p">.</span><span class="nx">ajax</span><span class="p">({</span>
+  <span class="na">url</span><span class="p">:</span> <span class="dl">'</span><span class="s1">/api/v1/robot</span><span class="dl">'</span><span class="p">,</span>
+  <span class="na">type</span><span class="p">:</span> <span class="dl">'</span><span class="s1">POST</span><span class="dl">'</span><span class="p">,</span>
+  <span class="na">contentType</span><span class="p">:</span> <span class="dl">'</span><span class="s1">application/json</span><span class="dl">'</span><span class="p">,</span>
+  <span class="na">data</span><span class="p">:</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span>
+  <span class="p">(</span>
+    <span class="p">{</span>
+      <span class="na">Vin</span><span class="p">:</span> <span class="dl">"</span><span class="s2">JF2SKAWCXKH400000</span><span class="dl">"</span><span class="p">,</span>                     <span class="c1">// Optional, but helpful</span>
+      <span class="na">Vehicle</span><span class="p">:</span> <span class="dl">"</span><span class="s2">2019 Subaru Forester 2.5L</span><span class="dl">"</span><span class="p">,</span>         <span class="c1">// Highly recommended, in case VIN decoding fails</span>
+      <span class="na">Classification</span><span class="p">:</span> <span class="dl">"</span><span class="s2">{ClassificationIdentifier}</span><span class="dl">"</span><span class="p">,</span> <span class="c1">// We'll coordinate with you on this value</span>
+      <span class="na">UserIdentifier</span><span class="p">:</span> <span class="dl">"</span><span class="s2">{UserIdentifier}</span><span class="dl">"</span><span class="p">,</span>           <span class="c1">// Uniquely identify the customer/employee/user</span>
+      <span class="na">Message</span><span class="p">:</span> <span class="dl">"</span><span class="s2">{YourMessageToAiDN}</span><span class="dl">"</span><span class="p">,</span>               <span class="c1">// This is typically a user-supplied question</span>
+      <span class="na">Data</span><span class="p">:</span> <span class="p">{</span>                                       <span class="c1">// `Data` can be an arbitrary piece of data</span>
+        <span class="na">Symptoms</span><span class="p">:</span> <span class="p">[</span>
+          <span class="dl">"</span><span class="s2">Crank / No Start</span><span class="dl">"</span><span class="p">,</span>
+          <span class="dl">"</span><span class="s2">When Cold</span><span class="dl">"</span>
+        <span class="p">],</span>
+        <span class="na">TroubleCodes</span><span class="p">:</span> <span class="p">[</span>
+          <span class="p">{</span>
+            <span class="na">Code</span><span class="p">:</span> <span class="dl">"</span><span class="s2">P2837</span><span class="dl">"</span><span class="p">,</span>
+            <span class="na">Definition</span><span class="p">:</span> <span class="dl">"</span><span class="s2">Your internal DTC definition, if available</span><span class="dl">"</span> <span class="c1">// Optional, but helpful</span>
+          <span class="p">}</span>
+        <span class="p">]</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">),</span>
+  <span class="na">success</span><span class="p">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">data</span><span class="p">,</span> <span class="nx">textStatus</span><span class="p">,</span> <span class="nx">jqXHR</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">jqXHR</span><span class="p">.</span><span class="nx">status</span> <span class="o">===</span> <span class="mi">200</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">"</span><span class="s2">AiDN: </span><span class="dl">"</span> <span class="o">+</span> <span class="nx">data</span><span class="p">.</span><span class="nx">Message</span><span class="p">);</span>
+    <span class="p">}</span>
+  <span class="p">},</span>
+  <span class="na">error</span><span class="p">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">jqXHR</span><span class="p">,</span> <span class="nx">textStatus</span><span class="p">,</span> <span class="nx">errorThrown</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">data</span> <span class="o">=</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="nx">jqXHR</span><span class="p">.</span><span class="nx">responseText</span><span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">data</span><span class="p">.</span><span class="nb">Error</span> <span class="o">&amp;&amp;</span> <span class="nx">data</span><span class="p">.</span><span class="nb">Error</span> <span class="o">!==</span> <span class="dl">''</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">if</span> <span class="p">(</span><span class="nx">data</span><span class="p">.</span><span class="nx">ShouldRetry</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">"</span><span class="s2">Retry your request later: </span><span class="dl">"</span> <span class="o">+</span> <span class="nx">data</span><span class="p">.</span><span class="nb">Error</span><span class="p">);</span>
+      <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">data</span><span class="p">.</span><span class="nb">Error</span><span class="p">);</span>
+      <span class="p">}</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+      <span class="k">if</span> <span class="p">(</span><span class="nx">jqXHR</span><span class="p">.</span><span class="nx">status</span> <span class="o">&gt;=</span> <span class="mi">400</span> <span class="o">&amp;&amp;</span> <span class="nx">jqXHR</span><span class="p">.</span><span class="nx">status</span> <span class="o">&lt;</span> <span class="mi">500</span> <span class="o">&amp;&amp;</span> <span class="nx">jqXHR</span><span class="p">.</span><span class="nx">status</span> <span class="o">!==</span> <span class="mi">429</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">"</span><span class="s2">There's a problem with your request, please check before retrying.</span><span class="dl">"</span><span class="p">);</span>
+      <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">jqXHR</span><span class="p">.</span><span class="nx">status</span> <span class="o">&gt;=</span> <span class="mi">500</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">"</span><span class="s2">Server error, try again later.</span><span class="dl">"</span><span class="p">);</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">});</span>
 </code></pre></div>
 <blockquote>
 <p>The Robot API call returns JSON like below when successful. The ResponseKey will be a 
@@ -525,7 +562,11 @@ be fixed prior to retrying the request. </p>
   </span><span class="nl">"Message"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
   </span><span class="nl">"ResponseKey"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre></div><h1 id='authentication'>Authentication</h1><div class="highlight"><pre class="highlight csharp tab-csharp"><code><span class="k">using</span> <span class="nn">Newtonsoft.Json</span><span class="p">;</span>
+</span></code></pre></div>
+<p>AiDN is Diagnostic Network&#39;s <a href="https://www.prnewswire.com/news-releases/diagnostic-network-receives-prestigious-motor-top-20-tool-award-for-2023-301931391.html">award-winning</a> AI-powered virtual robot, designed specifically for assisting with vehicle diagnostics and repair. <a href="https://diag.net/msg/m3h0hjpu4jbpmh197p5f6jv3rj">First released</a> in June 2023, AiDN responds to most questions posted to <a href="https://diag.net">Diagnostic Network</a>, and is now available for use outside of Diagnostic Network via this API.</p>
+
+<p>Please <a href="https://diag.net/contact">contact us</a> to inquire about pricing for AiDN and to obtain API credentials. We can also work with you to customize AiDN&#39;s capabilities and response formats to suit your needs.</p>
+<h1 id='authentication'>Authentication</h1><div class="highlight"><pre class="highlight csharp tab-csharp"><code><span class="k">using</span> <span class="nn">Newtonsoft.Json</span><span class="p">;</span>
 <span class="k">using</span> <span class="nn">System.Net</span><span class="p">;</span>
 <span class="k">using</span> <span class="nn">System.Net.Http</span><span class="p">;</span>
 <span class="k">using</span> <span class="nn">System.Security.Cryptography</span><span class="p">;</span>
