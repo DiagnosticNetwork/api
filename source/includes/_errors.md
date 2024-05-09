@@ -33,5 +33,6 @@ Code       | Meaning
 404        | Not Found -- The resource you're trying to access could not be found with the identifier you provided.
 405        | Method Not Allowed -- You tried to access with an invalid HTTP method.
 406        | Not Acceptable -- You requested a format that isn't supported. (Please use JSON.)
+429        | Too Many Requests -- You've been rate-limited, retry w/exponential back-off or the Retry-After header.
 500        | Internal Server Error -- We had a problem with our server. Try again later.
 503        | Service Unavailable -- We're temporarily offline for maintenance. Please try again later.
