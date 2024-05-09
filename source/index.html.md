@@ -9,6 +9,7 @@ toc_footers:
   - <a href='https://diag.net/contact'>Contact Diagnostic Network</a>
 
 includes:
+  - aidn
   - authentication
   - messages
   - partners
