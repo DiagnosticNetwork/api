@@ -282,9 +282,9 @@
   color: #859900;
 }
     </style>
-    <link href="stylesheets/screen-58ce607d.css" rel="stylesheet" media="screen" />
-    <link href="stylesheets/print-c427a123.css" rel="stylesheet" media="print" />
-      <script src="javascripts/all-e033bdd3.js"></script>
+    <link href="stylesheets/screen-f4d62458.css" rel="stylesheet" media="screen" />
+    <link href="stylesheets/print-966d6edc.css" rel="stylesheet" media="print" />
+      <script src="javascripts/all-024da600.js"></script>
 
   </head>
 
@@ -314,6 +314,14 @@
                   </li>
                   <li>
                     <a href="#overview-of-diagnostic-network" class="toc-h2 toc-link" data-title="Overview of Diagnostic Network">Overview of Diagnostic Network</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
+            <a href="#aidn-reg-ai-powered-assistant" class="toc-h1 toc-link" data-title=" AiDN® — AI-powered assistant"><img src="https://d3tl0hgcgcslkv.cloudfront.net/img/robot-avatars/aidn.jpg" width="35" height="35" alt="Image" style="float: left; margin-right: 1rem; border-radius: 5px"> AiDN® — AI-powered assistant</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#ask-aidn-for-help" class="toc-h2 toc-link" data-title="Ask AiDN for Help">Ask AiDN for Help</a>
                   </li>
               </ul>
           </li>
@@ -401,7 +409,123 @@
 </ul>
 
 <p>If you&#39;re a professional working in or retired from the vehicle service industry, please <a href="https://diag.net/account/register">join us</a>.</p>
-<h1 id='authentication'>Authentication</h1><div class="highlight"><pre class="highlight csharp tab-csharp"><code><span class="k">using</span> <span class="nn">Newtonsoft.Json</span><span class="p">;</span>
+<h1 id='aidn-reg-ai-powered-assistant'><img src="https://d3tl0hgcgcslkv.cloudfront.net/img/robot-avatars/aidn.jpg" width="35" height="35" alt="Image" style="float: left; margin-right: 1rem; border-radius: 5px"> AiDN&reg; — AI-powered assistant</h1>
+<p>AiDN is Diagnostic Network&#39;s <a href="https://www.prnewswire.com/news-releases/diagnostic-network-receives-prestigious-motor-top-20-tool-award-for-2023-301931391.html">award-winning</a> AI-powered virtual robot, designed specifically for assisting with vehicle diagnostics and repair. <a href="https://diag.net/msg/m3h0hjpu4jbpmh197p5f6jv3rj">First released</a> in June 2023, AiDN responds to most questions posted to <a href="https://diag.net">Diagnostic Network</a>, and is now available for use outside of Diagnostic Network via this API.</p>
+
+<blockquote>
+<p>Please <a href="https://diag.net/contact">contact us</a> to inquire about pricing for AiDN and to obtain API credentials. We can also work with you to customize AiDN&#39;s capabilities and response formats to suit your needs.</p>
+</blockquote>
+<h2 id='ask-aidn-for-help'>Ask AiDN for Help</h2><div class="highlight"><pre class="highlight csharp tab-csharp"><code><span class="kt">var</span> <span class="n">response</span> <span class="p">=</span> <span class="k">await</span> <span class="n">DNAPI</span><span class="p">.</span><span class="nf">PartnerSendAsync</span>
+<span class="p">(</span>
+  <span class="n">HttpMethod</span><span class="p">.</span><span class="n">Post</span><span class="p">,</span>
+  <span class="s">"/api/v1/robot"</span><span class="p">,</span>
+  <span class="k">new</span> 
+  <span class="p">{</span>
+    <span class="n">Vin</span> <span class="p">=</span> <span class="s">"JF2SKAWCXKH400000"</span><span class="p">,</span>                     <span class="c1">// Optional, but helpful</span>
+    <span class="n">Vehicle</span> <span class="p">=</span> <span class="s">"2019 Subaru Forester 2.5L"</span><span class="p">,</span>         <span class="c1">// Highly recommended, in case VIN decoding fails</span>
+    <span class="n">Classification</span> <span class="p">=</span> <span class="s">"{ClassificationIdentifier}"</span><span class="p">,</span> <span class="c1">// we'll coordinate with you on this value</span>
+    <span class="n">UserIdentifier</span> <span class="p">=</span> <span class="s">"{UserIdentifier}"</span><span class="p">,</span>           <span class="c1">// uniquely identify the customer/employee/user</span>
+    <span class="n">Message</span> <span class="p">=</span> <span class="s">"{YourMessageToAiDN}"</span><span class="p">,</span>               <span class="c1">// this is typically a user-supplied question</span>
+    <span class="c1">// `Data` can be an arbitrary piece of data. Typically it is JSON, though we can work with you</span>
+    <span class="c1">// to accept your specific data formats. It's common to use the `Data` field to pass things </span>
+    <span class="c1">// like Symptoms and TroubleCodes (DTCs), as shown below.</span>
+    <span class="n">Data</span> <span class="p">=</span> <span class="k">new</span>
+    <span class="p">{</span>
+      <span class="n">Symptoms</span> <span class="p">=</span> 
+      <span class="p">[</span>
+        <span class="s">"Crank / No Start"</span><span class="p">,</span>
+        <span class="s">"When Cold"</span>
+      <span class="p">],</span>
+      <span class="n">TroubleCodes</span> <span class="p">=</span> 
+      <span class="p">[</span>
+        <span class="k">new</span> 
+        <span class="p">{</span>
+          <span class="n">Code</span> <span class="p">=</span> <span class="s">"P2837"</span><span class="p">,</span>
+          <span class="n">Definition</span> <span class="p">=</span> <span class="s">"Your internal DTC definition, if available"</span> <span class="c1">// optional, but helpful</span>
+        <span class="p">}</span>
+      <span class="p">]</span>
+    <span class="p">}</span>
+<span class="p">);</span>
+
+<span class="kt">var</span> <span class="n">data</span> <span class="p">=</span> <span class="n">Newtonsoft</span><span class="p">.</span><span class="n">Json</span><span class="p">.</span><span class="n">Linq</span><span class="p">.</span><span class="n">JObject</span><span class="p">.</span><span class="nf">Parse</span><span class="p">(</span>
+  <span class="k">await</span> <span class="n">response</span><span class="p">.</span><span class="n">Content</span><span class="p">.</span><span class="nf">ReadAsStringAsync</span><span class="p">()</span>
+<span class="p">);</span>
+
+<span class="k">if</span> <span class="p">(</span><span class="n">response</span><span class="p">.</span><span class="n">StatusCode</span> <span class="p">==</span> <span class="n">HttpStatusCode</span><span class="p">.</span><span class="n">OK</span><span class="p">)</span>
+<span class="p">{</span>
+  <span class="n">Console</span><span class="p">.</span><span class="nf">WriteLine</span><span class="p">(</span><span class="s">"AiDN: "</span> <span class="p">+</span> <span class="n">data</span><span class="p">[</span><span class="s">"Message"</span><span class="p">]);</span>
+<span class="p">}</span>
+<span class="k">else</span> <span class="k">if</span> <span class="p">(!</span><span class="kt">string</span><span class="p">.</span><span class="nf">IsNullOrEmpty</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s">"Error"</span><span class="p">]))</span> 
+<span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s">"ShouldRetry"</span><span class="p">]?.</span><span class="n">ToObject</span><span class="p">&lt;</span><span class="kt">bool</span><span class="p">&gt;()</span> <span class="p">??</span> <span class="k">false</span><span class="p">)</span>
+  <span class="p">{</span>
+    <span class="c1">// A temporary error occurred, retry the same request.</span>
+    <span class="n">Console</span><span class="p">.</span><span class="nf">WriteLine</span><span class="p">(</span><span class="s">"Retry your request later: "</span> <span class="p">+</span> <span class="n">data</span><span class="p">[</span><span class="s">"Error"</span><span class="p">]);</span>
+  <span class="p">}</span>
+  <span class="k">else</span>
+  <span class="p">{</span>
+    <span class="c1">// A permanent error occurred, do NOT retry the same request.</span>
+    <span class="n">Console</span><span class="p">.</span><span class="nf">WriteLine</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s">"Error"</span><span class="p">]);</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+<span class="k">else</span>
+<span class="p">{</span>
+  <span class="c1">// An unknown error occurred. If it's a 4xx response (other than </span>
+  <span class="c1">// 429 Too Many Requests, recommend changing the request before retrying).</span>
+<span class="p">}</span>
+  <span class="k">if</span> <span class="p">()</span>
+  <span class="p">{</span>
+    <span class="c1">// Since `ShouldRetry` is true, it's telling us the error is temporary, and</span>
+    <span class="c1">// you can retry your request exactly as you first submitted it. </span>
+    <span class="c1">//</span>
+    <span class="c1">// data["Error"] will be provided here and will explain the underlying problem.</span>
+  <span class="p">}</span>
+  <span class="k">else</span>
+  <span class="p">{</span>
+    <span class="c1">// If the HTTP status code of the response is 4xx, then there's either a problem</span>
+    <span class="c1">// with your request (400 Bad Request), and you likely need to fix something before</span>
+    <span class="c1">// retrying. (The exception is a 429 Too Many Requests error, however in that case</span>
+    <span class="c1">// ShouldRetry would be `true`.)</span>
+    <span class="c1">//</span>
+    <span class="c1">// If the error is a 5xx error, it indicates a server error, which should be </span>
+    <span class="c1">// temporary, and you can retry your request (preferably with an exponential back-off).</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<blockquote>
+<p>The Robot API call returns JSON like below when successful. The ResponseKey will be a 
+unique identifier representing this response, currently useful for debugging issues with us.</p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"Error"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"ShouldRetry"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"Message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"This is where the response from AiDN will be. It will typically be formatted using Markdown (e.g. **bold**, _italics_, etc.). However, we can work with you to return the response in a different format if desired."</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"ResponseKey"</span><span class="p">:</span><span class="w"> </span><span class="s2">"r6rxd67venhswfmfxiq7ito6p5"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<blockquote>
+<p>When there&#39;s an error, it may be like the one shown below, indicating you <em>should</em> retry
+your request without any changes. We recommend using expontential back-off, or (if present) 
+the delay specified in the <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Retry-After"><code>Retry-After</code></a> header in our response.</p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"Error"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Request timed out."</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"ShouldRetry"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"Message"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"ResponseKey"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<blockquote>
+<p>When <code>ShouldRetry</code> is false, it indicates there is a problem with your request, which should
+be fixed prior to retrying the request. </p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"Error"</span><span class="p">:</span><span class="w"> </span><span class="s2">"The request was too large, consider abbreviating your request."</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"ShouldRetry"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"Message"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"ResponseKey"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div><h1 id='authentication'>Authentication</h1><div class="highlight"><pre class="highlight csharp tab-csharp"><code><span class="k">using</span> <span class="nn">Newtonsoft.Json</span><span class="p">;</span>
 <span class="k">using</span> <span class="nn">System.Net</span><span class="p">;</span>
 <span class="k">using</span> <span class="nn">System.Net.Http</span><span class="p">;</span>
 <span class="k">using</span> <span class="nn">System.Security.Cryptography</span><span class="p">;</span>
@@ -1460,6 +1584,10 @@ Create Account. </li>
 <tr>
 <td>406</td>
 <td>Not Acceptable -- You requested a format that isn&#39;t supported. (Please use JSON.)</td>
+</tr>
+<tr>
+<td>429</td>
+<td>Too Many Requests -- You&#39;ve been rate-limited, retry w/exponential back-off or the Retry-After header.</td>
 </tr>
 <tr>
 <td>500</td>
