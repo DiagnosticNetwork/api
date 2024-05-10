@@ -634,6 +634,10 @@ be fixed prior to retrying the request. </p>
     <span class="k">return</span> <span class="k">await</span> <span class="n">DNAPI</span><span class="p">.</span><span class="n">Client</span><span class="p">.</span><span class="nf">SendAsync</span><span class="p">(</span><span class="n">requestMessage</span><span class="p">);</span>
   <span class="p">}</span>
 <span class="p">}</span>
+</code></pre></div><div class="highlight"><pre class="highlight javascript tab-javascript"><code><span class="c1">// API requests that utilize Partner Authentication should only be </span>
+<span class="c1">// occurring on the server-side. Please reach out to us if you're </span>
+<span class="c1">// working on a NodeJS server-side app and need guidance on Partner</span>
+<span class="c1">// Authentication from JavaScript.</span>
 </code></pre></div>
 <p>For Partner API functionality, we provide a <code>PartnerId</code> and a <code>PartnerApiKey</code> that are used to sign requests. Partners can <a href="https://diag.net/contact">contact us</a> to obtain these, and learn more about what features are authorized for your partnership level.</p>
 <h2 id='user-authentication'>User Authentication</h2><div class="highlight"><pre class="highlight csharp tab-csharp"><code><span class="kt">var</span> <span class="n">response</span> <span class="p">=</span> <span class="k">await</span> <span class="n">DNAPI</span><span class="p">.</span><span class="n">Client</span><span class="p">.</span><span class="nf">PostAsync</span>
