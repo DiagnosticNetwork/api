@@ -34,10 +34,7 @@ Most of the discussions take place within the [core topics](https://diag.net/top
 
 The homepage of Diagnostic Network currently features a stream of all non-private discussions, regardless of which topic or group they're in. However, every message type, topic, and user group has its own landing page, featuring a message stream that's filtered down to just the relevant discussions. Further, members are able to subscribe to their preferred topics and user groups, and have the option of showing just their subscription stream on the homepage, rather than the unfiltered view. 
 
-Typically message streams on DN display just the "root message" of each discussion, and to see the replies, you need to click through to view the entire discussion. The two exceptions where replies are also shown in message streams: 
-
-* Search results
-* Member profiles
+Typically message streams on DN display just the "root message" of each discussion, and to see the replies, you need to click through to view the entire discussion. The one exception where replies are also shown in message streams is on a member's profile page, which shows all of their activity.
 
 If you're a professional working in or retired from the vehicle service industry, please [join us](https://diag.net/account/register).
 
