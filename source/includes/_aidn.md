@@ -12,10 +12,8 @@ var response = await DNAPI.PartnerSendAsync
     Classification = "{ClassificationIdentifier}", // we'll coordinate with you on this value
     UserIdentifier = "{UserIdentifier}",           // uniquely identify the customer/employee/user
     Message = "{YourMessageToAiDN}",               // this is typically a user-supplied question
-    // `Data` can be an arbitrary piece of data. Typically it is JSON, though we can work with you
-    // to accept your specific data formats. It's common to use the `Data` field to pass things 
-    // like Symptoms and TroubleCodes (DTCs), as shown below.
-    Data = new
+    // Metadata is an optional field that can be useful for passing DTCs and Symptoms, e.g.:
+    Metadata = new
     {
       Symptoms = 
       [
@@ -30,7 +28,10 @@ var response = await DNAPI.PartnerSendAsync
           Definition = "Your internal DTC definition, if available" // optional, but helpful
         }
       ]
-    }
+    },
+    // `Data` is a placeholder for situations where you need to pass arbitrary data.
+    // In that scenario, we would work with you to coordinate the format of this data.
+    Data = (object) null
 );
 
 var data = Newtonsoft.Json.Linq.JObject.Parse(
