@@ -169,5 +169,5 @@ $.ajax({
 
 AiDN is Diagnostic Network's [award-winning](https://www.prnewswire.com/news-releases/diagnostic-network-receives-prestigious-motor-top-20-tool-award-for-2023-301931391.html) AI-powered virtual robot, designed specifically for assisting with vehicle diagnostics and repair. [First released](https://diag.net/msg/m3h0hjpu4jbpmh197p5f6jv3rj) in June 2023, AiDN responds to most questions posted to [Diagnostic Network](https://diag.net), and is now available for use outside of Diagnostic Network via this API.
 
-Please [contact us](https://diag.net/contact) to inquire about pricing for AiDN and to obtain API credentials. We can also work with you to customize AiDN's capabilities and response formats to suit your needs.
+NOTE: You will need to use [Partner Authentication](#partner-authentication) when accessing the AiDN API. Please [contact us](https://diag.net/contact) to inquire about pricing for AiDN and to obtain API credentials. We can also work with you to customize AiDN's capabilities and response formats to suit your needs.
 
