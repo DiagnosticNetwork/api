@@ -90,6 +90,13 @@ PartnerSendAsync(HttpMethod method, string path, dynamic json)
 }
 ```
 
+```javascript
+// API requests that utilize Partner Authentication should only be 
+// occurring on the server-side. Please reach out to us if you're 
+// working on a NodeJS server-side app and need guidance on Partner
+// Authentication from JavaScript.
+```
+
 For Partner API functionality, we provide a `PartnerId` and a `PartnerApiKey` that are used to sign requests. Partners can [contact us](https://diag.net/contact) to obtain these, and learn more about what features are authorized for your partnership level.
 
 
