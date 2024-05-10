@@ -17,8 +17,14 @@ var response = await DNAPI.PartnerSendAsync
     {
       Symptoms = 
       [
-        "Crank / No Start",
-        "When Cold"
+        new 
+        {
+          Name = "Crank / No Start"
+        },
+        new 
+        {
+          Name = "When Cold"
+        }
       ],
       TroubleCodes = 
       [
