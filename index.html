@@ -410,10 +410,8 @@
     <span class="n">Classification</span> <span class="p">=</span> <span class="s">"{ClassificationIdentifier}"</span><span class="p">,</span> <span class="c1">// we'll coordinate with you on this value</span>
     <span class="n">UserIdentifier</span> <span class="p">=</span> <span class="s">"{UserIdentifier}"</span><span class="p">,</span>           <span class="c1">// uniquely identify the customer/employee/user</span>
     <span class="n">Message</span> <span class="p">=</span> <span class="s">"{YourMessageToAiDN}"</span><span class="p">,</span>               <span class="c1">// this is typically a user-supplied question</span>
-    <span class="c1">// `Data` can be an arbitrary piece of data. Typically it is JSON, though we can work with you</span>
-    <span class="c1">// to accept your specific data formats. It's common to use the `Data` field to pass things </span>
-    <span class="c1">// like Symptoms and TroubleCodes (DTCs), as shown below.</span>
-    <span class="n">Data</span> <span class="p">=</span> <span class="k">new</span>
+    <span class="c1">// Metadata is an optional field that can be useful for passing DTCs and Symptoms, e.g.:</span>
+    <span class="n">Metadata</span> <span class="p">=</span> <span class="k">new</span>
     <span class="p">{</span>
       <span class="n">Symptoms</span> <span class="p">=</span> 
       <span class="p">[</span>
@@ -428,7 +426,10 @@
           <span class="n">Definition</span> <span class="p">=</span> <span class="s">"Your internal DTC definition, if available"</span> <span class="c1">// optional, but helpful</span>
         <span class="p">}</span>
       <span class="p">]</span>
-    <span class="p">}</span>
+    <span class="p">},</span>
+    <span class="c1">// `Data` is a placeholder for situations where you need to pass arbitrary data.</span>
+    <span class="c1">// In that scenario, we would work with you to coordinate the format of this data.</span>
+    <span class="n">Data</span> <span class="p">=</span> <span class="p">(</span><span class="kt">object</span><span class="p">)</span> <span class="k">null</span>
 <span class="p">);</span>
 
 <span class="kt">var</span> <span class="n">data</span> <span class="p">=</span> <span class="n">Newtonsoft</span><span class="p">.</span><span class="n">Json</span><span class="p">.</span><span class="n">Linq</span><span class="p">.</span><span class="n">JObject</span><span class="p">.</span><span class="nf">Parse</span><span class="p">(</span>
