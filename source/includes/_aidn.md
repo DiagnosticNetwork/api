@@ -99,18 +99,28 @@ $.ajax({
       Classification: "{ClassificationIdentifier}", // We'll coordinate with you on this value
       UserIdentifier: "{UserIdentifier}",           // Uniquely identify the customer/employee/user
       Message: "{YourMessageToAiDN}",               // This is typically a user-supplied question
-      Data: {                                       // `Data` can be an arbitrary piece of data
-        Symptoms: [
-          "Crank / No Start",
-          "When Cold"
+      Metadata:
+      {
+        Symptoms: 
+        [
+          {
+            Name: "Crank / No Start"
+          },
+          {
+            Name: "When Cold"
+          }
         ],
-        TroubleCodes: [
+        TroubleCodes: 
+        [
           {
             Code: "P2837",
-            Definition: "Your internal DTC definition, if available" // Optional, but helpful
+            Definition: "Your internal DTC definition, if available" // optional, but helpful
           }
         ]
-      }
+      },
+      // `Data` is a placeholder for situations where you need to pass arbitrary data.
+      // In that scenario, we would work with you to coordinate the format of this data.
+      Data = (object) null
     }
   ),
   success: function (data, textStatus, jqXHR) {
