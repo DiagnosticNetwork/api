@@ -319,6 +319,14 @@
           </li>
           <li>
             <a href="#aidn-reg-ai-powered-assistant" class="toc-h1 toc-link" data-title="AiDN® — AI-powered assistant"><img src="https://d3tl0hgcgcslkv.cloudfront.net/img/robot-avatars/aidn.jpg" width="35" height="35" alt="Image" style="float: left; margin-right: 0.5rem; border-radius: 5px; vertical-align: top; position: relative; top: -5px;">AiDN® — AI-powered assistant</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#responsetype-flags" class="toc-h2 toc-link" data-title="ResponseType Flags">ResponseType Flags</a>
+                  </li>
+                  <li>
+                    <a href="#chat-ui" class="toc-h2 toc-link" data-title="Chat UI">Chat UI</a>
+                  </li>
+              </ul>
           </li>
           <li>
             <a href="#authentication" class="toc-h1 toc-link" data-title="Authentication">Authentication</a>
@@ -410,6 +418,8 @@
     <span class="n">Classification</span> <span class="p">=</span> <span class="s">"{ClassificationIdentifier}"</span><span class="p">,</span> <span class="c1">// we'll coordinate with you on this value</span>
     <span class="n">UserIdentifier</span> <span class="p">=</span> <span class="s">"{UserIdentifier}"</span><span class="p">,</span>           <span class="c1">// uniquely identify the customer/employee/user</span>
     <span class="n">Message</span> <span class="p">=</span> <span class="s">"{YourMessageToAiDN}"</span><span class="p">,</span>               <span class="c1">// this is typically a user-supplied question</span>
+    <span class="n">DiscussionKey</span> <span class="p">=</span> <span class="s">"mxxxxxxxxxxxxxxxxxxxxxxxxx"</span><span class="p">,</span>  <span class="c1">// Only provide this if replying to an existing conversation</span>
+    <span class="n">ResponseType</span> <span class="p">=</span> <span class="p">{</span><span class="n">ResponseType</span><span class="p">},</span>                 <span class="c1">// An integer representing the feature flags (see docs)</span>
     <span class="c1">// Metadata is an optional field that can be useful for passing DTCs and Symptoms, e.g.:</span>
     <span class="n">Metadata</span> <span class="p">=</span> <span class="k">new</span>
     <span class="p">{</span>
@@ -489,6 +499,7 @@
   <span class="na">data</span><span class="p">:</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span>
   <span class="p">(</span>
     <span class="p">{</span>
+      <span class="na">DiscussionKey</span><span class="p">:</span> <span class="dl">"</span><span class="s2">mxxxxxxxxxxxxxxxxxxxxxxxxx</span><span class="dl">"</span><span class="p">,</span>  <span class="c1">// Only provide this if replying to an existing conversation</span>
       <span class="na">Vin</span><span class="p">:</span> <span class="dl">"</span><span class="s2">JF2SKAWCXKH400000</span><span class="dl">"</span><span class="p">,</span>                     <span class="c1">// Optional, but helpful</span>
       <span class="na">Vehicle</span><span class="p">:</span> <span class="dl">"</span><span class="s2">2019 Subaru Forester 2.5L</span><span class="dl">"</span><span class="p">,</span>         <span class="c1">// Highly recommended, in case VIN decoding fails</span>
       <span class="na">Classification</span><span class="p">:</span> <span class="dl">"</span><span class="s2">{ClassificationIdentifier}</span><span class="dl">"</span><span class="p">,</span> <span class="c1">// We'll coordinate with you on this value</span>
@@ -549,7 +560,10 @@ unique identifier representing this response, currently useful for debugging iss
   </span><span class="nl">"Error"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
   </span><span class="nl">"ShouldRetry"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
   </span><span class="nl">"Message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"This is where the response from AiDN will be. It will typically be formatted using Markdown (e.g. **bold**, _italics_, etc.). However, we can work with you to return the response in a different format if desired."</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"ResponseKey"</span><span class="p">:</span><span class="w"> </span><span class="s2">"r6rxd67venhswfmfxiq7ito6p5"</span><span class="w">
+  </span><span class="nl">"DiscussionKey"</span><span class="p">:</span><span class="w"> </span><span class="s2">"mxxxxxxxxxxxxxxxxxxxxxxxxx"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"DiscussionLink"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://..."</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"ResponseKey"</span><span class="p">:</span><span class="w"> </span><span class="s2">"rxxxxxxxxxxxxxxxxxxxxxxxxx"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"ResponseLink"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://..."</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div>
 <blockquote>
@@ -578,6 +592,20 @@ be fixed prior to retrying the request. </p>
 <p>AiDN is Diagnostic Network&#39;s <a href="https://www.prnewswire.com/news-releases/diagnostic-network-receives-prestigious-motor-top-20-tool-award-for-2023-301931391.html">award-winning</a> AI-powered virtual robot, designed specifically for assisting with vehicle diagnostics and repair. <a href="https://diag.net/msg/m3h0hjpu4jbpmh197p5f6jv3rj">First released</a> in June 2023, AiDN responds to most questions posted to <a href="https://diag.net">Diagnostic Network</a>, and is now available for use outside of Diagnostic Network via this API.</p>
 
 <p>NOTE: You will need to use <a href="#partner-authentication">Partner Authentication</a> when accessing the AiDN API. Please <a href="https://diag.net/contact">contact us</a> to inquire about pricing for AiDN and to obtain API credentials. We can also work with you to customize AiDN&#39;s capabilities and response formats to suit your needs.</p>
+<h3 id='responsetype-flags'>ResponseType Flags</h3>
+<p>When calling the AiDN API, there are a few different types of responses. You control which one you want using the <code>ResponseType</code> parameter, which is an integer of bitwise feature flags. (Not all feature flags are enabled for all partners. Please discuss with us first which you anticipate needing so that we may activate them.)</p>
+
+<ul>
+<li><p><strong>(<code>0</code>) Default</strong>: AiDN responds directly, including its response in the API response back to the caller once the response is completely ready. This is the simplest method and is useful for a one-off response. </p></li>
+<li><p><strong>(<code>1</code>) Reserved</strong>: This flag is reserved for future use.</p></li>
+<li><p><strong>(<code>2</code>) Chat</strong>: AiDN starts (or continues) a chat conversation, responding to the user&#39;s initial message. In addition to the <code>Message</code> response that you receive, you&#39;ll also receive a <code>DiscussionKey</code>, <code>ResponseKey</code>, and <code>DiscussionLink</code>. To continue the conversation further, post additional <code>Chat</code> requests to the API, being sure to pass the <code>DiscussionKey</code> in subsequent requests so that AiDN will understand the full context and can continue the conversation where it left off. <code>ResponseKey</code> is a unique identifier for AiDN&#39;s response, and can be useful for debugging purposes or your own local storage.</p></li>
+<li><p><strong>(<code>4</code>) Reserved</strong>: This flag is reserved for future use.</p></li>
+<li><p><strong>(<code>8</code>) ReturnImmediately</strong>: Normally the API will wait to return a response until AiDN has completely responded. If you set this flag on (e.g. call <code>ResponseType = 10</code> for a chat with an immediate response), then AiDN returns as soon as possible with a <code>DiscussionLink</code> to the newly created discussion, and no <code>Message</code>. </p></li>
+</ul>
+<h3 id='chat-ui'>Chat UI</h3>
+<p>In addition to providing you the ability to chat with AiDN via our API, we also have the capability for you to leave the entire chat UI to us. You would first need to work with us to enable this feature, but once enabled, you can specify ResponseType: 10 to start a chat with an immediate response, and then load the <code>DiscussionLink</code> in a web view for your end user. They can then chat directly with AiDN through our embeddable chat interface. </p>
+
+<p><a href="https://diag.net/contact">Contact us</a> to learn more.</p>
 <h1 id='authentication'>Authentication</h1><div class="highlight"><pre class="highlight csharp tab-csharp"><code><span class="k">using</span> <span class="nn">Newtonsoft.Json</span><span class="p">;</span>
 <span class="k">using</span> <span class="nn">System.Net</span><span class="p">;</span>
 <span class="k">using</span> <span class="nn">System.Net.Http</span><span class="p">;</span>
