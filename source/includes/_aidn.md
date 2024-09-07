@@ -96,12 +96,12 @@ $.ajax({
   data: JSON.stringify
   (
     {
-      DiscussionKey: "mxxxxxxxxxxxxxxxxxxxxxxxxx",  // Only provide this if replying to an existing conversation
       Vin: "JF2SKAWCXKH400000",                     // Optional, but helpful
       Vehicle: "2019 Subaru Forester 2.5L",         // Highly recommended, in case VIN decoding fails
       Classification: "{ClassificationIdentifier}", // We'll coordinate with you on this value
       UserIdentifier: "{UserIdentifier}",           // Uniquely identify the customer/employee/user
       Message: "{YourMessageToAiDN}",               // This is typically a user-supplied question
+      DiscussionKey: "mxxxxxxxxxxxxxxxxxxxxxxxxx",  // Only provide this if replying to an existing conversation
       Metadata:
       {
         Symptoms: 
